@@ -51,7 +51,7 @@ export default function SettingsScreen() {
       };
 
       const now = new Date();
-      const dateStr = now.toISOString().replace(/[-:T]/g, "").slice(0, 13);
+      const dateStr = now.toISOString().split("T")[0].split("-").join("") + now.toISOString().split("T")[1].substring(0, 2);
       const fileName = `timekind_backup_${dateStr}.json`;
       const filePath = `${FileSystem.documentDirectory}${fileName}`;
 
