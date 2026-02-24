@@ -1,18 +1,8 @@
-import { useRef, useState } from "react";
-import {
-  Dimensions,
-  FlatList,
-  Text,
-  View,
-  ViewToken,
-  StyleSheet,
-} from "react-native";
+import { useState } from "react";
+import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import { router } from "expo-router";
 import { ScreenContainer } from "@/components/screen-container";
 import { useApp } from "@/lib/app-context";
-import { TouchableOpacity } from "react-native";
-
-const { width } = Dimensions.get("window");
 
 const slides = [
   {
@@ -35,17 +25,6 @@ const slides = [
 export default function OnboardingScreen() {
   const { updateSettings } = useApp();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const flatListRef = useRef<FlatList>(null);
-
-  const onViewableItemsChanged = useRef(
-    ({ viewableItems }: { viewableItems: ViewToken[] }) => {
-      if (viewableItems.length > 0 && viewableItems[0].index != null) {
-        setCurrentIndex(viewableItems[0].index);
-      }
-    }
-  ).current;
-
-  const viewabilityConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
 
   const handleGetStarted = async () => {
     await updateSettings({ hasOnboarded: true });
@@ -54,41 +33,28 @@ export default function OnboardingScreen() {
 
   const handleNext = () => {
     if (currentIndex < slides.length - 1) {
-      flatListRef.current?.scrollToIndex({ index: currentIndex + 1 });
+      setCurrentIndex(currentIndex + 1);
     }
   };
 
-  const renderItem = ({ item }: { item: (typeof slides)[0] }) => (
-    <View style={[styles.slide, { width }]}>
-      <View className="flex-1 justify-center items-center px-10">
-        <Text className="text-[28px] font-semibold text-foreground text-center leading-[38px]">
-          {item.title}
-        </Text>
-        <Text className="text-base text-muted text-center mt-4">
-          {item.subtitle}
-        </Text>
-      </View>
-    </View>
-  );
+  const currentSlide = slides[currentIndex];
+  const isLast = currentIndex === slides.length - 1;
 
   return (
     <ScreenContainer edges={["top", "bottom", "left", "right"]}>
-      <View className="flex-1">
-        <FlatList
-          ref={flatListRef}
-          data={slides}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
-          horizontal
-          pagingEnabled
-          showsHorizontalScrollIndicator={false}
-          onViewableItemsChanged={onViewableItemsChanged}
-          viewabilityConfig={viewabilityConfig}
-          bounces={false}
-        />
+      <View style={styles.container}>
+        {/* Slide Content */}
+        <View style={styles.slideArea}>
+          <Text className="text-[28px] font-semibold text-foreground text-center leading-[38px]">
+            {currentSlide.title}
+          </Text>
+          <Text className="text-base text-muted text-center mt-4">
+            {currentSlide.subtitle}
+          </Text>
+        </View>
 
         {/* Dot indicators */}
-        <View className="flex-row justify-center items-center py-4">
+        <View style={styles.dotsRow}>
           {slides.map((_, index) => (
             <View
               key={index}
@@ -100,11 +66,12 @@ export default function OnboardingScreen() {
         </View>
 
         {/* Button */}
-        <View className="px-6 pb-8">
-          {currentIndex === slides.length - 1 ? (
+        <View style={styles.buttonArea}>
+          {isLast ? (
             <TouchableOpacity
               onPress={handleGetStarted}
-              className="bg-primary py-4 rounded-2xl items-center"
+              style={styles.button}
+              className="bg-primary"
               activeOpacity={0.8}
             >
               <Text className="text-white text-base font-semibold">
@@ -114,7 +81,8 @@ export default function OnboardingScreen() {
           ) : (
             <TouchableOpacity
               onPress={handleNext}
-              className="bg-surface border border-border py-4 rounded-2xl items-center"
+              style={styles.button}
+              className="bg-surface border border-border"
               activeOpacity={0.8}
             >
               <Text className="text-foreground text-base font-semibold">
@@ -129,7 +97,29 @@ export default function OnboardingScreen() {
 }
 
 const styles = StyleSheet.create({
-  slide: {
+  container: {
     flex: 1,
+    justifyContent: "space-between",
+  },
+  slideArea: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 40,
+  },
+  dotsRow: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: 16,
+  },
+  buttonArea: {
+    paddingHorizontal: 24,
+    paddingBottom: 32,
+  },
+  button: {
+    paddingVertical: 16,
+    borderRadius: 16,
+    alignItems: "center",
   },
 });

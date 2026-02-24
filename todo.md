@@ -32,3 +32,6 @@
 ## Branding
 - [x] Generate custom app icon
 - [x] Update app.config.ts with branding info
+
+## Bugs
+- [x] Preview is unresponsive — fixed: replaced FlatList-based onboarding with state-based slides
