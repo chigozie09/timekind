@@ -9,10 +9,12 @@ import {
 import { router, useLocalSearchParams } from "expo-router";
 import { ScreenContainer } from "@/components/screen-container";
 import { useApp } from "@/lib/app-context";
+import { useSync } from "@/lib/sync-context";
 import { getGentleMessage, getActiveTasks } from "@/lib/store";
 
 export default function CompleteTaskScreen() {
   const { tasks, updateTask, settings, updateSettings } = useApp();
+  const { syncSingleTask } = useSync();
   const { taskId } = useLocalSearchParams<{ taskId: string }>();
   const task = tasks.find((t) => t.id === taskId);
   const [reflection, setReflection] = useState("");
@@ -37,14 +39,17 @@ export default function CompleteTaskScreen() {
     completedCount === 1 && !settings.notificationAsked && !settings.notificationsEnabled;
 
   const handleDone = async () => {
+    let updatedTask = task;
     if (reflection.trim()) {
-      await updateTask(task.id, { reflection: reflection.trim() });
+      const result = await updateTask(task.id, { reflection: reflection.trim() });
+      if (result) updatedTask = result;
     }
+
+    // Sync to cloud if enabled
+    await syncSingleTask(updatedTask);
 
     if (shouldAskNotification) {
       await updateSettings({ notificationAsked: true });
-      // In a real native build, we would request notification permission here
-      // For now, we'll just mark it as asked
     }
 
     router.replace("/(tabs)");

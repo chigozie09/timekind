@@ -11,12 +11,14 @@ import {
 import { router } from "expo-router";
 import { ScreenContainer } from "@/components/screen-container";
 import { useApp } from "@/lib/app-context";
+import { useSync } from "@/lib/sync-context";
 import { EnergyLevel, generateUUID, Task } from "@/lib/store";
 
 const MINUTE_OPTIONS = [5, 10, 15, 20, 25, 30, 45, 60, 90, 120, 180, 240];
 
 export default function StartTaskScreen() {
   const { settings, addTask, updateSettings } = useApp();
+  const { syncSingleTask } = useSync();
   const [taskName, setTaskName] = useState("");
   const [estimatedMinutes, setEstimatedMinutes] = useState<number>(15);
   const [customMinutes, setCustomMinutes] = useState("");
@@ -56,6 +58,8 @@ export default function StartTaskScreen() {
     };
 
     await addTask(task);
+    // Sync new task to cloud if enabled
+    await syncSingleTask(task);
     router.replace({ pathname: "/active-timer", params: { taskId: task.id } });
   };
 

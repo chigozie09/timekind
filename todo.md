@@ -22,12 +22,12 @@
 - [x] Import backup (JSON file picker with merge/replace)
 
 ## Phase 3: Firebase Optional Sync
-- [ ] Firebase project config
-- [ ] Auth providers (Apple/Google sign-in)
-- [ ] Firestore tasks collection + security rules
-- [ ] Initial sync + merge logic
-- [ ] Ongoing sync + lastSyncAt
-- [ ] Sync now button in Settings
+- [x] Firebase project config
+- [x] Auth providers (Apple/Google sign-in)
+- [x] Firestore tasks collection + security rules
+- [x] Initial sync + merge logic
+- [x] Ongoing sync + lastSyncAt
+- [x] Sync now button in Settings
 
 ## Branding
 - [x] Generate custom app icon

@@ -50,6 +50,7 @@ const config: ExpoConfig = {
   ios: {
     supportsTablet: true,
     bundleIdentifier: env.iosBundleId,
+    usesAppleSignIn: true,
     "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
@@ -86,6 +87,7 @@ const config: ExpoConfig = {
   },
   plugins: [
     "expo-router",
+    "expo-apple-authentication",
     [
       "expo-audio",
       {

@@ -3,6 +3,7 @@ import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { ScreenContainer } from "@/components/screen-container";
 import { useApp } from "@/lib/app-context";
+import { useSync } from "@/lib/sync-context";
 import {
   computeAccuracy,
   getTimeOfDayTag,
@@ -13,6 +14,7 @@ import { useKeepAwake } from "expo-keep-awake";
 export default function ActiveTimerScreen() {
   useKeepAwake();
   const { tasks, updateTask } = useApp();
+  const { syncSingleTask } = useSync();
   const { taskId } = useLocalSearchParams<{ taskId: string }>();
 
   const task = tasks.find((t) => t.id === taskId);
@@ -95,13 +97,16 @@ export default function ActiveTimerScreen() {
     const accuracyPercent = computeAccuracy(currentEstimate, actualMinutes);
     const timeOfDayTag = getTimeOfDayTag(startTime);
 
-    await updateTask(task.id, {
+    const updated = await updateTask(task.id, {
       endTime: endTime.toISOString(),
       actualMinutes,
       accuracyPercent,
       timeOfDayTag,
       estimatedMinutes: currentEstimate,
     });
+
+    // Sync completed task to cloud if enabled
+    if (updated) await syncSingleTask(updated);
 
     router.replace({ pathname: "/complete-task", params: { taskId: task.id } });
   };
