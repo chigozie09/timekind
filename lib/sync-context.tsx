@@ -110,7 +110,7 @@ export function SyncProvider({ children }: { children: React.ReactNode }) {
       }
 
       // Use AuthSession for Google sign-in (works in Expo Go)
-      const redirectUri = AuthSession.makeRedirectUri({ scheme: "manus20260223191501" });
+      const redirectUri = AuthSession.makeRedirectUri();
       const nonce = await Crypto.digestStringAsync(
         Crypto.CryptoDigestAlgorithm.SHA256,
         Math.random().toString(36)

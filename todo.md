@@ -36,3 +36,4 @@
 ## Bugs
 - [x] Preview is unresponsive — fixed: replaced FlatList-based onboarding with state-based slides
 - [x] Error code 500 when opening in Expo Go — fixed: regex in settings.tsx was generating invalid CSS via Tailwind scan
+- [x] Add Google Web Client ID for Google Sign-In
