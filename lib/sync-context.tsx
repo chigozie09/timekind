@@ -121,11 +121,14 @@ export function SyncProvider({ children }: { children: React.ReactNode }) {
         tokenEndpoint: "https://oauth2.googleapis.com/token",
       };
 
+      // Use AuthRequest with usePKCE: false to avoid code_challenge_method
+      // Google's implicit flow (response_type=id_token) does not support PKCE
       const request = new AuthSession.AuthRequest({
         clientId: GOOGLE_WEB_CLIENT_ID,
         redirectUri,
         scopes: ["openid", "profile", "email"],
         responseType: AuthSession.ResponseType.IdToken,
+        usePKCE: false,
         extraParams: { nonce },
       });
 
@@ -144,7 +147,7 @@ export function SyncProvider({ children }: { children: React.ReactNode }) {
         });
 
         await runSync(user.uid);
-      } else if (result.type === "cancel") {
+      } else if (result.type === "cancel" || result.type === "dismiss") {
         // User canceled
         return;
       }
