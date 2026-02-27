@@ -65,3 +65,8 @@
 - [x] Task templates for common routines (morning, workout, creative)
 - [x] Focus mode with UI hiding and notification control
 - [x] Calendar export for completed tasks
+
+## Phase 9: Final Polish & User Control
+- [x] Task reminders with configurable notification times
+- [x] Task template sharing functionality
+- [x] Dark mode toggle in settings

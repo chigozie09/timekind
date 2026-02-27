@@ -207,7 +207,7 @@ export default function SettingsScreen() {
           <Text className="text-xs font-semibold text-muted uppercase tracking-widest mb-4">
             Appearance
           </Text>
-          <View className="flex-row gap-2">
+          <View className="flex-row gap-2 mb-4">
             {(["system", "light", "dark"] as ThemeMode[]).map((mode) => (
               <TouchableOpacity
                 key={mode}
@@ -230,6 +230,19 @@ export default function SettingsScreen() {
                 </Text>
               </TouchableOpacity>
             ))}
+          </View>
+          <View className="border-t border-border pt-4">
+            <View className="flex-row justify-between items-center">
+              <View>
+                <Text className="text-lg font-semibold text-foreground">Dark Mode</Text>
+                <Text className="text-sm text-muted mt-1">Explicit toggle</Text>
+              </View>
+              <Switch
+                value={settings.themeMode === "dark"}
+                onValueChange={(val) => handleThemeChange(val ? "dark" : "light")}
+                trackColor={{ false: "#E6E1DA", true: "#6B6B6B" }}
+              />
+            </View>
           </View>
         </View>
 

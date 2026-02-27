@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Platform,
   KeyboardAvoidingView,
+  Animated,
 } from "react-native";
 import { router } from "expo-router";
 import { ScreenContainer } from "@/components/screen-container";
@@ -14,7 +15,7 @@ import { useApp } from "@/lib/app-context";
 
 import { EnergyLevel, generateUUID, Task } from "@/lib/store";
 import { useAnimatedPress } from "@/hooks/use-animated-press";
-import { Animated } from "react-native";
+import { REMINDER_OPTIONS, updateTaskReminder } from "@/lib/task-reminders";
 
 const MINUTE_OPTIONS = [5, 10, 15, 20, 25, 30, 45, 60, 90, 120, 180, 240];
 
@@ -30,6 +31,7 @@ export default function StartTaskScreen() {
   const [category, setCategory] = useState<string | null>(null);
   const [showNewCategory, setShowNewCategory] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState("");
+  const [reminderMinutes, setReminderMinutes] = useState<number | null>(null);
 
   const categories = settings.categories || [];
 
@@ -42,9 +44,10 @@ export default function StartTaskScreen() {
       ? parseInt(customMinutes, 10) || 15
       : estimatedMinutes;
 
+    const taskId = generateUUID();
     const now = new Date().toISOString();
     const task: Task = {
-      id: generateUUID(),
+      id: taskId,
       cloudId: null,
       taskName: taskName.trim(),
       category: category,
@@ -61,7 +64,10 @@ export default function StartTaskScreen() {
     };
 
     await addTask(task);
-    router.replace({ pathname: "/active-timer", params: { taskId: task.id } });
+    if (reminderMinutes) {
+      await updateTaskReminder(taskId, reminderMinutes);
+    }
+    router.replace({ pathname: "/active-timer", params: { taskId: taskId } });
   };
 
   const handleAddCategory = async () => {
@@ -247,6 +253,50 @@ export default function StartTaskScreen() {
               <Text className="text-base font-semibold text-muted">+ Add new</Text>
             </TouchableOpacity>
           </View>
+          {/* Reminder Option */}
+          <View className="mb-5">
+            <Text className="text-lg font-bold text-foreground mb-3">Reminder</Text>
+            <View className="flex-row flex-wrap gap-2">
+              <TouchableOpacity
+                onPress={() => setReminderMinutes(null)}
+                className={`px-4 py-2.5 rounded-xl border ${
+                  reminderMinutes === null
+                    ? "bg-primary border-primary"
+                    : "bg-surface border-border"
+                }`}
+                activeOpacity={0.7}
+              >
+                <Text
+                  className={`text-base font-semibold ${
+                    reminderMinutes === null ? "text-white" : "text-foreground"
+                  }`}
+                >
+                  None
+                </Text>
+              </TouchableOpacity>
+              {REMINDER_OPTIONS.map((mins) => (
+                <TouchableOpacity
+                  key={mins}
+                  onPress={() => setReminderMinutes(mins)}
+                  className={`px-4 py-2.5 rounded-xl border ${
+                    reminderMinutes === mins
+                      ? "bg-primary border-primary"
+                      : "bg-surface border-border"
+                  }`}
+                  activeOpacity={0.7}
+                >
+                  <Text
+                    className={`text-base font-semibold ${
+                      reminderMinutes === mins ? "text-white" : "text-foreground"
+                    }`}
+                  >
+                    {mins}m
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </View>
+
           {showNewCategory && (
             <View className="flex-row gap-2 mt-2">
               <TextInput

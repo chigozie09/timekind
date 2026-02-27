@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Modal,
   ActivityIndicator,
+  Animated,
 } from "react-native";
 import { router } from "expo-router";
 import { ScreenContainer } from "@/components/screen-container";
@@ -16,13 +17,24 @@ import {
   createTasksFromTemplate,
 } from "@/lib/task-templates";
 import { useAnimatedPress } from "@/hooks/use-animated-press";
-import { Animated } from "react-native";
+import { shareTemplate } from "@/lib/task-sharing";
 
 export default function TemplatesScreen() {
   const { addTask } = useApp();
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [shareSuccess, setShareSuccess] = useState(false);
   const { scaleAnim, handlePressIn, handlePressOut } = useAnimatedPress();
+
+  const handleShareTemplate = async (templateId: string) => {
+    const template = TASK_TEMPLATES.find((t) => t.id === templateId);
+    if (!template) return;
+    const success = await shareTemplate(template);
+    if (success) {
+      setShareSuccess(true);
+      setTimeout(() => setShareSuccess(false), 2000);
+    }
+  };
 
   const handleUseTemplate = async (templateId: string) => {
     setSelectedTemplate(templateId);
@@ -162,16 +174,26 @@ export default function TemplatesScreen() {
                       )}
                     </View>
 
-                    {/* Use Button */}
-                    <TouchableOpacity
-                      onPress={() => handleUseTemplate(template.id)}
-                      disabled={loading}
-                      className="bg-primary rounded-lg py-3 items-center mt-2"
-                    >
-                      <Text className="text-white font-bold text-base">
-                        Use This Template
-                      </Text>
-                    </TouchableOpacity>
+                    {/* Buttons */}
+                    <View className="flex-row gap-2 mt-2">
+                      <TouchableOpacity
+                        onPress={() => handleUseTemplate(template.id)}
+                        disabled={loading}
+                        className="flex-1 bg-primary rounded-lg py-3 items-center"
+                      >
+                        <Text className="text-white font-bold text-base">
+                          Use
+                        </Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => handleShareTemplate(template.id)}
+                        className="flex-1 bg-surface border border-primary rounded-lg py-3 items-center"
+                      >
+                        <Text className="text-primary font-bold text-base">
+                          Share
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
                   </View>
                 </Animated.View>
               </TouchableOpacity>
