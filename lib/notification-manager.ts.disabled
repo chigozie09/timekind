@@ -1,0 +1,167 @@
+import * as Notifications from "expo-notifications";
+import { calculateWeeklyStreak } from "@/lib/streak-calculator";
+import { Task } from "@/lib/store";
+
+/**
+ * Configure notifications for gentle reminders (silent by default)
+ */
+export async function configureNotifications() {
+  try {
+    await Notifications.setNotificationHandler({
+      handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: false, // Silent by default
+        shouldSetBadge: true,
+      }),
+    });
+  } catch (error) {
+    console.error("Failed to configure notifications:", error);
+  }
+}
+
+/**
+ * Request notification permissions
+ */
+export async function requestNotificationPermissions() {
+  try {
+    const { status } = await Notifications.requestPermissionsAsync();
+    return status === "granted";
+  } catch (error) {
+    console.error("Failed to request notification permissions:", error);
+    return false;
+  }
+}
+
+/**
+ * Send streak reminder notification (gentle, non-intrusive)
+ */
+export async function sendStreakReminder(
+  tasks: Task[],
+  soundEnabled: boolean = false
+) {
+  try {
+    const streak = calculateWeeklyStreak(tasks);
+
+    if (streak === 0) {
+      // Gentle nudge to start
+      await Notifications.scheduleNotificationAsync({
+        content: {
+          title: "Ready to build your streak?",
+          body: "Complete a task today to start your journey.",
+          badge: 1,
+          sound: soundEnabled ? "default" : null,
+          data: { type: "streak-nudge" },
+        },
+        trigger: { seconds: 60 }, // Trigger in 1 minute for testing
+      });
+    } else if (streak > 0 && streak < 7) {
+      // Encouragement
+      await Notifications.scheduleNotificationAsync({
+        content: {
+          title: `${streak}-day streak! Keep going 🔥`,
+          body: "Complete a task today to maintain your streak.",
+          badge: 1,
+          sound: soundEnabled ? "default" : null,
+          data: { type: "streak-encouragement", streak },
+        },
+        trigger: { seconds: 60 },
+      });
+    } else if (streak >= 7) {
+      // Celebration
+      await Notifications.scheduleNotificationAsync({
+        content: {
+          title: `Amazing! ${streak}-day streak 🌟`,
+          body: "You're crushing your goals. One more task today?",
+          badge: 1,
+          sound: soundEnabled ? "default" : null,
+          data: { type: "streak-celebration", streak },
+        },
+        trigger: { seconds: 60 },
+      });
+    }
+  } catch (error) {
+    console.error("Failed to send streak reminder:", error);
+  }
+}
+
+/**
+ * Send achievement unlocked notification
+ */
+export async function sendAchievementNotification(
+  achievementName: string,
+  achievementIcon: string,
+  soundEnabled: boolean = false
+) {
+  try {
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: `Achievement Unlocked! ${achievementIcon}`,
+        body: achievementName,
+        badge: 1,
+        sound: soundEnabled ? "default" : null,
+        data: { type: "achievement", name: achievementName },
+      },
+      trigger: { seconds: 1 }, // Immediate
+    });
+  } catch (error) {
+    console.error("Failed to send achievement notification:", error);
+  }
+}
+
+/**
+ * Cancel all pending notifications
+ */
+export async function cancelAllNotifications() {
+  try {
+    await Notifications.cancelAllScheduledNotificationsAsync();
+  } catch (error) {
+    console.error("Failed to cancel notifications:", error);
+  }
+}
+
+/**
+ * Schedule daily streak reminder at specific time
+ */
+export async function scheduleDailyStreakReminder(
+  tasks: Task[],
+  hour: number = 20, // 8 PM default
+  soundEnabled: boolean = false
+) {
+  try {
+    // Cancel existing reminders
+    await cancelAllNotifications();
+
+    // Schedule new reminder
+    const now = new Date();
+    const reminderTime = new Date();
+    reminderTime.setHours(hour, 0, 0, 0);
+
+    // If time has passed today, schedule for tomorrow
+    if (reminderTime < now) {
+      reminderTime.setDate(reminderTime.getDate() + 1);
+    }
+
+    const secondsUntilReminder = Math.floor(
+      (reminderTime.getTime() - now.getTime()) / 1000
+    );
+
+    const streak = calculateWeeklyStreak(tasks);
+    const message =
+      streak > 0
+        ? `Keep your ${streak}-day streak alive! 🔥`
+        : "Start your streak today!";
+
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Time to complete a task",
+        body: message,
+        badge: 1,
+        sound: soundEnabled ? "default" : null,
+        data: { type: "daily-reminder", streak },
+      },
+      trigger: { seconds: secondsUntilReminder },
+    });
+  } catch (error) {
+    console.error("Failed to schedule daily reminder:", error);
+  }
+}

@@ -48,3 +48,15 @@
 - [x] Pull-to-refresh on home screen
 - [x] Task filtering by category on home dashboard
 - [x] Weekly streak counter display
+
+## Phase 6: Gamification & Analytics
+- [ ] Task statistics dashboard with completion rate and metrics
+- [ ] Local notifications for streak reminders
+- [ ] Achievement badges system with milestones
+
+## Phase 7: V1 Accessibility & Usability
+- [x] Accessibility settings in onboarding (disable animations, notifications, sounds)
+- [x] Keyboard shortcuts for power users (Space, Enter, etc.)
+- [x] Data persistence validation and crash recovery
+- [x] Offline-first confirmation messaging
+- [x] Optional help/tutorial overlay for first-time users

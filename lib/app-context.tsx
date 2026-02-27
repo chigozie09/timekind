@@ -37,10 +37,15 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     (async () => {
-      const [s, t] = await Promise.all([loadSettings(), loadTasks()]);
-      setSettings(s);
-      setTasks(t);
-      setIsLoading(false);
+      try {
+        const [s, t] = await Promise.all([loadSettings(), loadTasks()]);
+        setSettings(s);
+        setTasks(t);
+      } catch (error) {
+        console.error("Failed to load app data:", error);
+      } finally {
+        setIsLoading(false);
+      }
     })();
   }, []);
 

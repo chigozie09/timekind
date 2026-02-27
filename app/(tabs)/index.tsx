@@ -20,6 +20,7 @@ import {
   getMostUnderestimatedCategory,
 } from "@/lib/store";
 import { calculateWeeklyStreak, getBestStreak } from "@/lib/streak-calculator";
+import { HelpOverlay } from "@/components/help-overlay";
 
 export default function HomeScreen() {
   const { settings, tasks, isLoading, refreshTasks } = useApp();
@@ -27,6 +28,7 @@ export default function HomeScreen() {
   const { scaleAnim: storyScale, handlePressIn: storyPressIn, handlePressOut: storyPressOut } = useAnimatedPress();
   const [refreshing, setRefreshing] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [helpVisible, setHelpVisible] = useState(false);
 
   const handleRefresh = async () => {
     setRefreshing(true);
@@ -87,8 +89,10 @@ export default function HomeScreen() {
   const bestStreak = getBestStreak(tasks);
 
   return (
-    <ScreenContainer className="px-5 pt-2">
-      <ScrollView
+    <>
+      <HelpOverlay visible={helpVisible} onClose={() => setHelpVisible(false)} />
+      <ScreenContainer className="px-5 pt-2">
+        <ScrollView
         contentContainerStyle={{ paddingBottom: 32 }}
         showsVerticalScrollIndicator={false}
         refreshControl={
@@ -96,12 +100,22 @@ export default function HomeScreen() {
         }
       >
         {/* Header */}
-        <Text className="text-4xl font-bold text-foreground mt-4 mb-1">
-          TimeKind
-        </Text>
-        <Text className="text-lg text-muted mb-6">
-          Routine Buddy
-        </Text>
+        <View className="flex-row justify-between items-center mb-6">
+          <View>
+            <Text className="text-4xl font-bold text-foreground mt-4 mb-1">
+              TimeKind
+            </Text>
+            <Text className="text-lg text-muted">
+              Routine Buddy
+            </Text>
+          </View>
+          <TouchableOpacity
+            onPress={() => setHelpVisible(true)}
+            className="w-10 h-10 rounded-full bg-surface border border-border items-center justify-center"
+          >
+            <Text className="text-lg font-bold text-foreground">?</Text>
+          </TouchableOpacity>
+        </View>
 
         {/* Category Filter */}
         {categories.length > 0 && (
@@ -306,5 +320,6 @@ export default function HomeScreen() {
         </View>
       </ScrollView>
     </ScreenContainer>
+    </>
   );
 }

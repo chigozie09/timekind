@@ -22,6 +22,8 @@ export interface AppSettings {
   reducedMotion: boolean;
   notificationAsked: boolean;
   categories: string[];
+  disableAnimations: boolean;
+  showHelpOverlay: boolean;
 }
 
 export interface Task {
@@ -58,6 +60,8 @@ export const DEFAULT_SETTINGS: AppSettings = {
   reducedMotion: false,
   notificationAsked: false,
   categories: ["Work", "Exercise", "Creative", "Chores", "Study"],
+  disableAnimations: false,
+  showHelpOverlay: true,
 };
 
 // ============================================================
