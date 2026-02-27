@@ -37,3 +37,9 @@
 - [x] Add Google Web Client ID for Google Sign-In
 - [x] Fix Google Sign-In error: code_challenge_method not allowed — set usePKCE: false
 - [x] Fix Google Sign-In redirect URI: switched to useIdTokenAuthRequest hook which uses auth.expo.io HTTPS redirect
+
+## Phase 4: Polish & Animations
+- [x] Button press animations (scale 0.97, 80ms) across all screens
+- [x] Swipe gestures for insights 7-day/30-day switching
+- [x] Sound effects for task completion
+- [x] Sound effects for breathing reset completion

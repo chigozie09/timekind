@@ -9,6 +9,8 @@ import {
 import { router } from "expo-router";
 import { ScreenContainer } from "@/components/screen-container";
 import { useApp } from "@/lib/app-context";
+import { useAnimatedPress } from "@/hooks/use-animated-press";
+import { Animated } from "react-native";
 import {
   getActiveTasks,
   getTasksInRange,
@@ -19,6 +21,8 @@ import {
 
 export default function HomeScreen() {
   const { settings, tasks, isLoading } = useApp();
+  const { scaleAnim: ctaScale, handlePressIn: ctaPressIn, handlePressOut: ctaPressOut } = useAnimatedPress();
+  const { scaleAnim: storyScale, handlePressIn: storyPressIn, handlePressOut: storyPressOut } = useAnimatedPress();
 
   useEffect(() => {
     if (!isLoading && !settings.hasOnboarded) {
@@ -72,15 +76,19 @@ export default function HomeScreen() {
         </Text>
 
         {/* Start a task CTA */}
-        <TouchableOpacity
-          onPress={() => router.push("/start-task")}
-          className="bg-primary py-5 rounded-2xl items-center mb-7"
-          activeOpacity={0.8}
-        >
-          <Text className="text-white text-lg font-bold">
-            Start a task
-          </Text>
-        </TouchableOpacity>
+        <Animated.View style={{ transform: [{ scale: ctaScale }] }}>
+          <TouchableOpacity
+            onPress={() => router.push("/start-task")}
+            onPressIn={ctaPressIn}
+            onPressOut={ctaPressOut}
+            className="bg-primary py-5 rounded-2xl items-center mb-7"
+            activeOpacity={1}
+          >
+            <Text className="text-white text-lg font-bold">
+              Start a task
+            </Text>
+          </TouchableOpacity>
+        </Animated.View>
 
         {/* Today's Insight Card */}
         <View className="bg-surface rounded-2xl p-5 border border-border mb-4">
@@ -126,15 +134,19 @@ export default function HomeScreen() {
             </View>
           )}
           {weekTasks.length > 0 && (
-            <TouchableOpacity
-              onPress={() => router.push("/weekly-story")}
-              className="mt-4"
-              activeOpacity={0.7}
-            >
-              <Text className="text-base text-primary font-semibold">
-                Read weekly story →
-              </Text>
-            </TouchableOpacity>
+            <Animated.View style={{ transform: [{ scale: storyScale }] }}>
+              <TouchableOpacity
+                onPress={() => router.push("/weekly-story")}
+                onPressIn={storyPressIn}
+                onPressOut={storyPressOut}
+                className="mt-4"
+                activeOpacity={1}
+              >
+                <Text className="text-base text-primary font-semibold">
+                  Read weekly story →
+                </Text>
+              </TouchableOpacity>
+            </Animated.View>
           )}
         </View>
 

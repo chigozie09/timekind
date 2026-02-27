@@ -3,12 +3,15 @@ import { Text, View, TouchableOpacity, Animated, Easing } from "react-native";
 import { router } from "expo-router";
 import { ScreenContainer } from "@/components/screen-container";
 import { useApp } from "@/lib/app-context";
+import { useAnimatedPress } from "@/hooks/use-animated-press";
+import { playCompletionSound } from "@/lib/sound-effects";
 
 const TOTAL_DURATION = 30; // 30 seconds
 const BREATH_CYCLE = 10; // 10 seconds per cycle (5 in, 5 out)
 
 export default function BreathingScreen() {
   const { settings } = useApp();
+  const { scaleAnim: backScale, handlePressIn: backPressIn, handlePressOut: backPressOut } = useAnimatedPress();
   const [secondsLeft, setSecondsLeft] = useState(TOTAL_DURATION);
   const [phase, setPhase] = useState<"in" | "out">("in");
   const [isComplete, setIsComplete] = useState(false);
@@ -22,6 +25,12 @@ export default function BreathingScreen() {
         if (prev <= 1) {
           clearInterval(timer);
           setIsComplete(true);
+          // Play completion sound if enabled
+          if (settings.soundEnabled) {
+            playCompletionSound().catch(() => {
+              // Silently fail if sound unavailable
+            });
+          }
           return 0;
         }
         return prev - 1;
@@ -29,7 +38,7 @@ export default function BreathingScreen() {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [isComplete]);
+  }, [isComplete, settings.soundEnabled]);
 
   useEffect(() => {
     if (isComplete || settings.reducedMotion) return;
@@ -117,15 +126,19 @@ export default function BreathingScreen() {
 
         {/* Button */}
         <View>
-          <TouchableOpacity
-            onPress={() => router.replace("/(tabs)")}
-            className="bg-primary py-5 rounded-2xl items-center"
-            activeOpacity={0.8}
-          >
-            <Text className="text-lg font-bold text-white">
-              Back to Home
-            </Text>
-          </TouchableOpacity>
+          <Animated.View style={{ transform: [{ scale: backScale }] }}>
+            <TouchableOpacity
+              onPress={() => router.replace("/(tabs)")}
+              onPressIn={backPressIn}
+              onPressOut={backPressOut}
+              className="bg-primary py-5 rounded-2xl items-center w-full"
+              activeOpacity={1}
+            >
+              <Text className="text-lg font-bold text-white">
+                Back to Home
+              </Text>
+            </TouchableOpacity>
+          </Animated.View>
         </View>
       </View>
     </ScreenContainer>

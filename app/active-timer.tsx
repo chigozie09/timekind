@@ -10,10 +10,14 @@ import {
   Task,
 } from "@/lib/store";
 import { useKeepAwake } from "expo-keep-awake";
+import { useAnimatedPress } from "@/hooks/use-animated-press";
+import { Animated } from "react-native";
 
 export default function ActiveTimerScreen() {
   useKeepAwake();
   const { tasks, updateTask } = useApp();
+  const { scaleAnim: pauseScale, handlePressIn: pausePressIn, handlePressOut: pausePressOut } = useAnimatedPress();
+  const { scaleAnim: finishScale, handlePressIn: finishPressIn, handlePressOut: finishPressOut } = useAnimatedPress();
 
   const { taskId } = useLocalSearchParams<{ taskId: string }>();
 
@@ -195,26 +199,34 @@ export default function ActiveTimerScreen() {
           </View>
 
           {/* Pause/Resume */}
-          <TouchableOpacity
-            onPress={handlePauseResume}
-            className="bg-surface border border-border py-5 rounded-2xl items-center"
-            activeOpacity={0.8}
-          >
-            <Text className="text-lg font-bold text-foreground">
-              {isPaused ? "Resume" : "Pause"}
-            </Text>
-          </TouchableOpacity>
+          <Animated.View style={{ transform: [{ scale: pauseScale }] }}>
+            <TouchableOpacity
+              onPress={handlePauseResume}
+              onPressIn={pausePressIn}
+              onPressOut={pausePressOut}
+              className="bg-surface border border-border py-5 rounded-2xl items-center"
+              activeOpacity={1}
+            >
+              <Text className="text-lg font-bold text-foreground">
+                {isPaused ? "Resume" : "Pause"}
+              </Text>
+            </TouchableOpacity>
+          </Animated.View>
 
           {/* Finish */}
-          <TouchableOpacity
-            onPress={handleFinish}
-            className="bg-primary py-5 rounded-2xl items-center"
-            activeOpacity={0.8}
-          >
-            <Text className="text-lg font-bold text-white">
-              Finish
-            </Text>
-          </TouchableOpacity>
+          <Animated.View style={{ transform: [{ scale: finishScale }] }}>
+            <TouchableOpacity
+              onPress={handleFinish}
+              onPressIn={finishPressIn}
+              onPressOut={finishPressOut}
+              className="bg-primary py-5 rounded-2xl items-center"
+              activeOpacity={1}
+            >
+              <Text className="text-lg font-bold text-white">
+                Finish
+              </Text>
+            </TouchableOpacity>
+          </Animated.View>
         </View>
       </View>
     </ScreenContainer>

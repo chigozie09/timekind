@@ -24,11 +24,15 @@ import {
 import * as Sharing from "expo-sharing";
 import * as FileSystem from "expo-file-system/legacy";
 import * as DocumentPicker from "expo-document-picker";
+import { useAnimatedPress } from "@/hooks/use-animated-press";
+import { Animated } from "react-native";
 
 export default function SettingsScreen() {
   const { settings, updateSettings, tasks, refreshTasks } = useApp();
   const { setColorScheme } = useThemeContext();
   const [nudgeTime, setNudgeTime] = useState(settings.dailyNudgeTime);
+  const { scaleAnim: exportScale, handlePressIn: exportPressIn, handlePressOut: exportPressOut } = useAnimatedPress();
+  const { scaleAnim: importScale, handlePressIn: importPressIn, handlePressOut: importPressOut } = useAnimatedPress();
 
   const handleThemeChange = (mode: ThemeMode) => {
     updateSettings({ themeMode: mode });
@@ -287,20 +291,28 @@ export default function SettingsScreen() {
           <Text className="text-xs font-semibold text-muted uppercase tracking-widest mb-4">
             Data Management
           </Text>
-          <TouchableOpacity
-            onPress={handleExportBackup}
-            className="bg-primary rounded-xl py-4 mb-3 items-center"
-            activeOpacity={0.8}
-          >
-            <Text className="text-white font-bold text-lg">Export Backup</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={handleImportBackup}
-            className="bg-background border border-primary rounded-xl py-4 items-center"
-            activeOpacity={0.8}
-          >
-            <Text className="text-primary font-bold text-lg">Import Backup</Text>
-          </TouchableOpacity>
+          <Animated.View style={{ transform: [{ scale: exportScale }] }}>
+            <TouchableOpacity
+              onPress={handleExportBackup}
+              onPressIn={exportPressIn}
+              onPressOut={exportPressOut}
+              className="bg-primary rounded-xl py-4 mb-3 items-center w-full"
+              activeOpacity={1}
+            >
+              <Text className="text-white font-bold text-lg">Export Backup</Text>
+            </TouchableOpacity>
+          </Animated.View>
+          <Animated.View style={{ transform: [{ scale: importScale }] }}>
+            <TouchableOpacity
+              onPress={handleImportBackup}
+              onPressIn={importPressIn}
+              onPressOut={importPressOut}
+              className="bg-background border border-primary rounded-xl py-4 items-center w-full"
+              activeOpacity={1}
+            >
+              <Text className="text-primary font-bold text-lg">Import Backup</Text>
+            </TouchableOpacity>
+          </Animated.View>
         </View>
 
         {/* About */}

@@ -11,9 +11,14 @@ import { ScreenContainer } from "@/components/screen-container";
 import { useApp } from "@/lib/app-context";
 
 import { getGentleMessage, getActiveTasks } from "@/lib/store";
+import { useAnimatedPress } from "@/hooks/use-animated-press";
+import { Animated } from "react-native";
+import { playSuccessSound } from "@/lib/sound-effects";
 
 export default function CompleteTaskScreen() {
   const { tasks, updateTask, settings, updateSettings } = useApp();
+  const { scaleAnim: breatheScale, handlePressIn: breathePressIn, handlePressOut: breathePressOut } = useAnimatedPress();
+  const { scaleAnim: doneScale, handlePressIn: donePressIn, handlePressOut: donePressOut } = useAnimatedPress();
 
   const { taskId } = useLocalSearchParams<{ taskId: string }>();
   const task = tasks.find((t) => t.id === taskId);
@@ -45,7 +50,14 @@ export default function CompleteTaskScreen() {
       if (result) updatedTask = result;
     }
 
-
+    // Play success sound if enabled
+    if (settings.soundEnabled) {
+      try {
+        await playSuccessSound();
+      } catch (e) {
+        // Silently fail if sound unavailable
+      }
+    }
 
     if (shouldAskNotification) {
       await updateSettings({ notificationAsked: true });
@@ -57,6 +69,14 @@ export default function CompleteTaskScreen() {
   const handleBreathing = async () => {
     if (reflection.trim()) {
       await updateTask(task.id, { reflection: reflection.trim() });
+    }
+    // Play success sound if enabled
+    if (settings.soundEnabled) {
+      try {
+        await playSuccessSound();
+      } catch (e) {
+        // Silently fail if sound unavailable
+      }
     }
     router.push("/breathing");
   };
@@ -130,25 +150,33 @@ export default function CompleteTaskScreen() {
 
           {/* Bottom Buttons */}
           <View className="gap-3 mt-8">
-            <TouchableOpacity
-              onPress={handleBreathing}
-              className="bg-surface border border-border py-5 rounded-2xl items-center"
-              activeOpacity={0.8}
-            >
-              <Text className="text-lg font-semibold text-foreground">
-                Breathing reset (30s)
-              </Text>
-            </TouchableOpacity>
+            <Animated.View style={{ transform: [{ scale: breatheScale }], width: "100%" }}>
+              <TouchableOpacity
+                onPress={handleBreathing}
+                onPressIn={breathePressIn}
+                onPressOut={breathePressOut}
+                className="bg-surface border border-border py-5 rounded-2xl items-center"
+                activeOpacity={1}
+              >
+                <Text className="text-lg font-semibold text-foreground">
+                  Breathing reset (30s)
+                </Text>
+              </TouchableOpacity>
+            </Animated.View>
 
-            <TouchableOpacity
-              onPress={handleDone}
-              className="bg-primary py-5 rounded-2xl items-center"
-              activeOpacity={0.8}
-            >
-              <Text className="text-lg font-bold text-white">
-                Done
-              </Text>
-            </TouchableOpacity>
+            <Animated.View style={{ transform: [{ scale: doneScale }], width: "100%" }}>
+              <TouchableOpacity
+                onPress={handleDone}
+                onPressIn={donePressIn}
+                onPressOut={donePressOut}
+                className="bg-primary py-5 rounded-2xl items-center"
+                activeOpacity={1}
+              >
+                <Text className="text-lg font-bold text-white">
+                  Done
+                </Text>
+              </TouchableOpacity>
+            </Animated.View>
           </View>
         </View>
       </ScrollView>

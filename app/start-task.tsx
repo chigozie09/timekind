@@ -13,11 +13,14 @@ import { ScreenContainer } from "@/components/screen-container";
 import { useApp } from "@/lib/app-context";
 
 import { EnergyLevel, generateUUID, Task } from "@/lib/store";
+import { useAnimatedPress } from "@/hooks/use-animated-press";
+import { Animated } from "react-native";
 
 const MINUTE_OPTIONS = [5, 10, 15, 20, 25, 30, 45, 60, 90, 120, 180, 240];
 
 export default function StartTaskScreen() {
   const { settings, addTask, updateSettings } = useApp();
+  const { scaleAnim: startScale, handlePressIn: startPressIn, handlePressOut: startPressOut } = useAnimatedPress();
 
   const [taskName, setTaskName] = useState("");
   const [estimatedMinutes, setEstimatedMinutes] = useState<number>(15);
@@ -267,22 +270,26 @@ export default function StartTaskScreen() {
 
           {/* Start Button */}
           <View className="mt-8">
-            <TouchableOpacity
-              onPress={handleStart}
-              disabled={!canStart}
-              className={`py-5 rounded-2xl items-center ${
-                canStart ? "bg-primary" : "bg-border"
-              }`}
-              activeOpacity={0.8}
-            >
-              <Text
-                className={`text-lg font-bold ${
-                  canStart ? "text-white" : "text-muted"
+            <Animated.View style={{ transform: [{ scale: startScale }] }}>
+              <TouchableOpacity
+                onPress={handleStart}
+                onPressIn={canStart ? startPressIn : undefined}
+                onPressOut={canStart ? startPressOut : undefined}
+                disabled={!canStart}
+                className={`py-5 rounded-2xl items-center ${
+                  canStart ? "bg-primary" : "bg-border"
                 }`}
+                activeOpacity={1}
               >
-                Start
-              </Text>
-            </TouchableOpacity>
+                <Text
+                  className={`text-lg font-bold ${
+                    canStart ? "text-white" : "text-muted"
+                  }`}
+                >
+                  Start
+                </Text>
+              </TouchableOpacity>
+            </Animated.View>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>

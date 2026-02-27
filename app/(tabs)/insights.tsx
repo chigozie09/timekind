@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { ScrollView, Text, View, TouchableOpacity, StyleSheet } from "react-native";
+import { useState, useRef } from "react";
+import { ScrollView, Text, View, TouchableOpacity, StyleSheet, PanResponder, Animated } from "react-native";
 import { ScreenContainer } from "@/components/screen-container";
 import { useApp } from "@/lib/app-context";
 import {
@@ -14,6 +14,30 @@ import {
 export default function InsightsScreen() {
   const { tasks } = useApp();
   const [range, setRange] = useState<7 | 30>(7);
+  const panX = useRef(new Animated.Value(0)).current;
+  const panResponder = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponder: () => true,
+      onPanResponderMove: (evt, gestureState) => {
+        panX.setValue(gestureState.dx);
+      },
+      onPanResponderRelease: (evt, gestureState) => {
+        const threshold = 50;
+        if (gestureState.dx > threshold && range === 30) {
+          // Swipe right: go to 7-day
+          setRange(7);
+        } else if (gestureState.dx < -threshold && range === 7) {
+          // Swipe left: go to 30-day
+          setRange(30);
+        }
+        Animated.spring(panX, {
+          toValue: 0,
+          useNativeDriver: true,
+        }).start();
+      },
+    })
+  ).current;
 
   const rangeTasks = getTasksInRange(tasks, range);
   const avg = avgAccuracy(rangeTasks);
@@ -30,9 +54,11 @@ export default function InsightsScreen() {
 
   return (
     <ScreenContainer className="px-5 pt-2">
-      <ScrollView
+      <Animated.ScrollView
+        {...panResponder.panHandlers}
         contentContainerStyle={{ paddingBottom: 32 }}
         showsVerticalScrollIndicator={false}
+        scrollEnabled={false}
       >
         <Text className="text-4xl font-bold text-foreground mt-4 mb-6">
           Insights
@@ -221,7 +247,7 @@ export default function InsightsScreen() {
             </Text>
           )}
         </View>
-      </ScrollView>
+      </Animated.ScrollView>
     </ScreenContainer>
   );
 }
