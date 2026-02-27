@@ -75,3 +75,8 @@
 - [x] Reflection prompt UI on task completion screen
 - [x] Store and retrieve task notes in database
 - [x] Display notes in insights and history
+
+## Phase 11: Advanced Insights & Search
+- [x] Mood/emotion tracking on task completion (1-5 stars)
+- [x] Reflection search functionality in journal
+- [x] AI-powered weekly reflection summary from server LLM

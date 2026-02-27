@@ -59,6 +59,7 @@ export default function StartTaskScreen() {
       endTime: null,
       timeOfDayTag: null,
       reflection: null,
+      mood: null,
       updatedAt: now,
       deletedAt: null,
     };

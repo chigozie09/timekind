@@ -247,6 +247,7 @@ function makeFakeTask(overrides: Partial<Task> = {}): Task {
     endTime: new Date().toISOString(),
     timeOfDayTag: null,
     reflection: null,
+    mood: null,
     updatedAt: new Date().toISOString(),
     deletedAt: null,
     ...overrides,

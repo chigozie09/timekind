@@ -39,6 +39,7 @@ export interface Task {
   endTime: string | null; // ISO string
   timeOfDayTag: TimeOfDayTag | null;
   reflection: string | null;
+  mood: number | null; // 1-5 rating
   updatedAt: string; // ISO string
   deletedAt: string | null; // ISO string
 }

@@ -5,6 +5,7 @@ import {
   View,
   TouchableOpacity,
   FlatList,
+  TextInput,
 } from "react-native";
 import { router } from "expo-router";
 import { ScreenContainer } from "@/components/screen-container";
@@ -15,6 +16,7 @@ import { Animated } from "react-native";
 export default function TaskJournalScreen() {
   const { tasks } = useApp();
   const [selectedPeriod, setSelectedPeriod] = useState<"week" | "month" | "all">("week");
+  const [searchQuery, setSearchQuery] = useState("");
   const { scaleAnim, handlePressIn, handlePressOut } = useAnimatedPress();
 
   // Filter tasks with reflections
@@ -30,11 +32,24 @@ export default function TaskJournalScreen() {
       filtered = filtered.filter((t) => new Date(t.endTime!) >= monthAgo);
     }
 
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(
+        (t) =>
+          t.taskName.toLowerCase().includes(query) ||
+          t.reflection!.toLowerCase().includes(query) ||
+          (t.category && t.category.toLowerCase().includes(query))
+      );
+    }
+
     return filtered.sort((a, b) => new Date(b.endTime!).getTime() - new Date(a.endTime!).getTime());
   };
 
   const filteredTasks = getFilteredTasks();
   const reflectionCount = tasks.filter((t) => t.reflection).length;
+  const [showingSummary, setShowingSummary] = useState(false);
+  const [summary, setSummary] = useState<any>(null);
+  const [summaryLoading, setSummaryLoading] = useState(false);
 
   const renderTaskEntry = ({ item }: { item: typeof tasks[0] }) => {
     const date = new Date(item.endTime!);
@@ -97,6 +112,17 @@ export default function TaskJournalScreen() {
           </Text>
         </View>
 
+        {/* Search Input */}
+        <View className="mb-6">
+          <TextInput
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+            placeholder="Search reflections..."
+            placeholderTextColor="#999"
+            className="bg-surface border border-border rounded-lg px-4 py-3 text-base text-foreground"
+          />
+        </View>
+
         {/* Period Filter */}
         <View className="flex-row gap-2 mb-6">
           {(["week", "month", "all"] as const).map((period) => (
@@ -120,6 +146,66 @@ export default function TaskJournalScreen() {
             </TouchableOpacity>
           ))}
         </View>
+
+        {/* AI Summary Button */}
+        {selectedPeriod === "week" && filteredTasks.length > 0 && (
+          <TouchableOpacity
+            onPress={async () => {
+              setSummaryLoading(true);
+              try {
+                const response = await fetch("/api/ai/summarize-reflections", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    tasks: filteredTasks.map((t) => ({
+                      name: t.taskName,
+                      category: t.category,
+                      reflection: t.reflection,
+                      mood: t.mood,
+                      accuracy: t.accuracyPercent,
+                    })),
+                  }),
+                });
+                if (response.ok) {
+                  const data = await response.json();
+                  setSummary(data);
+                  setShowingSummary(true);
+                }
+              } catch (error) {
+                console.error("Failed to generate summary:", error);
+              } finally {
+                setSummaryLoading(false);
+              }
+            }}
+            className="bg-primary rounded-xl py-3 mb-6 items-center"
+            activeOpacity={0.7}
+          >
+            <Text className="text-white font-bold text-base">
+              {summaryLoading ? "Generating summary..." : "✨ Weekly AI Summary"}
+            </Text>
+          </TouchableOpacity>
+        )}
+
+        {/* Summary Modal */}
+        {showingSummary && summary && (
+          <View className="bg-surface rounded-2xl p-5 border border-border mb-6">
+            <TouchableOpacity onPress={() => setShowingSummary(false)} className="mb-3">
+              <Text className="text-primary font-bold">Close</Text>
+            </TouchableOpacity>
+            <Text className="text-lg font-bold text-foreground mb-3">This Week's Insights</Text>
+            {summary.insights && summary.insights.map((insight: string, i: number) => (
+              <Text key={i} className="text-sm text-foreground mb-2 leading-relaxed">
+                • {insight}
+              </Text>
+            ))}
+            {summary.recommendation && (
+              <View className="mt-4 pt-4 border-t border-border">
+                <Text className="text-sm font-semibold text-primary mb-2">Recommendation</Text>
+                <Text className="text-sm text-foreground leading-relaxed">{summary.recommendation}</Text>
+              </View>
+            )}
+          </View>
+        )}
 
         {/* Entries */}
         {filteredTasks.length > 0 ? (

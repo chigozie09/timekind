@@ -23,6 +23,7 @@ export default function CompleteTaskScreen() {
   const { taskId } = useLocalSearchParams<{ taskId: string }>();
   const task = tasks.find((t) => t.id === taskId);
   const [reflection, setReflection] = useState("");
+  const [mood, setMood] = useState<number | null>(null);
 
   if (!task) {
     return (
@@ -45,8 +46,15 @@ export default function CompleteTaskScreen() {
 
   const handleDone = async () => {
     let updatedTask = task;
+    const updates: Record<string, any> = {};
     if (reflection.trim()) {
-      const result = await updateTask(task.id, { reflection: reflection.trim() });
+      updates.reflection = reflection.trim();
+    }
+    if (mood !== null) {
+      updates.mood = mood;
+    }
+    if (Object.keys(updates).length > 0) {
+      const result = await updateTask(task.id, updates);
       if (result) updatedTask = result;
     }
 
@@ -130,6 +138,30 @@ export default function CompleteTaskScreen() {
               <Text className="text-base text-foreground text-center leading-6 font-medium">
                 {gentleMessage}
               </Text>
+            </View>
+
+            {/* Mood Rating */}
+            <View className="w-full mb-6">
+              <Text className="text-lg font-bold text-foreground mb-3">How are you feeling?</Text>
+              <View className="flex-row justify-center gap-2">
+                {[1, 2, 3, 4, 5].map((rating) => (
+                  <TouchableOpacity
+                    key={rating}
+                    onPress={() => setMood(rating)}
+                    className={`w-12 h-12 rounded-full items-center justify-center border-2 ${
+                      mood === rating ? "bg-primary border-primary" : "bg-surface border-border"
+                    }`}
+                  >
+                    <Text className={`text-xl font-bold ${mood === rating ? "text-white" : "text-foreground"}`}>
+                      {rating}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+              <View className="flex-row justify-between mt-2">
+                <Text className="text-xs text-muted">Struggling</Text>
+                <Text className="text-xs text-muted">Thriving</Text>
+              </View>
             </View>
 
             {/* Reflection Prompts */}

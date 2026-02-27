@@ -58,6 +58,7 @@ export default function TemplatesScreen() {
           endTime: null,
           timeOfDayTag: null,
           reflection: null,
+          mood: null,
           updatedAt: new Date().toISOString(),
           deletedAt: null,
         };
