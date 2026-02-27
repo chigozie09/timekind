@@ -260,6 +260,14 @@ export default function HomeScreen() {
               View journal
             </Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => router.push("/bulk-tasks")}
+            className="bg-surface border border-primary py-4 rounded-2xl items-center"
+          >
+            <Text className="text-primary text-lg font-bold">
+              Plan your day
+            </Text>
+          </TouchableOpacity>
         </View>
 
         {/* Today's Insight Card */}

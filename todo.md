@@ -85,3 +85,8 @@
 - [x] Mood-based task recommendations
 - [x] Task history export (PDF/CSV)
 - [x] Streak notifications
+
+## Phase 13: Bug Fixes & User Feedback
+- [x] Fix onboarding flow not appearing (investigate cache issue)
+- [x] Add bulk task creation with start time scheduling
+- [x] Test and validate both fixes
