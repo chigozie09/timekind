@@ -80,3 +80,8 @@
 - [x] Mood/emotion tracking on task completion (1-5 stars)
 - [x] Reflection search functionality in journal
 - [x] AI-powered weekly reflection summary from server LLM
+
+## Phase 12: Final Polish & Wrap-up
+- [x] Mood-based task recommendations
+- [x] Task history export (PDF/CSV)
+- [x] Streak notifications

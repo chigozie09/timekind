@@ -14,6 +14,8 @@ import { getGentleMessage, getActiveTasks } from "@/lib/store";
 import { useAnimatedPress } from "@/hooks/use-animated-press";
 import { Animated } from "react-native";
 import { playSuccessSound } from "@/lib/sound-effects";
+import { getStreakNotification, scheduleStreakNotification } from "@/lib/streak-notifications";
+import { calculateWeeklyStreak } from "@/lib/streak-calculator";
 
 export default function CompleteTaskScreen() {
   const { tasks, updateTask, settings, updateSettings } = useApp();
@@ -69,6 +71,13 @@ export default function CompleteTaskScreen() {
 
     if (shouldAskNotification) {
       await updateSettings({ notificationAsked: true });
+    }
+
+    const currentStreak = calculateWeeklyStreak(tasks);
+    const lastTaskDate = tasks.find((t) => t.endTime)?.endTime ? new Date(tasks.find((t) => t.endTime)!.endTime!) : null;
+    const notification = getStreakNotification(currentStreak, 0, lastTaskDate, settings.notificationsEnabled);
+    if (notification) {
+      await scheduleStreakNotification(notification, 3600);
     }
 
     router.replace("/(tabs)");

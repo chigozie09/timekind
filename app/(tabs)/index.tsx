@@ -20,6 +20,7 @@ import {
   getMostUnderestimatedCategory,
 } from "@/lib/store";
 import { calculateWeeklyStreak, getBestStreak } from "@/lib/streak-calculator";
+import { getMoodRecommendations } from "@/lib/mood-recommendations";
 import { HelpOverlay } from "@/components/help-overlay";
 
 export default function HomeScreen() {
@@ -202,6 +203,31 @@ export default function HomeScreen() {
             )}
           </View>
         </View>
+
+        {/* Mood-Based Recommendations */}
+        {tasks.length > 0 && (() => {
+          const rec = getMoodRecommendations(tasks);
+          return (
+            <View className="bg-surface rounded-2xl p-5 border border-border mb-7">
+              <Text className="text-lg font-bold text-foreground mb-2">💡 Your Insight</Text>
+              <Text className="text-sm text-foreground leading-relaxed mb-3">
+                {rec.recommendation}
+              </Text>
+              <View className="flex-row justify-between">
+                <View>
+                  <Text className="text-xs text-muted font-semibold mb-1">Best Time</Text>
+                  <Text className="text-sm font-bold text-primary">{rec.bestTimeOfDay}</Text>
+                </View>
+                {rec.bestCategory && (
+                  <View>
+                    <Text className="text-xs text-muted font-semibold mb-1">Top Category</Text>
+                    <Text className="text-sm font-bold text-primary">{rec.bestCategory}</Text>
+                  </View>
+                )}
+              </View>
+            </View>
+          );
+        })()}
 
         {/* CTA Buttons */}
         <View className="gap-3 mb-7">

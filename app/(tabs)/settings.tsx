@@ -26,6 +26,7 @@ import * as FileSystem from "expo-file-system/legacy";
 import * as DocumentPicker from "expo-document-picker";
 import { useAnimatedPress } from "@/hooks/use-animated-press";
 import { Animated } from "react-native";
+import { exportTasksAsCSV, exportTasksAsJSON, getExportSummary } from "@/lib/export-history";
 
 export default function SettingsScreen() {
   const { settings, updateSettings, tasks, refreshTasks } = useApp();
@@ -326,6 +327,23 @@ export default function SettingsScreen() {
               <Text className="text-primary font-bold text-lg">Import Backup</Text>
             </TouchableOpacity>
           </Animated.View>
+          <TouchableOpacity
+            onPress={async () => {
+              try {
+                const csv = await exportTasksAsCSV(tasks);
+                const filename = `timekind-tasks-${new Date().toISOString().split("T")[0]}.csv`;
+                await Sharing.shareAsync(`data:text/csv;base64,${btoa(csv)}`, {
+                  mimeType: "text/csv",
+                });
+              } catch (error) {
+                Alert.alert("Export failed", "Could not export task history");
+              }
+            }}
+            className="bg-surface border border-primary rounded-xl py-4 items-center w-full mt-3"
+            activeOpacity={0.7}
+          >
+            <Text className="text-primary font-bold text-lg">📊 Export Tasks (CSV)</Text>
+          </TouchableOpacity>
         </View>
 
         {/* About */}
