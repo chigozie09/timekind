@@ -62,6 +62,7 @@ export default function TemplatesScreen() {
           priority: "Medium" as const,
           blockedByTaskId: null,
           isBlocking: false,
+          subtasks: [],
           updatedAt: new Date().toISOString(),
           deletedAt: null,
         };

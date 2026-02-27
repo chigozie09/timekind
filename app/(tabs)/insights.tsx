@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import { ScrollView, Text, View, TouchableOpacity, StyleSheet, PanResponder, Animated, Modal, ActivityIndicator } from "react-native";
 import { ScreenContainer } from "@/components/screen-container";
 import { useApp } from "@/lib/app-context";
+import { router } from "expo-router";
 import {
   getTasksInRange,
   avgAccuracy,
@@ -170,6 +171,12 @@ export default function InsightsScreen() {
             className="bg-surface border border-border py-3 rounded-xl items-center px-4"
           >
             <Text className="text-foreground font-semibold">Export</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => router.push("/heatmap")}
+            className="bg-surface border border-border py-3 rounded-xl items-center px-4"
+          >
+            <Text className="text-foreground font-semibold">🔥 Heat</Text>
           </TouchableOpacity>
         </View>
 

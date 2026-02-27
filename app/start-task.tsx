@@ -64,6 +64,7 @@ export default function StartTaskScreen() {
       priority: priority,
       blockedByTaskId: null,
       isBlocking: false,
+      subtasks: [],
       updatedAt: now,
       deletedAt: null,
     };

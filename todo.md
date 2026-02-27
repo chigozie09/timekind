@@ -101,3 +101,7 @@
 - [x] Task dependency chains with blocking logic
 - [x] Smart time blocking based on energy patterns
 - [x] Calendar view with drag-to-reschedule
+
+## Phase 16: Subtasks & Analytics
+- [x] Task subtasks with individual timers
+- [x] Productivity heatmap visualization

@@ -10,6 +10,15 @@ export type EnergyLevel = "High" | "Medium" | "Low";
 export type TimeOfDayTag = "Morning" | "Afternoon" | "Evening" | "Late";
 export type TaskPriority = "High" | "Medium" | "Low";
 
+export interface Subtask {
+  id: string;
+  title: string;
+  estimatedMinutes: number;
+  actualMinutes: number;
+  completed: boolean;
+  completedAt: string | null; // ISO string
+}
+
 export interface AppSettings {
   hasOnboarded: boolean;
   themeMode: ThemeMode;
@@ -44,6 +53,7 @@ export interface Task {
   priority: TaskPriority; // High, Medium, Low
   blockedByTaskId: string | null; // Task ID that must complete first
   isBlocking: boolean; // Whether this task blocks others
+  subtasks: Subtask[]; // Breakdown of task into smaller steps
   updatedAt: string; // ISO string
   deletedAt: string | null; // ISO string
 }
