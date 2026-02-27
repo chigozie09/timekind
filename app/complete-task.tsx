@@ -9,12 +9,12 @@ import {
 import { router, useLocalSearchParams } from "expo-router";
 import { ScreenContainer } from "@/components/screen-container";
 import { useApp } from "@/lib/app-context";
-import { useSync } from "@/lib/sync-context";
+
 import { getGentleMessage, getActiveTasks } from "@/lib/store";
 
 export default function CompleteTaskScreen() {
   const { tasks, updateTask, settings, updateSettings } = useApp();
-  const { syncSingleTask } = useSync();
+
   const { taskId } = useLocalSearchParams<{ taskId: string }>();
   const task = tasks.find((t) => t.id === taskId);
   const [reflection, setReflection] = useState("");
@@ -25,9 +25,9 @@ export default function CompleteTaskScreen() {
         edges={["top", "bottom", "left", "right"]}
         className="flex-1 justify-center items-center px-5"
       >
-        <Text className="text-foreground text-base">Task not found.</Text>
+        <Text className="text-foreground text-lg font-medium">Task not found.</Text>
         <TouchableOpacity onPress={() => router.replace("/(tabs)")} className="mt-4">
-          <Text className="text-primary text-base">Go Home</Text>
+          <Text className="text-primary text-lg font-semibold">Go Home</Text>
         </TouchableOpacity>
       </ScreenContainer>
     );
@@ -45,8 +45,7 @@ export default function CompleteTaskScreen() {
       if (result) updatedTask = result;
     }
 
-    // Sync to cloud if enabled
-    await syncSingleTask(updatedTask);
+
 
     if (shouldAskNotification) {
       await updateSettings({ notificationAsked: true });
@@ -71,35 +70,35 @@ export default function CompleteTaskScreen() {
         <View className="flex-1 justify-between py-6">
           {/* Top Section */}
           <View className="items-center">
-            <Text className="text-sm text-muted mb-2">Completed</Text>
-            <Text className="text-xl font-semibold text-foreground text-center mb-6">
+            <Text className="text-base text-muted mb-3 font-medium">Completed</Text>
+            <Text className="text-2xl font-bold text-foreground text-center mb-6">
               {task.taskName}
             </Text>
 
             {/* Summary Card */}
             <View className="bg-surface rounded-2xl p-5 border border-border w-full mb-5">
-              <View className="flex-row justify-between mb-3">
+              <View className="flex-row justify-between mb-4">
                 <View>
-                  <Text className="text-xs text-muted uppercase">Estimated</Text>
-                  <Text className="text-2xl font-semibold text-foreground mt-1">
+                  <Text className="text-xs text-muted uppercase font-semibold">Estimated</Text>
+                  <Text className="text-3xl font-bold text-foreground mt-2">
                     {task.estimatedMinutes}m
                   </Text>
                 </View>
                 <View className="items-center justify-center px-3">
-                  <Text className="text-lg text-muted">→</Text>
+                  <Text className="text-2xl text-muted">→</Text>
                 </View>
                 <View className="items-end">
-                  <Text className="text-xs text-muted uppercase">Actual</Text>
-                  <Text className="text-2xl font-semibold text-foreground mt-1">
+                  <Text className="text-xs text-muted uppercase font-semibold">Actual</Text>
+                  <Text className="text-3xl font-bold text-foreground mt-2">
                     {task.actualMinutes}m
                   </Text>
                 </View>
               </View>
 
-              <View className="border-t border-border pt-3 mt-1">
+              <View className="border-t border-border pt-4 mt-2">
                 <View className="flex-row justify-between items-center">
-                  <Text className="text-sm text-muted">Accuracy</Text>
-                  <Text className="text-lg font-semibold text-foreground">
+                  <Text className="text-base text-muted font-medium">Accuracy</Text>
+                  <Text className="text-2xl font-bold text-foreground">
                     {task.accuracyPercent}%
                   </Text>
                 </View>
@@ -107,15 +106,15 @@ export default function CompleteTaskScreen() {
             </View>
 
             {/* Gentle Message */}
-            <View className="bg-success rounded-2xl px-5 py-4 w-full mb-5">
-              <Text className="text-sm text-foreground text-center leading-5">
+            <View className="bg-success rounded-2xl px-5 py-5 w-full mb-5">
+              <Text className="text-base text-foreground text-center leading-6 font-medium">
                 {gentleMessage}
               </Text>
             </View>
 
             {/* Reflection */}
             <View className="w-full">
-              <Text className="text-sm font-medium text-muted mb-2">
+              <Text className="text-base font-semibold text-muted mb-3">
                 Reflection (optional)
               </Text>
               <TextInput
@@ -123,7 +122,7 @@ export default function CompleteTaskScreen() {
                 onChangeText={setReflection}
                 placeholder="Any thoughts on this task?"
                 placeholderTextColor="#999"
-                className="bg-surface border border-border rounded-xl px-4 py-3.5 text-base text-foreground"
+                className="bg-surface border border-border rounded-xl px-4 py-4 text-lg text-foreground"
                 returnKeyType="done"
               />
             </View>
@@ -133,20 +132,20 @@ export default function CompleteTaskScreen() {
           <View className="gap-3 mt-8">
             <TouchableOpacity
               onPress={handleBreathing}
-              className="bg-surface border border-border py-4 rounded-2xl items-center"
+              className="bg-surface border border-border py-5 rounded-2xl items-center"
               activeOpacity={0.8}
             >
-              <Text className="text-base font-medium text-foreground">
+              <Text className="text-lg font-semibold text-foreground">
                 Breathing reset (30s)
               </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               onPress={handleDone}
-              className="bg-primary py-4 rounded-2xl items-center"
+              className="bg-primary py-5 rounded-2xl items-center"
               activeOpacity={0.8}
             >
-              <Text className="text-base font-semibold text-white">
+              <Text className="text-lg font-bold text-white">
                 Done
               </Text>
             </TouchableOpacity>

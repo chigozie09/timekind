@@ -34,7 +34,7 @@ export default function InsightsScreen() {
         contentContainerStyle={{ paddingBottom: 32 }}
         showsVerticalScrollIndicator={false}
       >
-        <Text className="text-[22px] font-semibold text-foreground mt-2 mb-5">
+        <Text className="text-4xl font-bold text-foreground mt-4 mb-6">
           Insights
         </Text>
 
@@ -42,13 +42,13 @@ export default function InsightsScreen() {
         <View className="flex-row gap-2 mb-5">
           <TouchableOpacity
             onPress={() => setRange(7)}
-            className={`flex-1 py-2.5 rounded-xl items-center border ${
+            className={`flex-1 py-3 rounded-xl items-center border ${
               range === 7 ? "bg-primary border-primary" : "bg-surface border-border"
             }`}
             activeOpacity={0.7}
           >
             <Text
-              className={`text-sm font-medium ${
+              className={`text-base font-semibold ${
                 range === 7 ? "text-white" : "text-foreground"
               }`}
             >
@@ -57,13 +57,13 @@ export default function InsightsScreen() {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => setRange(30)}
-            className={`flex-1 py-2.5 rounded-xl items-center border ${
+            className={`flex-1 py-3 rounded-xl items-center border ${
               range === 30 ? "bg-primary border-primary" : "bg-surface border-border"
             }`}
             activeOpacity={0.7}
           >
             <Text
-              className={`text-sm font-medium ${
+              className={`text-base font-semibold ${
                 range === 30 ? "text-white" : "text-foreground"
               }`}
             >
@@ -74,23 +74,23 @@ export default function InsightsScreen() {
 
         {/* Average Accuracy */}
         {avg !== null && (
-          <View className="bg-surface rounded-2xl p-4 border border-border mb-3">
-            <Text className="text-xs font-semibold text-muted uppercase tracking-wide mb-1">
+          <View className="bg-surface rounded-2xl p-5 border border-border mb-4">
+            <Text className="text-xs font-semibold text-muted uppercase tracking-widest mb-2">
               Average Accuracy
             </Text>
-            <Text className="text-3xl font-semibold text-foreground">
+            <Text className="text-4xl font-bold text-foreground">
               {avg}%
             </Text>
           </View>
         )}
 
         {/* Accuracy Trend Chart */}
-        <View className="bg-surface rounded-2xl p-4 border border-border mb-3">
-          <Text className="text-xs font-semibold text-muted uppercase tracking-wide mb-3">
+        <View className="bg-surface rounded-2xl p-5 border border-border mb-4">
+          <Text className="text-xs font-semibold text-muted uppercase tracking-widest mb-4">
             Accuracy Trend
           </Text>
           {dailyData.length === 0 ? (
-            <Text className="text-sm text-muted py-4 text-center">
+            <Text className="text-base text-muted py-4 text-center">
               Keep going — patterns appear over a few days.
             </Text>
           ) : (
@@ -114,12 +114,12 @@ export default function InsightsScreen() {
         </View>
 
         {/* Patterns by Category */}
-        <View className="bg-surface rounded-2xl p-4 border border-border mb-3">
-          <Text className="text-xs font-semibold text-muted uppercase tracking-wide mb-3">
+        <View className="bg-surface rounded-2xl p-5 border border-border mb-4">
+          <Text className="text-xs font-semibold text-muted uppercase tracking-widest mb-3">
             By Category
           </Text>
           {Object.keys(byCategory).length === 0 ? (
-            <Text className="text-sm text-muted">
+            <Text className="text-base text-muted">
               Need at least 3 tasks per category to show patterns.
             </Text>
           ) : (
@@ -128,15 +128,15 @@ export default function InsightsScreen() {
                 .sort((a, b) => b[1] - a[1])
                 .map(([cat, acc]) => (
                   <View key={cat} className="flex-row justify-between items-center">
-                    <Text className="text-sm text-foreground">{cat}</Text>
+                    <Text className="text-base font-medium text-foreground">{cat}</Text>
                     <View className="flex-row items-center gap-2">
-                      <View className="w-20 h-2 bg-border rounded-full overflow-hidden">
+                      <View className="w-20 h-3 bg-border rounded-full overflow-hidden">
                         <View
                           style={{ width: `${Math.min(100, acc / 2)}%` }}
                           className="h-full bg-primary rounded-full"
                         />
                       </View>
-                      <Text className="text-sm text-muted w-10 text-right">{acc}%</Text>
+                      <Text className="text-base text-muted w-10 text-right font-semibold">{acc}%</Text>
                     </View>
                   </View>
                 ))}
@@ -145,12 +145,12 @@ export default function InsightsScreen() {
         </View>
 
         {/* Patterns by Energy */}
-        <View className="bg-surface rounded-2xl p-4 border border-border mb-3">
-          <Text className="text-xs font-semibold text-muted uppercase tracking-wide mb-3">
+        <View className="bg-surface rounded-2xl p-5 border border-border mb-4">
+          <Text className="text-xs font-semibold text-muted uppercase tracking-widest mb-3">
             By Energy Level
           </Text>
           {Object.keys(byEnergy).length === 0 ? (
-            <Text className="text-sm text-muted">
+            <Text className="text-base text-muted">
               Need at least 3 tasks per energy level to show patterns.
             </Text>
           ) : (
@@ -159,15 +159,15 @@ export default function InsightsScreen() {
                 .sort((a, b) => b[1] - a[1])
                 .map(([level, acc]) => (
                   <View key={level} className="flex-row justify-between items-center">
-                    <Text className="text-sm text-foreground">{level}</Text>
+                    <Text className="text-base font-medium text-foreground">{level}</Text>
                     <View className="flex-row items-center gap-2">
-                      <View className="w-20 h-2 bg-border rounded-full overflow-hidden">
+                      <View className="w-20 h-3 bg-border rounded-full overflow-hidden">
                         <View
                           style={{ width: `${Math.min(100, acc / 2)}%` }}
                           className="h-full bg-primary rounded-full"
                         />
                       </View>
-                      <Text className="text-sm text-muted w-10 text-right">{acc}%</Text>
+                      <Text className="text-base text-muted w-10 text-right font-semibold">{acc}%</Text>
                     </View>
                   </View>
                 ))}
@@ -176,12 +176,12 @@ export default function InsightsScreen() {
         </View>
 
         {/* Patterns by Time of Day */}
-        <View className="bg-surface rounded-2xl p-4 border border-border mb-3">
-          <Text className="text-xs font-semibold text-muted uppercase tracking-wide mb-3">
+        <View className="bg-surface rounded-2xl p-5 border border-border mb-4">
+          <Text className="text-xs font-semibold text-muted uppercase tracking-widest mb-3">
             By Time of Day
           </Text>
           {Object.keys(byTimeOfDay).length === 0 ? (
-            <Text className="text-sm text-muted">
+            <Text className="text-base text-muted">
               Need at least 3 tasks per time slot to show patterns.
             </Text>
           ) : (
@@ -190,15 +190,15 @@ export default function InsightsScreen() {
                 .sort((a, b) => b[1] - a[1])
                 .map(([tag, acc]) => (
                   <View key={tag} className="flex-row justify-between items-center">
-                    <Text className="text-sm text-foreground">{tag}</Text>
+                    <Text className="text-base font-medium text-foreground">{tag}</Text>
                     <View className="flex-row items-center gap-2">
-                      <View className="w-20 h-2 bg-border rounded-full overflow-hidden">
+                      <View className="w-20 h-3 bg-border rounded-full overflow-hidden">
                         <View
                           style={{ width: `${Math.min(100, acc / 2)}%` }}
                           className="h-full bg-primary rounded-full"
                         />
                       </View>
-                      <Text className="text-sm text-muted w-10 text-right">{acc}%</Text>
+                      <Text className="text-base text-muted w-10 text-right font-semibold">{acc}%</Text>
                     </View>
                   </View>
                 ))}
@@ -207,16 +207,16 @@ export default function InsightsScreen() {
         </View>
 
         {/* Common Expansions */}
-        <View className="bg-surface rounded-2xl p-4 border border-border">
-          <Text className="text-xs font-semibold text-muted uppercase tracking-wide mb-2">
+        <View className="bg-surface rounded-2xl p-5 border border-border">
+          <Text className="text-xs font-semibold text-muted uppercase tracking-widest mb-3">
             Common Expansions
           </Text>
           {worstCat ? (
-            <Text className="text-sm text-foreground">
+            <Text className="text-base font-medium text-foreground">
               Often expands: {worstCat}
             </Text>
           ) : (
-            <Text className="text-sm text-muted">
+            <Text className="text-base text-muted">
               Keep going — patterns appear over a few days.
             </Text>
           )}

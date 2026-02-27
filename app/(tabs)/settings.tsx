@@ -8,11 +8,9 @@ import {
   TextInput,
   Alert,
   Platform,
-  ActivityIndicator,
 } from "react-native";
 import { ScreenContainer } from "@/components/screen-container";
 import { useApp } from "@/lib/app-context";
-import { useSync } from "@/lib/sync-context";
 import { useThemeContext } from "@/lib/theme-provider";
 import {
   ThemeMode,
@@ -27,23 +25,8 @@ import * as Sharing from "expo-sharing";
 import * as FileSystem from "expo-file-system/legacy";
 import * as DocumentPicker from "expo-document-picker";
 
-function formatSyncTime(iso: string | null): string {
-  if (!iso) return "Never";
-  const d = new Date(iso);
-  const now = new Date();
-  const diffMs = now.getTime() - d.getTime();
-  const diffMin = Math.floor(diffMs / 60000);
-  if (diffMin < 1) return "Just now";
-  if (diffMin < 60) return `${diffMin}m ago`;
-  const diffHr = Math.floor(diffMin / 60);
-  if (diffHr < 24) return `${diffHr}h ago`;
-  const diffDay = Math.floor(diffHr / 24);
-  return `${diffDay}d ago`;
-}
-
 export default function SettingsScreen() {
   const { settings, updateSettings, tasks, refreshTasks } = useApp();
-  const { firebaseUser, isSyncing, signInApple, signInGoogle, handleSignOut, syncNow } = useSync();
   const { setColorScheme } = useThemeContext();
   const [nudgeTime, setNudgeTime] = useState(settings.dailyNudgeTime);
 
@@ -205,67 +188,19 @@ export default function SettingsScreen() {
     }
   };
 
-  const handleToggleSync = async (val: boolean) => {
-    if (val) {
-      // Show sign-in options
-      const buttons: any[] = [];
-      if (Platform.OS === "ios") {
-        buttons.push({
-          text: "Continue with Apple",
-          onPress: signInApple,
-        });
-      }
-      buttons.push({
-        text: "Continue with Google",
-        onPress: signInGoogle,
-      });
-      buttons.push({ text: "Cancel", style: "cancel" });
-
-      Alert.alert(
-        "Enable Cloud Sync",
-        "Sign in to sync your tasks across devices. Your data stays local even if you sign out later.",
-        buttons
-      );
-    } else {
-      Alert.alert(
-        "Disable Sync",
-        "Your data will remain local. Cloud data will not be deleted.",
-        [
-          { text: "Cancel", style: "cancel" },
-          {
-            text: "Disable",
-            onPress: async () => {
-              await handleSignOut();
-              await updateSettings({
-                syncEnabled: false,
-                syncProvider: null,
-                firebaseUserId: null,
-              });
-            },
-          },
-        ]
-      );
-    }
-  };
-
-  const handleSyncNow = async () => {
-    await syncNow();
-    await refreshTasks();
-  };
-
   return (
     <ScreenContainer className="px-5 pt-2">
       <ScrollView
         contentContainerStyle={{ paddingBottom: 32 }}
         showsVerticalScrollIndicator={false}
       >
-        <Text className="text-[22px] font-semibold text-foreground mt-2 mb-5">
+        <Text className="text-4xl font-bold text-foreground mt-4 mb-8">
           Settings
         </Text>
 
         {/* Theme */}
-        <View className="bg-surface rounded-2xl p-4 border border-border mb-3">
-          <Text className="text-xs font-semibold text-muted uppercase tracking-wide mb-3">
+        <View className="bg-surface rounded-2xl p-5 border border-border mb-4">
+          <Text className="text-xs font-semibold text-muted uppercase tracking-widest mb-4">
             Appearance
           </Text>
           <View className="flex-row gap-2">
@@ -273,7 +208,7 @@ export default function SettingsScreen() {
               <TouchableOpacity
                 key={mode}
                 onPress={() => handleThemeChange(mode)}
-                className={`flex-1 py-2.5 rounded-xl items-center border ${
+                className={`flex-1 py-3 rounded-xl items-center border ${
                   settings.themeMode === mode
                     ? "bg-primary border-primary"
                     : "bg-background border-border"
@@ -281,7 +216,7 @@ export default function SettingsScreen() {
                 activeOpacity={0.7}
               >
                 <Text
-                  className={`text-sm font-medium capitalize ${
+                  className={`text-lg font-bold capitalize ${
                     settings.themeMode === mode
                       ? "text-white"
                       : "text-foreground"
@@ -295,9 +230,9 @@ export default function SettingsScreen() {
         </View>
 
         {/* Sound */}
-        <View className="bg-surface rounded-2xl p-4 border border-border mb-3">
+        <View className="bg-surface rounded-2xl p-5 border border-border mb-4">
           <View className="flex-row justify-between items-center">
-            <Text className="text-base text-foreground">Sound</Text>
+            <Text className="text-xl font-semibold text-foreground">Sound</Text>
             <Switch
               value={settings.soundEnabled}
               onValueChange={(val) => updateSettings({ soundEnabled: val })}
@@ -307,12 +242,12 @@ export default function SettingsScreen() {
         </View>
 
         {/* Notifications */}
-        <View className="bg-surface rounded-2xl p-4 border border-border mb-3">
-          <Text className="text-xs font-semibold text-muted uppercase tracking-wide mb-3">
+        <View className="bg-surface rounded-2xl p-5 border border-border mb-4">
+          <Text className="text-xs font-semibold text-muted uppercase tracking-widest mb-4">
             Notifications
           </Text>
-          <View className="flex-row justify-between items-center mb-3">
-            <Text className="text-base text-foreground">Daily nudge</Text>
+          <View className="flex-row justify-between items-center mb-4">
+            <Text className="text-xl font-semibold text-foreground">Daily nudge</Text>
             <Switch
               value={settings.notificationsEnabled}
               onValueChange={(val) =>
@@ -323,123 +258,61 @@ export default function SettingsScreen() {
           </View>
           {settings.notificationsEnabled && (
             <View className="flex-row justify-between items-center">
-              <Text className="text-sm text-muted">Nudge time</Text>
+              <Text className="text-lg font-medium text-muted">Nudge time</Text>
               <TextInput
                 value={nudgeTime}
                 onChangeText={handleNudgeTimeChange}
                 placeholder="20:00"
                 placeholderTextColor="#999"
-                className="bg-background border border-border rounded-lg px-3 py-2 text-sm text-foreground w-20 text-center"
-                keyboardType="numbers-and-punctuation"
-                returnKeyType="done"
+                className="bg-background border border-border rounded-lg px-3 py-3 text-lg text-foreground w-24 text-center font-semibold"
               />
             </View>
           )}
         </View>
 
         {/* Reduced Motion */}
-        <View className="bg-surface rounded-2xl p-4 border border-border mb-3">
+        <View className="bg-surface rounded-2xl p-5 border border-border mb-4">
           <View className="flex-row justify-between items-center">
-            <Text className="text-base text-foreground">Reduced motion</Text>
+            <Text className="text-xl font-semibold text-foreground">Reduced motion</Text>
             <Switch
               value={settings.reducedMotion}
-              onValueChange={(val) =>
-                updateSettings({ reducedMotion: val })
-              }
+              onValueChange={(val) => updateSettings({ reducedMotion: val })}
               trackColor={{ false: "#E6E1DA", true: "#6B6B6B" }}
             />
           </View>
         </View>
 
-        {/* Sync Section */}
-        <View className="bg-surface rounded-2xl p-4 border border-border mb-3">
-          <Text className="text-xs font-semibold text-muted uppercase tracking-wide mb-3">
-            Cloud Sync
+        {/* Data Management */}
+        <View className="bg-surface rounded-2xl p-5 border border-border mb-4">
+          <Text className="text-xs font-semibold text-muted uppercase tracking-widest mb-4">
+            Data Management
           </Text>
-          <View className="flex-row justify-between items-center mb-2">
-            <Text className="text-base text-foreground">Enable sync</Text>
-            <Switch
-              value={settings.syncEnabled}
-              onValueChange={handleToggleSync}
-              trackColor={{ false: "#E6E1DA", true: "#6B6B6B" }}
-            />
-          </View>
-
-          {settings.syncEnabled && (
-            <View className="mt-2">
-              {/* Signed-in info */}
-              <View className="flex-row justify-between items-center mb-2">
-                <Text className="text-xs text-muted">
-                  Signed in via{" "}
-                  {settings.syncProvider === "apple" ? "Apple" : "Google"}
-                </Text>
-                <Text className="text-xs text-muted">
-                  Last synced: {formatSyncTime(settings.lastSyncAt)}
-                </Text>
-              </View>
-
-              {/* Sync now button */}
-              <TouchableOpacity
-                onPress={handleSyncNow}
-                disabled={isSyncing}
-                className="bg-background border border-border py-3 rounded-xl items-center mt-1"
-                activeOpacity={0.7}
-                style={isSyncing ? { opacity: 0.5 } : undefined}
-              >
-                {isSyncing ? (
-                  <View className="flex-row items-center gap-2">
-                    <ActivityIndicator size="small" color="#6B6B6B" />
-                    <Text className="text-sm font-medium text-muted">
-                      Syncing...
-                    </Text>
-                  </View>
-                ) : (
-                  <Text className="text-sm font-medium text-foreground">
-                    Sync Now
-                  </Text>
-                )}
-              </TouchableOpacity>
-            </View>
-          )}
-
-          {!settings.syncEnabled && (
-            <Text className="text-xs text-muted mt-1">
-              Optional cloud sync for cross-device access.
-            </Text>
-          )}
+          <TouchableOpacity
+            onPress={handleExportBackup}
+            className="bg-primary rounded-xl py-4 mb-3 items-center"
+            activeOpacity={0.8}
+          >
+            <Text className="text-white font-bold text-lg">Export Backup</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={handleImportBackup}
+            className="bg-background border border-primary rounded-xl py-4 items-center"
+            activeOpacity={0.8}
+          >
+            <Text className="text-primary font-bold text-lg">Import Backup</Text>
+          </TouchableOpacity>
         </View>
 
-        {/* Backup */}
-        <View className="bg-surface rounded-2xl p-4 border border-border">
-          <Text className="text-xs font-semibold text-muted uppercase tracking-wide mb-3">
-            Backup
+        {/* About */}
+        <View className="bg-surface rounded-2xl p-5 border border-border">
+          <Text className="text-xs font-semibold text-muted uppercase tracking-widest mb-3">
+            About
           </Text>
-          <View className="gap-2">
-            <TouchableOpacity
-              onPress={handleExportBackup}
-              className="bg-background border border-border py-3 rounded-xl items-center"
-              activeOpacity={0.7}
-            >
-              <Text className="text-sm font-medium text-foreground">
-                Export Backup
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={handleImportBackup}
-              className="bg-background border border-border py-3 rounded-xl items-center"
-              activeOpacity={0.7}
-            >
-              <Text className="text-sm font-medium text-foreground">
-                Import Backup
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        {/* App Info */}
-        <View className="items-center mt-6">
-          <Text className="text-xs text-muted">TimeKind: Routine Buddy</Text>
-          <Text className="text-xs text-muted mt-1">Version 1.0.0</Text>
+          <Text className="text-lg font-bold text-foreground">TimeKind</Text>
+          <Text className="text-base text-muted mt-2 font-medium">Version 1.0.0</Text>
+          <Text className="text-base text-muted mt-3 leading-6">
+            A calm, offline-first time perception companion. Track how long tasks actually take, understand your patterns, and build better time intuition.
+          </Text>
         </View>
       </ScrollView>
     </ScreenContainer>

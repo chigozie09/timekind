@@ -74,41 +74,41 @@ export default function BreathingScreen() {
       <View className="flex-1 justify-between py-6">
         {/* Header */}
         <View className="items-center">
-          <Text className="text-sm text-muted">Breathing Reset</Text>
+          <Text className="text-lg text-muted font-medium">Breathing Reset</Text>
         </View>
 
         {/* Circle + Text */}
         <View className="items-center">
           {settings.reducedMotion ? (
             // Static circle for reduced motion
-            <View className="w-48 h-48 rounded-full bg-success items-center justify-center mb-8">
-              <Text className="text-lg font-medium text-foreground">
+            <View className="w-56 h-56 rounded-full bg-success items-center justify-center mb-8">
+              <Text className="text-4xl font-bold text-foreground">
                 {secondsLeft}s
               </Text>
             </View>
           ) : (
             <Animated.View
               style={{
-                width: 200,
-                height: 200,
-                borderRadius: 100,
+                width: 224,
+                height: 224,
+                borderRadius: 112,
                 transform: [{ scale: scaleAnim }],
               }}
               className="bg-success items-center justify-center mb-8"
             >
-              <Text className="text-lg font-medium text-foreground">
+              <Text className="text-4xl font-bold text-foreground">
                 {secondsLeft}s
               </Text>
             </Animated.View>
           )}
 
           {!isComplete ? (
-            <Text className="text-xl font-medium text-foreground text-center">
+            <Text className="text-2xl font-bold text-foreground text-center">
               {phase === "in" ? "Breathe in…" : "Breathe out…"}
             </Text>
           ) : (
             <View className="items-center gap-2">
-              <Text className="text-xl font-medium text-foreground text-center">
+              <Text className="text-2xl font-bold text-foreground text-center">
                 What's the next tiny step?
               </Text>
             </View>
@@ -119,10 +119,10 @@ export default function BreathingScreen() {
         <View>
           <TouchableOpacity
             onPress={() => router.replace("/(tabs)")}
-            className="bg-primary py-4 rounded-2xl items-center"
+            className="bg-primary py-5 rounded-2xl items-center"
             activeOpacity={0.8}
           >
-            <Text className="text-base font-semibold text-white">
+            <Text className="text-lg font-bold text-white">
               Back to Home
             </Text>
           </TouchableOpacity>

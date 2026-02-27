@@ -11,14 +11,14 @@ import {
 import { router } from "expo-router";
 import { ScreenContainer } from "@/components/screen-container";
 import { useApp } from "@/lib/app-context";
-import { useSync } from "@/lib/sync-context";
+
 import { EnergyLevel, generateUUID, Task } from "@/lib/store";
 
 const MINUTE_OPTIONS = [5, 10, 15, 20, 25, 30, 45, 60, 90, 120, 180, 240];
 
 export default function StartTaskScreen() {
   const { settings, addTask, updateSettings } = useApp();
-  const { syncSingleTask } = useSync();
+
   const [taskName, setTaskName] = useState("");
   const [estimatedMinutes, setEstimatedMinutes] = useState<number>(15);
   const [customMinutes, setCustomMinutes] = useState("");
@@ -58,8 +58,6 @@ export default function StartTaskScreen() {
     };
 
     await addTask(task);
-    // Sync new task to cloud if enabled
-    await syncSingleTask(task);
     router.replace({ pathname: "/active-timer", params: { taskId: task.id } });
   };
 
@@ -86,27 +84,27 @@ export default function StartTaskScreen() {
         >
           {/* Header */}
           <View className="flex-row justify-between items-center mb-6">
-            <Text className="text-[22px] font-semibold text-foreground">
+            <Text className="text-3xl font-bold text-foreground">
               Start a task
             </Text>
             <TouchableOpacity onPress={() => router.back()} activeOpacity={0.7}>
-              <Text className="text-base text-muted">Cancel</Text>
+              <Text className="text-lg text-muted font-medium">Cancel</Text>
             </TouchableOpacity>
           </View>
 
           {/* Task Name */}
-          <Text className="text-sm font-medium text-muted mb-2">Task name</Text>
+          <Text className="text-base font-semibold text-muted mb-3">Task name</Text>
           <TextInput
             value={taskName}
             onChangeText={setTaskName}
             placeholder="What are you working on?"
             placeholderTextColor="#999"
-            className="bg-surface border border-border rounded-xl px-4 py-3.5 text-base text-foreground mb-5"
+            className="bg-surface border border-border rounded-xl px-4 py-4 text-lg text-foreground mb-5"
             returnKeyType="done"
           />
 
           {/* Estimated Minutes */}
-          <Text className="text-sm font-medium text-muted mb-2">
+          <Text className="text-base font-semibold text-muted mb-3">
             Estimated time (minutes)
           </Text>
           <View className="flex-row flex-wrap gap-2 mb-2">
@@ -125,7 +123,7 @@ export default function StartTaskScreen() {
                 activeOpacity={0.7}
               >
                 <Text
-                  className={`text-sm font-medium ${
+                  className={`text-base font-semibold ${
                     !showCustom && estimatedMinutes === min
                       ? "text-white"
                       : "text-foreground"
@@ -145,7 +143,7 @@ export default function StartTaskScreen() {
               activeOpacity={0.7}
             >
               <Text
-                className={`text-sm font-medium ${
+                className={`text-base font-semibold ${
                   showCustom ? "text-white" : "text-foreground"
                 }`}
               >
@@ -160,14 +158,14 @@ export default function StartTaskScreen() {
               placeholder="Enter minutes"
               placeholderTextColor="#999"
               keyboardType="number-pad"
-              className="bg-surface border border-border rounded-xl px-4 py-3.5 text-base text-foreground mb-3"
+              className="bg-surface border border-border rounded-xl px-4 py-4 text-lg text-foreground mb-3"
               returnKeyType="done"
             />
           )}
           <View className="mb-5" />
 
           {/* Energy Level */}
-          <Text className="text-sm font-medium text-muted mb-2">Energy level</Text>
+          <Text className="text-base font-semibold text-muted mb-3">Energy level</Text>
           <View className="flex-row gap-3 mb-5">
             {(["High", "Medium", "Low"] as EnergyLevel[]).map((level) => (
               <TouchableOpacity
@@ -181,7 +179,7 @@ export default function StartTaskScreen() {
                 activeOpacity={0.7}
               >
                 <Text
-                  className={`text-sm font-medium ${
+                  className={`text-base font-semibold ${
                     energyLevel === level ? "text-white" : "text-foreground"
                   }`}
                 >
@@ -192,7 +190,7 @@ export default function StartTaskScreen() {
           </View>
 
           {/* Category */}
-          <Text className="text-sm font-medium text-muted mb-2">
+          <Text className="text-base font-semibold text-muted mb-3">
             Category (optional)
           </Text>
           <View className="flex-row flex-wrap gap-2 mb-2">
@@ -206,7 +204,7 @@ export default function StartTaskScreen() {
               activeOpacity={0.7}
             >
               <Text
-                className={`text-sm font-medium ${
+                className={`text-base font-semibold ${
                   category === null && !showNewCategory
                     ? "text-white"
                     : "text-foreground"
@@ -230,7 +228,7 @@ export default function StartTaskScreen() {
                 activeOpacity={0.7}
               >
                 <Text
-                  className={`text-sm font-medium ${
+                  className={`text-base font-semibold ${
                     category === cat ? "text-white" : "text-foreground"
                   }`}
                 >
@@ -243,7 +241,7 @@ export default function StartTaskScreen() {
               className="px-4 py-2.5 rounded-xl border border-border bg-surface"
               activeOpacity={0.7}
             >
-              <Text className="text-sm font-medium text-muted">+ Add new</Text>
+              <Text className="text-base font-semibold text-muted">+ Add new</Text>
             </TouchableOpacity>
           </View>
           {showNewCategory && (
@@ -253,7 +251,7 @@ export default function StartTaskScreen() {
                 onChangeText={setNewCategoryName}
                 placeholder="Category name"
                 placeholderTextColor="#999"
-                className="flex-1 bg-surface border border-border rounded-xl px-4 py-3 text-base text-foreground"
+                className="flex-1 bg-surface border border-border rounded-xl px-4 py-4 text-lg text-foreground"
                 returnKeyType="done"
                 onSubmitEditing={handleAddCategory}
               />
@@ -262,7 +260,7 @@ export default function StartTaskScreen() {
                 className="bg-primary px-4 rounded-xl justify-center"
                 activeOpacity={0.7}
               >
-                <Text className="text-white text-sm font-medium">Add</Text>
+                <Text className="text-white text-base font-semibold">Add</Text>
               </TouchableOpacity>
             </View>
           )}
@@ -272,13 +270,13 @@ export default function StartTaskScreen() {
             <TouchableOpacity
               onPress={handleStart}
               disabled={!canStart}
-              className={`py-4 rounded-2xl items-center ${
+              className={`py-5 rounded-2xl items-center ${
                 canStart ? "bg-primary" : "bg-border"
               }`}
               activeOpacity={0.8}
             >
               <Text
-                className={`text-base font-semibold ${
+                className={`text-lg font-bold ${
                   canStart ? "text-white" : "text-muted"
                 }`}
               >

@@ -3,7 +3,7 @@ import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { ScreenContainer } from "@/components/screen-container";
 import { useApp } from "@/lib/app-context";
-import { useSync } from "@/lib/sync-context";
+
 import {
   computeAccuracy,
   getTimeOfDayTag,
@@ -14,7 +14,7 @@ import { useKeepAwake } from "expo-keep-awake";
 export default function ActiveTimerScreen() {
   useKeepAwake();
   const { tasks, updateTask } = useApp();
-  const { syncSingleTask } = useSync();
+
   const { taskId } = useLocalSearchParams<{ taskId: string }>();
 
   const task = tasks.find((t) => t.id === taskId);
@@ -60,9 +60,9 @@ export default function ActiveTimerScreen() {
         edges={["top", "bottom", "left", "right"]}
         className="flex-1 justify-center items-center px-5"
       >
-        <Text className="text-foreground text-base">Task not found.</Text>
+        <Text className="text-foreground text-lg font-medium">Task not found.</Text>
         <TouchableOpacity onPress={() => router.replace("/(tabs)")} className="mt-4">
-          <Text className="text-primary text-base">Go Home</Text>
+          <Text className="text-primary text-lg font-semibold">Go Home</Text>
         </TouchableOpacity>
       </ScreenContainer>
     );
@@ -105,8 +105,7 @@ export default function ActiveTimerScreen() {
       estimatedMinutes: currentEstimate,
     });
 
-    // Sync completed task to cloud if enabled
-    if (updated) await syncSingleTask(updated);
+
 
     router.replace({ pathname: "/complete-task", params: { taskId: task.id } });
   };
@@ -123,12 +122,12 @@ export default function ActiveTimerScreen() {
       <View className="flex-1 justify-between py-6">
         {/* Task Info */}
         <View className="items-center">
-          <Text className="text-sm text-muted mb-1">Timing</Text>
-          <Text className="text-xl font-semibold text-foreground text-center" numberOfLines={2}>
+          <Text className="text-base text-muted mb-2 font-medium">Timing</Text>
+          <Text className="text-2xl font-bold text-foreground text-center" numberOfLines={2}>
             {task.taskName}
           </Text>
           {task.category && (
-            <Text className="text-sm text-muted mt-1">
+            <Text className="text-base text-muted mt-2 font-medium">
               {task.category} · {task.energyLevel}
             </Text>
           )}
@@ -150,25 +149,25 @@ export default function ActiveTimerScreen() {
           </View>
 
           {/* Elapsed Time */}
-          <Text className="text-[48px] font-light text-foreground tracking-tight">
+          <Text className="text-6xl font-bold text-foreground tracking-tight">
             {formatTime(elapsedSeconds)}
           </Text>
 
           {/* Remaining */}
           {!isOverrun ? (
-            <Text className="text-base text-muted mt-2">
+            <Text className="text-lg text-muted mt-3 font-medium">
               ~{remainingMinutes} min left
             </Text>
           ) : (
-            <Text className="text-base text-muted mt-2">
+            <Text className="text-lg text-muted mt-3 font-medium">
               +{elapsedMinutes - currentEstimate} min over estimate
             </Text>
           )}
 
           {/* Overrun Banner */}
           {isOverrun && (
-            <View className="bg-warning rounded-xl px-4 py-3 mt-4 w-full">
-              <Text className="text-sm text-foreground text-center">
+            <View className="bg-warning rounded-xl px-4 py-4 mt-4 w-full">
+              <Text className="text-base text-foreground text-center font-medium">
                 You've passed your estimate. Extend or wrap up.
               </Text>
             </View>
@@ -181,27 +180,27 @@ export default function ActiveTimerScreen() {
           <View className="flex-row gap-3 justify-center mb-2">
             <TouchableOpacity
               onPress={() => handleExtend(5)}
-              className="bg-surface border border-border px-5 py-3 rounded-xl"
+              className="bg-surface border border-border px-5 py-4 rounded-xl"
               activeOpacity={0.7}
             >
-              <Text className="text-sm font-medium text-foreground">+5 min</Text>
+              <Text className="text-base font-semibold text-foreground">+5 min</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => handleExtend(10)}
-              className="bg-surface border border-border px-5 py-3 rounded-xl"
+              className="bg-surface border border-border px-5 py-4 rounded-xl"
               activeOpacity={0.7}
             >
-              <Text className="text-sm font-medium text-foreground">+10 min</Text>
+              <Text className="text-base font-semibold text-foreground">+10 min</Text>
             </TouchableOpacity>
           </View>
 
           {/* Pause/Resume */}
           <TouchableOpacity
             onPress={handlePauseResume}
-            className="bg-surface border border-border py-4 rounded-2xl items-center"
+            className="bg-surface border border-border py-5 rounded-2xl items-center"
             activeOpacity={0.8}
           >
-            <Text className="text-base font-semibold text-foreground">
+            <Text className="text-lg font-bold text-foreground">
               {isPaused ? "Resume" : "Pause"}
             </Text>
           </TouchableOpacity>
@@ -209,10 +208,10 @@ export default function ActiveTimerScreen() {
           {/* Finish */}
           <TouchableOpacity
             onPress={handleFinish}
-            className="bg-primary py-4 rounded-2xl items-center"
+            className="bg-primary py-5 rounded-2xl items-center"
             activeOpacity={0.8}
           >
-            <Text className="text-base font-semibold text-white">
+            <Text className="text-lg font-bold text-white">
               Finish
             </Text>
           </TouchableOpacity>

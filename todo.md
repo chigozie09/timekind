@@ -21,13 +21,11 @@
 - [x] Export backup (JSON via share sheet)
 - [x] Import backup (JSON file picker with merge/replace)
 
-## Phase 3: Firebase Optional Sync
-- [x] Firebase project config
-- [x] Auth providers (Apple/Google sign-in)
-- [x] Firestore tasks collection + security rules
-- [x] Initial sync + merge logic
-- [x] Ongoing sync + lastSyncAt
-- [x] Sync now button in Settings
+## Phase 3: Firebase Optional Sync (Deferred to Future)
+- [ ] Remove Firebase SDK and dependencies
+- [ ] Remove sync-context and auth code
+- [ ] Remove sync UI from Settings
+- [ ] Remove Firebase environment variables
 
 ## Branding
 - [x] Generate custom app icon
@@ -38,3 +36,4 @@
 - [x] Error code 500 when opening in Expo Go — fixed: regex in settings.tsx was generating invalid CSS via Tailwind scan
 - [x] Add Google Web Client ID for Google Sign-In
 - [x] Fix Google Sign-In error: code_challenge_method not allowed — set usePKCE: false
+- [x] Fix Google Sign-In redirect URI: switched to useIdTokenAuthRequest hook which uses auth.expo.io HTTPS redirect

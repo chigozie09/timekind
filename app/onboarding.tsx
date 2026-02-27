@@ -45,10 +45,10 @@ export default function OnboardingScreen() {
       <View style={styles.container}>
         {/* Slide Content */}
         <View style={styles.slideArea}>
-          <Text className="text-[28px] font-semibold text-foreground text-center leading-[38px]">
+          <Text className="text-5xl font-bold text-foreground text-center leading-[60px]">
             {currentSlide.title}
           </Text>
-          <Text className="text-base text-muted text-center mt-4">
+          <Text className="text-xl text-muted text-center mt-6 font-medium leading-7">
             {currentSlide.subtitle}
           </Text>
         </View>
@@ -58,7 +58,7 @@ export default function OnboardingScreen() {
           {slides.map((_, index) => (
             <View
               key={index}
-              className={`w-2 h-2 rounded-full mx-1.5 ${
+              className={`w-3 h-3 rounded-full mx-2 ${
                 index === currentIndex ? "bg-foreground" : "bg-border"
               }`}
             />
@@ -74,7 +74,7 @@ export default function OnboardingScreen() {
               className="bg-primary"
               activeOpacity={0.8}
             >
-              <Text className="text-white text-base font-semibold">
+              <Text className="text-white text-lg font-bold">
                 Get started
               </Text>
             </TouchableOpacity>
@@ -85,7 +85,7 @@ export default function OnboardingScreen() {
               className="bg-surface border border-border"
               activeOpacity={0.8}
             >
-              <Text className="text-foreground text-base font-semibold">
+              <Text className="text-foreground text-lg font-bold">
                 Next
               </Text>
             </TouchableOpacity>
@@ -111,14 +111,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    paddingVertical: 16,
+    paddingVertical: 20,
   },
   buttonArea: {
     paddingHorizontal: 24,
     paddingBottom: 32,
   },
   button: {
-    paddingVertical: 16,
+    paddingVertical: 18,
     borderRadius: 16,
     alignItems: "center",
   },

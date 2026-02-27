@@ -18,17 +18,17 @@ export default function WeeklyStoryScreen() {
           {/* Header */}
           <View>
             <View className="flex-row justify-between items-center mb-8">
-              <Text className="text-[22px] font-semibold text-foreground">
+              <Text className="text-3xl font-bold text-foreground">
                 Weekly Story
               </Text>
               <TouchableOpacity onPress={() => router.back()} activeOpacity={0.7}>
-                <Text className="text-base text-muted">Back</Text>
+                <Text className="text-lg text-muted font-medium">Back</Text>
               </TouchableOpacity>
             </View>
 
             {/* Story */}
             <View className="bg-surface rounded-2xl p-6 border border-border">
-              <Text className="text-base text-foreground leading-7">
+              <Text className="text-lg text-foreground leading-8 font-medium">
                 {story}
               </Text>
             </View>
@@ -38,10 +38,10 @@ export default function WeeklyStoryScreen() {
           <View className="mt-8">
             <TouchableOpacity
               onPress={() => router.back()}
-              className="bg-surface border border-border py-4 rounded-2xl items-center"
+              className="bg-surface border border-border py-5 rounded-2xl items-center"
               activeOpacity={0.8}
             >
-              <Text className="text-base font-medium text-foreground">
+              <Text className="text-lg font-semibold text-foreground">
                 Back
               </Text>
             </TouchableOpacity>
