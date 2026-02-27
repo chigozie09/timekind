@@ -249,6 +249,8 @@ function makeFakeTask(overrides: Partial<Task> = {}): Task {
     reflection: null,
     mood: null,
     priority: "Medium",
+    blockedByTaskId: null,
+    isBlocking: false,
     updatedAt: new Date().toISOString(),
     deletedAt: null,
     ...overrides,

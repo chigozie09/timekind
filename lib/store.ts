@@ -42,6 +42,8 @@ export interface Task {
   reflection: string | null;
   mood: number | null; // 1-5 rating
   priority: TaskPriority; // High, Medium, Low
+  blockedByTaskId: string | null; // Task ID that must complete first
+  isBlocking: boolean; // Whether this task blocks others
   updatedAt: string; // ISO string
   deletedAt: string | null; // ISO string
 }

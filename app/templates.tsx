@@ -60,6 +60,8 @@ export default function TemplatesScreen() {
           reflection: null,
           mood: null,
           priority: "Medium" as const,
+          blockedByTaskId: null,
+          isBlocking: false,
           updatedAt: new Date().toISOString(),
           deletedAt: null,
         };

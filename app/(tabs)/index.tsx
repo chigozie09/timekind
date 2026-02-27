@@ -268,6 +268,14 @@ export default function HomeScreen() {
               Plan your day
             </Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => router.push("/calendar-view")}
+            className="bg-surface border border-border py-4 rounded-2xl items-center"
+          >
+            <Text className="text-foreground text-lg font-bold">
+              📅 Calendar
+            </Text>
+          </TouchableOpacity>
         </View>
 
         {/* Today's Insight Card */}

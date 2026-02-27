@@ -89,6 +89,7 @@ export default function RootLayout() {
               <Stack.Screen name="breathing" options={{ presentation: "card" }} />
               <Stack.Screen name="weekly-story" options={{ presentation: "card" }} />
               <Stack.Screen name="bulk-tasks" options={{ presentation: "card" }} />
+              <Stack.Screen name="calendar-view" options={{ presentation: "card" }} />
             </Stack>
             <StatusBar style="auto" />
           </AppProvider>

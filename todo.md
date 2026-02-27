@@ -96,3 +96,8 @@
 - [x] Implement task sorting by priority and start time
 - [x] Create delay notification system for upcoming tasks
 - [x] Add task delay and sequential shifting UI
+
+## Phase 15: Advanced Task Management
+- [x] Task dependency chains with blocking logic
+- [x] Smart time blocking based on energy patterns
+- [x] Calendar view with drag-to-reschedule
