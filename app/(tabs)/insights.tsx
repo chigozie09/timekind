@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { ScrollView, Text, View, TouchableOpacity, StyleSheet, PanResponder, Animated } from "react-native";
+import { ScrollView, Text, View, TouchableOpacity, StyleSheet, PanResponder, Animated, Modal, ActivityIndicator } from "react-native";
 import { ScreenContainer } from "@/components/screen-container";
 import { useApp } from "@/lib/app-context";
 import {
@@ -10,10 +10,15 @@ import {
   getMostUnderestimatedCategory,
   getDailyAccuracy,
 } from "@/lib/store";
+import * as Sharing from "expo-sharing";
+import * as FileSystem from "expo-file-system/legacy";
+import { createExportFile } from "@/lib/calendar-export";
 
 export default function InsightsScreen() {
   const { tasks } = useApp();
   const [range, setRange] = useState<7 | 30>(7);
+  const [exportFormat, setExportFormat] = useState<"ical" | "csv" | "json" | null>(null);
+  const [exporting, setExporting] = useState(false);
   const panX = useRef(new Animated.Value(0)).current;
   const panResponder = useRef(
     PanResponder.create({
@@ -25,10 +30,8 @@ export default function InsightsScreen() {
       onPanResponderRelease: (evt, gestureState) => {
         const threshold = 50;
         if (gestureState.dx > threshold && range === 30) {
-          // Swipe right: go to 7-day
           setRange(7);
         } else if (gestureState.dx < -threshold && range === 7) {
-          // Swipe left: go to 30-day
           setRange(30);
         }
         Animated.spring(panX, {
@@ -38,6 +41,21 @@ export default function InsightsScreen() {
       },
     })
   ).current;
+
+  const handleExport = async (format: "ical" | "csv" | "json") => {
+    setExporting(true);
+    try {
+      const { content, filename, mimeType } = await createExportFile(tasks, format);
+      const fileUri = `${FileSystem.documentDirectory}${filename}`;
+      await FileSystem.writeAsStringAsync(fileUri, content);
+      await Sharing.shareAsync(fileUri, { mimeType, UTI: mimeType });
+    } catch (error) {
+      console.error("Export failed:", error);
+    } finally {
+      setExporting(false);
+      setExportFormat(null);
+    }
+  };
 
   const rangeTasks = getTasksInRange(tasks, range);
   const avg = avgAccuracy(rangeTasks);
@@ -54,6 +72,57 @@ export default function InsightsScreen() {
 
   return (
     <ScreenContainer className="px-5 pt-2">
+      {/* Export Modal */}
+      <Modal
+        visible={exportFormat !== null}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setExportFormat(null)}
+      >
+        <View className="flex-1 bg-black/50 justify-center items-center p-4">
+          <View className="bg-surface rounded-2xl p-6 w-full max-w-sm border border-border gap-4">
+            <Text className="text-2xl font-bold text-foreground">Export Tasks</Text>
+            <Text className="text-base text-muted">
+              {tasks.filter((t) => t.endTime).length} completed tasks
+            </Text>
+            {exporting && (
+              <View className="items-center gap-3 py-4">
+                <ActivityIndicator size="large" color="#0a7ea4" />
+                <Text className="text-base text-foreground">Preparing export...</Text>
+              </View>
+            )}
+            {!exporting && (
+              <View className="gap-3">
+                <TouchableOpacity
+                  onPress={() => handleExport("ical")}
+                  className="bg-primary rounded-lg py-3 items-center"
+                >
+                  <Text className="text-white font-bold">Calendar (.ics)</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => handleExport("csv")}
+                  className="bg-primary rounded-lg py-3 items-center"
+                >
+                  <Text className="text-white font-bold">Spreadsheet (.csv)</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => handleExport("json")}
+                  className="bg-primary rounded-lg py-3 items-center"
+                >
+                  <Text className="text-white font-bold">Data (.json)</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => setExportFormat(null)}
+                  className="bg-surface border border-border rounded-lg py-3 items-center"
+                >
+                  <Text className="text-foreground font-bold">Cancel</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          </View>
+        </View>
+      </Modal>
+
       <Animated.ScrollView
         {...panResponder.panHandlers}
         contentContainerStyle={{ paddingBottom: 32 }}
@@ -64,7 +133,7 @@ export default function InsightsScreen() {
           Insights
         </Text>
 
-        {/* Range Toggle */}
+        {/* Range Toggle & Export */}
         <View className="flex-row gap-2 mb-5">
           <TouchableOpacity
             onPress={() => setRange(7)}
@@ -95,6 +164,12 @@ export default function InsightsScreen() {
             >
               30 days
             </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => setExportFormat("ical")}
+            className="bg-surface border border-border py-3 rounded-xl items-center px-4"
+          >
+            <Text className="text-foreground font-semibold">Export</Text>
           </TouchableOpacity>
         </View>
 

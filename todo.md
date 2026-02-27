@@ -60,3 +60,8 @@
 - [x] Data persistence validation and crash recovery
 - [x] Offline-first confirmation messaging
 - [x] Optional help/tutorial overlay for first-time users
+
+## Phase 8: Advanced Features
+- [x] Task templates for common routines (morning, workout, creative)
+- [x] Focus mode with UI hiding and notification control
+- [x] Calendar export for completed tasks

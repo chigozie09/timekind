@@ -203,20 +203,30 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        {/* Start a task CTA */}
-        <Animated.View style={{ transform: [{ scale: ctaScale }] }}>
+        {/* CTA Buttons */}
+        <View className="gap-3 mb-7">
+          <Animated.View style={{ transform: [{ scale: ctaScale }] }}>
+            <TouchableOpacity
+              onPress={() => router.push("/start-task")}
+              onPressIn={ctaPressIn}
+              onPressOut={ctaPressOut}
+              className="bg-primary py-5 rounded-2xl items-center"
+              activeOpacity={1}
+            >
+              <Text className="text-white text-lg font-bold">
+                Start a task
+              </Text>
+            </TouchableOpacity>
+          </Animated.View>
           <TouchableOpacity
-            onPress={() => router.push("/start-task")}
-            onPressIn={ctaPressIn}
-            onPressOut={ctaPressOut}
-            className="bg-primary py-5 rounded-2xl items-center mb-7"
-            activeOpacity={1}
+            onPress={() => router.push("/templates")}
+            className="bg-surface border border-primary py-4 rounded-2xl items-center"
           >
-            <Text className="text-white text-lg font-bold">
-              Start a task
+            <Text className="text-primary text-lg font-bold">
+              Use a template
             </Text>
           </TouchableOpacity>
-        </Animated.View>
+        </View>
 
         {/* Today's Insight Card */}
         <View className="bg-surface rounded-2xl p-5 border border-border mb-4">

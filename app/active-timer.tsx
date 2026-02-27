@@ -12,6 +12,7 @@ import {
 import { useKeepAwake } from "expo-keep-awake";
 import { useAnimatedPress } from "@/hooks/use-animated-press";
 import { Animated } from "react-native";
+import { toggleFocusMode, isFocusModeEnabled } from "@/lib/focus-mode";
 
 export default function ActiveTimerScreen() {
   useKeepAwake();
@@ -27,17 +28,18 @@ export default function ActiveTimerScreen() {
   const [currentEstimate, setCurrentEstimate] = useState(
     task?.estimatedMinutes ?? 15
   );
+  const [focusMode, setFocusMode] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const pausedAtRef = useRef<number>(0);
 
   useEffect(() => {
     if (!task) return;
-    // Calculate initial elapsed from startTime
     const startMs = new Date(task.startTime).getTime();
     const nowMs = Date.now();
     const initialElapsed = Math.floor((nowMs - startMs) / 1000);
     setElapsedSeconds(Math.max(0, initialElapsed));
     setCurrentEstimate(task.estimatedMinutes);
+    isFocusModeEnabled().then(setFocusMode);
   }, [task?.id]);
 
   useEffect(() => {
@@ -118,12 +120,36 @@ export default function ActiveTimerScreen() {
     setIsPaused((prev) => !prev);
   };
 
+  const handleToggleFocusMode = async () => {
+    const newState = !focusMode;
+    setFocusMode(newState);
+    await toggleFocusMode(newState);
+  };
+
   return (
     <ScreenContainer
       edges={["top", "bottom", "left", "right"]}
       className="px-5"
     >
       <View className="flex-1 justify-between py-6">
+        {/* Focus Mode Toggle */}
+        <TouchableOpacity
+          onPress={handleToggleFocusMode}
+          className={`self-end px-4 py-2 rounded-full border ${
+            focusMode
+              ? "bg-primary border-primary"
+              : "bg-surface border-border"
+          }`}
+        >
+          <Text
+            className={`text-sm font-semibold ${
+              focusMode ? "text-white" : "text-foreground"
+            }`}
+          >
+            {focusMode ? "Focus ON" : "Focus OFF"}
+          </Text>
+        </TouchableOpacity>
+
         {/* Task Info */}
         <View className="items-center">
           <Text className="text-base text-muted mb-2 font-medium">Timing</Text>
