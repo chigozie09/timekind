@@ -43,3 +43,8 @@
 - [x] Swipe gestures for insights 7-day/30-day switching
 - [x] Sound effects for task completion
 - [x] Sound effects for breathing reset completion
+
+## Phase 5: Enhanced UX Features
+- [x] Pull-to-refresh on home screen
+- [x] Task filtering by category on home dashboard
+- [x] Weekly streak counter display

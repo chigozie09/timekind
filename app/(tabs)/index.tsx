@@ -1,10 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   ScrollView,
   Text,
   View,
   TouchableOpacity,
   ActivityIndicator,
+  RefreshControl,
 } from "react-native";
 import { router } from "expo-router";
 import { ScreenContainer } from "@/components/screen-container";
@@ -18,11 +19,25 @@ import {
   getBestTimeOfDay,
   getMostUnderestimatedCategory,
 } from "@/lib/store";
+import { calculateWeeklyStreak, getBestStreak } from "@/lib/streak-calculator";
 
 export default function HomeScreen() {
-  const { settings, tasks, isLoading } = useApp();
+  const { settings, tasks, isLoading, refreshTasks } = useApp();
   const { scaleAnim: ctaScale, handlePressIn: ctaPressIn, handlePressOut: ctaPressOut } = useAnimatedPress();
   const { scaleAnim: storyScale, handlePressIn: storyPressIn, handlePressOut: storyPressOut } = useAnimatedPress();
+  const [refreshing, setRefreshing] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    try {
+      await refreshTasks();
+    } catch (error) {
+      console.error("Refresh failed:", error);
+    } finally {
+      setRefreshing(false);
+    }
+  };
 
   useEffect(() => {
     if (!isLoading && !settings.hasOnboarded) {
@@ -43,7 +58,14 @@ export default function HomeScreen() {
   }
 
   const activeTasks = getActiveTasks(tasks);
-  const recentTasks = activeTasks
+  
+  const categories = Array.from(new Set(tasks.map((t) => t.category))).sort();
+  
+  const filteredActiveTasks = selectedCategory
+    ? activeTasks.filter((t) => t.category === selectedCategory)
+    : activeTasks;
+  
+  const recentTasks = filteredActiveTasks
     .filter((t) => t.endTime)
     .sort((a, b) => new Date(b.endTime!).getTime() - new Date(a.endTime!).getTime())
     .slice(0, 3);
@@ -60,12 +82,18 @@ export default function HomeScreen() {
   const weekAvg = avgAccuracy(weekTasks);
   const weekBestTime = getBestTimeOfDay(weekTasks);
   const weekWorstCat = getMostUnderestimatedCategory(weekTasks);
+  
+  const currentStreak = calculateWeeklyStreak(tasks);
+  const bestStreak = getBestStreak(tasks);
 
   return (
     <ScreenContainer className="px-5 pt-2">
       <ScrollView
         contentContainerStyle={{ paddingBottom: 32 }}
         showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
+        }
       >
         {/* Header */}
         <Text className="text-4xl font-bold text-foreground mt-4 mb-1">
@@ -74,6 +102,92 @@ export default function HomeScreen() {
         <Text className="text-lg text-muted mb-6">
           Routine Buddy
         </Text>
+
+        {/* Category Filter */}
+        {categories.length > 0 && (
+          <View className="mb-6">
+            <Text className="text-xs font-semibold text-muted uppercase tracking-widest mb-3">
+              Filter by Category
+            </Text>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{ gap: 8 }}
+            >
+              <TouchableOpacity
+                onPress={() => setSelectedCategory(null)}
+                className={`px-4 py-2 rounded-full ${
+                  selectedCategory === null
+                    ? "bg-primary"
+                    : "bg-surface border border-border"
+                }`}
+              >
+                <Text
+                  className={`text-sm font-semibold ${
+                    selectedCategory === null ? "text-white" : "text-foreground"
+                  }`}
+                >
+                  All
+                </Text>
+              </TouchableOpacity>
+              {categories.map((category) => (
+                <TouchableOpacity
+                  key={category}
+                  onPress={() => setSelectedCategory(category)}
+                  className={`px-4 py-2 rounded-full ${
+                    selectedCategory === category
+                      ? "bg-primary"
+                      : "bg-surface border border-border"
+                  }`}
+                >
+                  <Text
+                    className={`text-sm font-semibold ${
+                      selectedCategory === category ? "text-white" : "text-foreground"
+                    }`}
+                  >
+                    {category}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </View>
+        )}
+
+        {/* Weekly Streak Counter */}
+        <View className="flex-row gap-3 mb-7">
+          <View className="flex-1 bg-surface rounded-2xl p-4 border border-border">
+            <Text className="text-xs font-semibold text-muted uppercase tracking-widest mb-2">
+              Current Streak
+            </Text>
+            <View className="flex-row items-baseline gap-2">
+              <Text className="text-4xl font-bold text-primary">
+                {currentStreak}
+              </Text>
+              <Text className="text-lg text-muted">days</Text>
+            </View>
+            {currentStreak > 0 && (
+              <Text className="text-xs text-success mt-2 font-medium">
+                Keep it going!
+              </Text>
+            )}
+          </View>
+          <View className="flex-1 bg-surface rounded-2xl p-4 border border-border">
+            <Text className="text-xs font-semibold text-muted uppercase tracking-widest mb-2">
+              Best Streak
+            </Text>
+            <View className="flex-row items-baseline gap-2">
+              <Text className="text-4xl font-bold text-primary">
+                {bestStreak}
+              </Text>
+              <Text className="text-lg text-muted">days</Text>
+            </View>
+            {bestStreak > currentStreak && (
+              <Text className="text-xs text-muted mt-2 font-medium">
+                You can do it again!
+              </Text>
+            )}
+          </View>
+        </View>
 
         {/* Start a task CTA */}
         <Animated.View style={{ transform: [{ scale: ctaScale }] }}>
