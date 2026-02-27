@@ -132,19 +132,40 @@ export default function CompleteTaskScreen() {
               </Text>
             </View>
 
-            {/* Reflection */}
-            <View className="w-full">
-              <Text className="text-base font-semibold text-muted mb-3">
-                Reflection (optional)
-              </Text>
+            {/* Reflection Prompts */}
+            <View className="w-full mb-4">
+              <Text className="text-lg font-bold text-foreground mb-3">Reflection</Text>
+              <Text className="text-sm text-muted mb-3">Optional: Share thoughts to build your journal</Text>
+              
+              {/* Quick Prompts */}
+              <View className="flex-row flex-wrap gap-2 mb-4">
+                {["What went well?", "What was hard?", "Next time...", "I learned..."].map((prompt) => (
+                  <TouchableOpacity
+                    key={prompt}
+                    onPress={() => {
+                      if (!reflection.includes(prompt)) {
+                        setReflection(reflection ? `${reflection} ${prompt}` : prompt);
+                      }
+                    }}
+                    className="bg-surface border border-border rounded-lg px-3 py-2"
+                  >
+                    <Text className="text-xs font-semibold text-primary">{prompt}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+              
+              {/* Notes Input */}
               <TextInput
                 value={reflection}
                 onChangeText={setReflection}
-                placeholder="Any thoughts on this task?"
+                placeholder="Write your reflection here..."
                 placeholderTextColor="#999"
-                className="bg-surface border border-border rounded-xl px-4 py-4 text-lg text-foreground"
+                multiline
+                numberOfLines={4}
+                className="bg-surface border border-border rounded-xl px-4 py-4 text-base text-foreground"
                 returnKeyType="done"
               />
+              <Text className="text-xs text-muted mt-2">{reflection.length} characters</Text>
             </View>
           </View>
 

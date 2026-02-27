@@ -70,3 +70,8 @@
 - [x] Task reminders with configurable notification times
 - [x] Task template sharing functionality
 - [x] Dark mode toggle in settings
+
+## Phase 10: Task Notes & Reflection
+- [x] Reflection prompt UI on task completion screen
+- [x] Store and retrieve task notes in database
+- [x] Display notes in insights and history

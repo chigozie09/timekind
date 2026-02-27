@@ -226,6 +226,14 @@ export default function HomeScreen() {
               Use a template
             </Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => router.push("/task-journal")}
+            className="bg-surface border border-border py-4 rounded-2xl items-center"
+          >
+            <Text className="text-foreground text-lg font-bold">
+              View journal
+            </Text>
+          </TouchableOpacity>
         </View>
 
         {/* Today's Insight Card */}
