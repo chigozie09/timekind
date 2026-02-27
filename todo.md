@@ -90,3 +90,9 @@
 - [x] Fix onboarding flow not appearing (investigate cache issue)
 - [x] Add bulk task creation with start time scheduling
 - [x] Test and validate both fixes
+
+## Phase 14: Task Prioritization & Scheduling
+- [x] Add priority field to tasks (High/Medium/Low)
+- [x] Implement task sorting by priority and start time
+- [x] Create delay notification system for upcoming tasks
+- [x] Add task delay and sequential shifting UI

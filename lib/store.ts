@@ -8,6 +8,7 @@ import { createContext, useContext } from "react";
 export type ThemeMode = "system" | "light" | "dark";
 export type EnergyLevel = "High" | "Medium" | "Low";
 export type TimeOfDayTag = "Morning" | "Afternoon" | "Evening" | "Late";
+export type TaskPriority = "High" | "Medium" | "Low";
 
 export interface AppSettings {
   hasOnboarded: boolean;
@@ -40,6 +41,7 @@ export interface Task {
   timeOfDayTag: TimeOfDayTag | null;
   reflection: string | null;
   mood: number | null; // 1-5 rating
+  priority: TaskPriority; // High, Medium, Low
   updatedAt: string; // ISO string
   deletedAt: string | null; // ISO string
 }

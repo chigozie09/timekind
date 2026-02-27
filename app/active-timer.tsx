@@ -9,6 +9,7 @@ import {
   getTimeOfDayTag,
   Task,
 } from "@/lib/store";
+import { getNextTask, calculateDelay, shiftSequentialTasks } from "@/lib/task-scheduler";
 import { useKeepAwake } from "expo-keep-awake";
 import { useAnimatedPress } from "@/hooks/use-animated-press";
 import { Animated } from "react-native";
@@ -29,6 +30,9 @@ export default function ActiveTimerScreen() {
     task?.estimatedMinutes ?? 15
   );
   const [focusMode, setFocusMode] = useState(false);
+  const [showDelayNotification, setShowDelayNotification] = useState(false);
+  const [nextTask, setNextTask] = useState<Task | null>(null);
+  const [delayMinutes, setDelayMinutes] = useState<number | null>(null);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const pausedAtRef = useRef<number>(0);
 
@@ -200,6 +204,42 @@ export default function ActiveTimerScreen() {
               <Text className="text-base text-foreground text-center font-medium">
                 You've passed your estimate. Extend or wrap up.
               </Text>
+            </View>
+          )}
+
+          {/* Delay Notification */}
+          {showDelayNotification && nextTask && delayMinutes !== null && (
+            <View className="bg-primary rounded-xl px-4 py-4 mt-4 w-full">
+              <Text className="text-base text-white font-bold mb-3 text-center">
+                Next task in {delayMinutes} minute{delayMinutes !== 1 ? "s" : ""}
+              </Text>
+              <Text className="text-sm text-white mb-3 text-center font-medium">
+                {nextTask.taskName}
+              </Text>
+              <View className="flex-row gap-2">
+                <TouchableOpacity
+                  onPress={() => setShowDelayNotification(false)}
+                  className="flex-1 bg-white bg-opacity-20 rounded-lg py-2 items-center"
+                  activeOpacity={0.7}
+                >
+                  <Text className="text-white text-sm font-semibold">Dismiss</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={async () => {
+                    const shifted = shiftSequentialTasks(tasks, task.id, 5);
+                    for (const t of shifted) {
+                      if (t.id !== task.id) {
+                        await updateTask(t.id, { startTime: t.startTime });
+                      }
+                    }
+                    setShowDelayNotification(false);
+                  }}
+                  className="flex-1 bg-white rounded-lg py-2 items-center"
+                  activeOpacity={0.7}
+                >
+                  <Text className="text-primary text-sm font-semibold">Delay +5m</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           )}
         </View>

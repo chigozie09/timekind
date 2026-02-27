@@ -13,7 +13,7 @@ import { router } from "expo-router";
 import { ScreenContainer } from "@/components/screen-container";
 import { useApp } from "@/lib/app-context";
 
-import { EnergyLevel, generateUUID, Task } from "@/lib/store";
+import { EnergyLevel, TaskPriority, generateUUID, Task } from "@/lib/store";
 import { useAnimatedPress } from "@/hooks/use-animated-press";
 import { REMINDER_OPTIONS, updateTaskReminder } from "@/lib/task-reminders";
 
@@ -32,6 +32,7 @@ export default function StartTaskScreen() {
   const [showNewCategory, setShowNewCategory] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState("");
   const [reminderMinutes, setReminderMinutes] = useState<number | null>(null);
+  const [priority, setPriority] = useState<TaskPriority>("Medium");
 
   const categories = settings.categories || [];
 
@@ -60,6 +61,7 @@ export default function StartTaskScreen() {
       timeOfDayTag: null,
       reflection: null,
       mood: null,
+      priority: priority,
       updatedAt: now,
       deletedAt: null,
     };
@@ -254,6 +256,31 @@ export default function StartTaskScreen() {
               <Text className="text-base font-semibold text-muted">+ Add new</Text>
             </TouchableOpacity>
           </View>
+          {/* Priority */}
+          <Text className="text-base font-semibold text-muted mb-3">Priority</Text>
+          <View className="flex-row gap-3 mb-5">
+            {(["High", "Medium", "Low"] as TaskPriority[]).map((p) => (
+              <TouchableOpacity
+                key={p}
+                onPress={() => setPriority(p)}
+                className={`flex-1 py-3 rounded-xl border items-center ${
+                  priority === p
+                    ? "bg-primary border-primary"
+                    : "bg-surface border-border"
+                }`}
+                activeOpacity={0.7}
+              >
+                <Text
+                  className={`text-base font-semibold ${
+                    priority === p ? "text-white" : "text-foreground"
+                  }`}
+                >
+                  {p}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+
           {/* Reminder Option */}
           <View className="mb-5">
             <Text className="text-lg font-bold text-foreground mb-3">Reminder</Text>

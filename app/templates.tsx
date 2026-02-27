@@ -59,6 +59,7 @@ export default function TemplatesScreen() {
           timeOfDayTag: null,
           reflection: null,
           mood: null,
+          priority: "Medium" as const,
           updatedAt: new Date().toISOString(),
           deletedAt: null,
         };
