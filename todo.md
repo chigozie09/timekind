@@ -105,3 +105,8 @@
 ## Phase 16: Subtasks & Analytics
 - [x] Task subtasks with individual timers
 - [x] Productivity heatmap visualization
+
+## Phase 17: User Feedback Fixes
+- [x] Add missing start time field to start-task screen
+- [x] Fix bulk-tasks screen and make it accessible from home
+- [x] Ensure multiple task scheduling works with individual start times

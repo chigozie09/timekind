@@ -33,6 +33,7 @@ export default function StartTaskScreen() {
   const [newCategoryName, setNewCategoryName] = useState("");
   const [reminderMinutes, setReminderMinutes] = useState<number | null>(null);
   const [priority, setPriority] = useState<TaskPriority>("Medium");
+  const [startTime, setStartTime] = useState<string>("");
 
   const categories = settings.categories || [];
 
@@ -47,6 +48,18 @@ export default function StartTaskScreen() {
 
     const taskId = generateUUID();
     const now = new Date().toISOString();
+    
+    // Parse start time if provided
+    let taskStartTime = now;
+    if (startTime.trim()) {
+      const [hours, minutes] = startTime.split(':').map(Number);
+      if (!isNaN(hours) && !isNaN(minutes)) {
+        const today = new Date();
+        today.setHours(hours, minutes, 0, 0);
+        taskStartTime = today.toISOString();
+      }
+    }
+    
     const task: Task = {
       id: taskId,
       cloudId: null,
@@ -56,7 +69,7 @@ export default function StartTaskScreen() {
       estimatedMinutes: Math.max(1, Math.min(480, mins)),
       actualMinutes: 0,
       accuracyPercent: 0,
-      startTime: now,
+      startTime: taskStartTime,
       endTime: null,
       timeOfDayTag: null,
       reflection: null,
@@ -283,6 +296,17 @@ export default function StartTaskScreen() {
               </TouchableOpacity>
             ))}
           </View>
+
+          {/* Start Time */}
+          <Text className="text-base font-semibold text-muted mb-3">Start time (optional)</Text>
+          <TextInput
+            value={startTime}
+            onChangeText={setStartTime}
+            placeholder="HH:MM (e.g., 09:30)"
+            placeholderTextColor="#999"
+            className="bg-surface border border-border rounded-xl px-4 py-4 text-lg text-foreground mb-5"
+            returnKeyType="done"
+          />
 
           {/* Reminder Option */}
           <View className="mb-5">
