@@ -1,0 +1,189 @@
+{
+  "common": {
+    "routineBuddy": "Routine Buddy",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "skip": "Skip",
+    "done": "Done",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "warning": "Warning",
+    "confirm": "Confirm"
+  },
+  "home": {
+    "title": "Today",
+    "filterByCategory": "Filter by Category",
+    "whatAreYouWorkingOn": "What are you working on?",
+    "startTimer": "Start Timer",
+    "stopTimer": "Stop Timer",
+    "pauseTimer": "Pause Timer",
+    "resumeTimer": "Resume Timer",
+    "recentTasks": "Recent Tasks",
+    "noTasks": "No tasks yet. Start by creating one!",
+    "totalFocus": "Total Focus",
+    "taskCompleted": "Task completed!"
+  },
+  "insights": {
+    "title": "Insights",
+    "lastWeek": "Last Week",
+    "lastMonth": "Last Month",
+    "last4Weeks": "Last 4 Weeks",
+    "taskCompletionHeatmap": "Task Completion Heatmap",
+    "topCategories": "Top Categories",
+    "averageTaskDuration": "Average Task Duration",
+    "totalTasksCompleted": "Total Tasks Completed",
+    "longestStreak": "Longest Streak",
+    "currentStreak": "Current Streak"
+  },
+  "templates": {
+    "title": "Templates",
+    "addTemplate": "Add Template",
+    "editTemplate": "Edit Template",
+    "deleteTemplate": "Delete Template",
+    "templateName": "Template Name",
+    "estimatedDuration": "Estimated Duration",
+    "noTemplates": "No templates yet. Create one to get started!",
+    "createFromTask": "Create from Task"
+  },
+  "journal": {
+    "title": "Journal",
+    "addEntry": "Add Entry",
+    "editEntry": "Edit Entry",
+    "deleteEntry": "Delete Entry",
+    "taskName": "Task Name",
+    "estimatedTime": "Estimated Time",
+    "actualTime": "Actual Time",
+    "notes": "Notes",
+    "noEntries": "No journal entries yet.",
+    "timeDifference": "Time Difference"
+  },
+  "settings": {
+    "title": "Settings",
+    "appearance": "Appearance",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
+    "darkMode": "Dark Mode",
+    "sound": "Sound",
+    "notifications": "Notifications",
+    "dailyNudge": "Daily Nudge",
+    "nudgeTime": "Nudge Time",
+    "reducedMotion": "Reduced Motion",
+    "language": "Language",
+    "crashReporting": "Crash Reporting",
+    "helpFixBugs": "Help Fix Bugs",
+    "analytics": "Analytics",
+    "helpImprove": "Help Improve TimeKind",
+    "dataManagement": "Data Management",
+    "exportBackup": "Export Backup",
+    "importBackup": "Import Backup",
+    "exportTasks": "Export Tasks (CSV)",
+    "legal": "Legal",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "about": "About",
+    "version": "Version"
+  },
+  "categories": {
+    "work": "Work",
+    "personal": "Personal",
+    "health": "Health",
+    "learning": "Learning",
+    "exercise": "Exercise",
+    "reading": "Reading",
+    "shopping": "Shopping",
+    "cooking": "Cooking",
+    "cleaning": "Cleaning",
+    "other": "Other"
+  },
+  "templates_default": {
+    "morningRoutine": "Morning Routine",
+    "codeReview": "Code Review",
+    "exercise": "Exercise",
+    "teamMeeting": "Team Meeting",
+    "reading": "Reading",
+    "weeklyPlanning": "Weekly Planning",
+    "emailTriage": "Email Triage",
+    "meditation": "Meditation",
+    "deepWork": "Deep Work",
+    "lunch": "Lunch"
+  },
+  "messages": {
+    "taskCreated": "Task created successfully",
+    "taskUpdated": "Task updated successfully",
+    "taskDeleted": "Task deleted successfully",
+    "backupExported": "Backup exported successfully",
+    "backupImported": "Backup imported successfully",
+    "dataCleared": "Data cleared successfully",
+    "languageChanged": "Language changed successfully",
+    "settingsSaved": "Settings saved successfully",
+    "confirmDelete": "Are you sure you want to delete this?",
+    "confirmClear": "This action cannot be undone. Are you sure?"
+  },
+  "onboarding": {
+    "welcome": "Welcome to TimeKind",
+    "subtitle": "Build better habits by tracking how long tasks actually take",
+    "feature1": "Simple Timer",
+    "feature1Description": "Easy-to-use timer for tracking tasks",
+    "feature2": "Track Patterns",
+    "feature2Description": "Understand your time with insights and analytics",
+    "feature3": "Build Habits",
+    "feature3Description": "Improve your time perception over time",
+    "getStarted": "Get Started",
+    "skip": "Skip"
+  },
+  "consent": {
+    "analytics": {
+      "title": "Help Us Improve",
+      "subtitle": "Optional usage analytics to help TimeKind get better",
+      "whatWeTrack": "What we track:",
+      "whatWeTrackList": [
+        "Feature usage (which screens you visit)",
+        "Task completion patterns",
+        "App crashes and errors",
+        "Settings preferences"
+      ],
+      "whatWeDontTrack": "What we don't track:",
+      "whatWeDontTrackList": [
+        "Your task content or names",
+        "Personal information",
+        "Location or device identifiers",
+        "Any data sent to external servers"
+      ],
+      "privacy": "Privacy:",
+      "privacyDescription": "All analytics data is stored locally on your device. You can disable analytics anytime in Settings. You can request to see or delete your analytics data at any time.",
+      "enableButton": "Yes, Help Improve TimeKind",
+      "disableButton": "No Thanks",
+      "changeAnytime": "You can change this anytime in Settings"
+    },
+    "crashReporting": {
+      "title": "Help Us Fix Bugs",
+      "subtitle": "Optional crash reporting to make TimeKind more reliable",
+      "whatWeCollect": "What we collect:",
+      "whatWeCollectList": [
+        "Error messages and stack traces",
+        "Device type and OS version",
+        "App version and build number",
+        "Crash timestamp"
+      ],
+      "whatWeDontCollect": "What we DON'T collect:",
+      "whatWeDontCollectList": [
+        "Your task data or personal information",
+        "Location or device identifiers",
+        "Any identifying information"
+      ],
+      "privacy": "Privacy:",
+      "privacyDescription": "Crash reports are completely anonymous. We use them only to identify and fix bugs. You can disable crash reporting anytime in Settings.",
+      "enableButton": "Yes, Help Fix Bugs",
+      "disableButton": "No Thanks",
+      "changeAnytime": "You can change this anytime in Settings"
+    }
+  }
+}

@@ -1,0 +1,189 @@
+{
+  "common": {
+    "routineBuddy": "Compañero de Rutina",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "add": "Añadir",
+    "close": "Cerrar",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "skip": "Omitir",
+    "done": "Hecho",
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito",
+    "warning": "Advertencia",
+    "confirm": "Confirmar"
+  },
+  "home": {
+    "title": "Hoy",
+    "filterByCategory": "Filtrar por Categoría",
+    "whatAreYouWorkingOn": "¿En qué estás trabajando?",
+    "startTimer": "Iniciar Temporizador",
+    "stopTimer": "Detener Temporizador",
+    "pauseTimer": "Pausar Temporizador",
+    "resumeTimer": "Reanudar Temporizador",
+    "recentTasks": "Tareas Recientes",
+    "noTasks": "Sin tareas aún. ¡Comienza creando una!",
+    "totalFocus": "Enfoque Total",
+    "taskCompleted": "¡Tarea completada!"
+  },
+  "insights": {
+    "title": "Información",
+    "lastWeek": "Última Semana",
+    "lastMonth": "Último Mes",
+    "last4Weeks": "Últimas 4 Semanas",
+    "taskCompletionHeatmap": "Mapa de Calor de Tareas",
+    "topCategories": "Categorías Principales",
+    "averageTaskDuration": "Duración Promedio de Tarea",
+    "totalTasksCompleted": "Total de Tareas Completadas",
+    "longestStreak": "Racha Más Larga",
+    "currentStreak": "Racha Actual"
+  },
+  "templates": {
+    "title": "Plantillas",
+    "addTemplate": "Añadir Plantilla",
+    "editTemplate": "Editar Plantilla",
+    "deleteTemplate": "Eliminar Plantilla",
+    "templateName": "Nombre de Plantilla",
+    "estimatedDuration": "Duración Estimada",
+    "noTemplates": "Sin plantillas aún. ¡Crea una para comenzar!",
+    "createFromTask": "Crear desde Tarea"
+  },
+  "journal": {
+    "title": "Diario",
+    "addEntry": "Añadir Entrada",
+    "editEntry": "Editar Entrada",
+    "deleteEntry": "Eliminar Entrada",
+    "taskName": "Nombre de Tarea",
+    "estimatedTime": "Tiempo Estimado",
+    "actualTime": "Tiempo Real",
+    "notes": "Notas",
+    "noEntries": "Sin entradas de diario aún.",
+    "timeDifference": "Diferencia de Tiempo"
+  },
+  "settings": {
+    "title": "Configuración",
+    "appearance": "Apariencia",
+    "light": "Claro",
+    "dark": "Oscuro",
+    "system": "Sistema",
+    "darkMode": "Modo Oscuro",
+    "sound": "Sonido",
+    "notifications": "Notificaciones",
+    "dailyNudge": "Recordatorio Diario",
+    "nudgeTime": "Hora del Recordatorio",
+    "reducedMotion": "Movimiento Reducido",
+    "language": "Idioma",
+    "crashReporting": "Reporte de Fallos",
+    "helpFixBugs": "Ayuda a Corregir Errores",
+    "analytics": "Análisis",
+    "helpImprove": "Ayuda a Mejorar TimeKind",
+    "dataManagement": "Gestión de Datos",
+    "exportBackup": "Exportar Copia de Seguridad",
+    "importBackup": "Importar Copia de Seguridad",
+    "exportTasks": "Exportar Tareas (CSV)",
+    "legal": "Legal",
+    "privacyPolicy": "Política de Privacidad",
+    "termsOfService": "Términos de Servicio",
+    "about": "Acerca de",
+    "version": "Versión"
+  },
+  "categories": {
+    "work": "Trabajo",
+    "personal": "Personal",
+    "health": "Salud",
+    "learning": "Aprendizaje",
+    "exercise": "Ejercicio",
+    "reading": "Lectura",
+    "shopping": "Compras",
+    "cooking": "Cocina",
+    "cleaning": "Limpieza",
+    "other": "Otro"
+  },
+  "templates_default": {
+    "morningRoutine": "Rutina Matinal",
+    "codeReview": "Revisión de Código",
+    "exercise": "Ejercicio",
+    "teamMeeting": "Reunión de Equipo",
+    "reading": "Lectura",
+    "weeklyPlanning": "Planificación Semanal",
+    "emailTriage": "Triaje de Correos",
+    "meditation": "Meditación",
+    "deepWork": "Trabajo Profundo",
+    "lunch": "Almuerzo"
+  },
+  "messages": {
+    "taskCreated": "Tarea creada exitosamente",
+    "taskUpdated": "Tarea actualizada exitosamente",
+    "taskDeleted": "Tarea eliminada exitosamente",
+    "backupExported": "Copia de seguridad exportada exitosamente",
+    "backupImported": "Copia de seguridad importada exitosamente",
+    "dataCleared": "Datos borrados exitosamente",
+    "languageChanged": "Idioma cambiado exitosamente",
+    "settingsSaved": "Configuración guardada exitosamente",
+    "confirmDelete": "¿Estás seguro de que deseas eliminar esto?",
+    "confirmClear": "Esta acción no se puede deshacer. ¿Estás seguro?"
+  },
+  "onboarding": {
+    "welcome": "Bienvenido a TimeKind",
+    "subtitle": "Construye mejores hábitos rastreando cuánto tiempo realmente toman las tareas",
+    "feature1": "Temporizador Simple",
+    "feature1Description": "Temporizador fácil de usar para rastrear tareas",
+    "feature2": "Rastrear Patrones",
+    "feature2Description": "Entiende tu tiempo con información y análisis",
+    "feature3": "Construir Hábitos",
+    "feature3Description": "Mejora tu percepción del tiempo con el tiempo",
+    "getStarted": "Comenzar",
+    "skip": "Omitir"
+  },
+  "consent": {
+    "analytics": {
+      "title": "Ayúdanos a Mejorar",
+      "subtitle": "Análisis de uso opcional para ayudar a TimeKind a mejorar",
+      "whatWeTrack": "Lo que rastreamos:",
+      "whatWeTrackList": [
+        "Uso de características (qué pantallas visitas)",
+        "Patrones de finalización de tareas",
+        "Fallos y errores de la aplicación",
+        "Preferencias de configuración"
+      ],
+      "whatWeDontTrack": "Lo que no rastreamos:",
+      "whatWeDontTrackList": [
+        "El contenido o nombres de tus tareas",
+        "Información personal",
+        "Ubicación o identificadores de dispositivo",
+        "Ningún dato enviado a servidores externos"
+      ],
+      "privacy": "Privacidad:",
+      "privacyDescription": "Todos los datos de análisis se almacenan localmente en tu dispositivo. Puedes deshabilitar el análisis en cualquier momento en Configuración. Puedes solicitar ver o eliminar tus datos de análisis en cualquier momento.",
+      "enableButton": "Sí, Ayuda a Mejorar TimeKind",
+      "disableButton": "No, Gracias",
+      "changeAnytime": "Puedes cambiar esto en cualquier momento en Configuración"
+    },
+    "crashReporting": {
+      "title": "Ayúdanos a Corregir Errores",
+      "subtitle": "Reporte de fallos opcional para hacer TimeKind más confiable",
+      "whatWeCollect": "Lo que recopilamos:",
+      "whatWeCollectList": [
+        "Mensajes de error y rastreos de pila",
+        "Tipo de dispositivo y versión de SO",
+        "Versión y número de compilación de la aplicación",
+        "Marca de tiempo del fallo"
+      ],
+      "whatWeDontCollect": "Lo que NO recopilamos:",
+      "whatWeDontCollectList": [
+        "Tus datos de tareas o información personal",
+        "Ubicación o identificadores de dispositivo",
+        "Ninguna información identificable"
+      ],
+      "privacy": "Privacidad:",
+      "privacyDescription": "Los reportes de fallos son completamente anónimos. Los usamos solo para identificar y corregir errores. Puedes deshabilitar el reporte de fallos en cualquier momento en Configuración.",
+      "enableButton": "Sí, Ayuda a Corregir Errores",
+      "disableButton": "No, Gracias",
+      "changeAnytime": "Puedes cambiar esto en cualquier momento en Configuración"
+    }
+  }
+}

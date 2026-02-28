@@ -1,0 +1,189 @@
+{
+  "common": {
+    "routineBuddy": "ルーティン バディ",
+    "save": "保存",
+    "cancel": "キャンセル",
+    "delete": "削除",
+    "edit": "編集",
+    "add": "追加",
+    "close": "閉じる",
+    "back": "戻る",
+    "next": "次へ",
+    "skip": "スキップ",
+    "done": "完了",
+    "loading": "読み込み中...",
+    "error": "エラー",
+    "success": "成功",
+    "warning": "警告",
+    "confirm": "確認"
+  },
+  "home": {
+    "title": "今日",
+    "filterByCategory": "カテゴリでフィルタリング",
+    "whatAreYouWorkingOn": "何に取り組んでいますか？",
+    "startTimer": "タイマーを開始",
+    "stopTimer": "タイマーを停止",
+    "pauseTimer": "タイマーを一時停止",
+    "resumeTimer": "タイマーを再開",
+    "recentTasks": "最近のタスク",
+    "noTasks": "まだタスクがありません。まずタスクを作成してください！",
+    "totalFocus": "合計集中時間",
+    "taskCompleted": "タスクが完了しました！"
+  },
+  "insights": {
+    "title": "インサイト",
+    "lastWeek": "先週",
+    "lastMonth": "先月",
+    "last4Weeks": "過去4週間",
+    "taskCompletionHeatmap": "タスク完了ヒートマップ",
+    "topCategories": "トップカテゴリ",
+    "averageTaskDuration": "平均タスク時間",
+    "totalTasksCompleted": "完了したタスク総数",
+    "longestStreak": "最長ストリーク",
+    "currentStreak": "現在のストリーク"
+  },
+  "templates": {
+    "title": "テンプレート",
+    "addTemplate": "テンプレートを追加",
+    "editTemplate": "テンプレートを編集",
+    "deleteTemplate": "テンプレートを削除",
+    "templateName": "テンプレート名",
+    "estimatedDuration": "推定時間",
+    "noTemplates": "テンプレートがまだありません。作成して始めましょう！",
+    "createFromTask": "タスクから作成"
+  },
+  "journal": {
+    "title": "ジャーナル",
+    "addEntry": "エントリを追加",
+    "editEntry": "エントリを編集",
+    "deleteEntry": "エントリを削除",
+    "taskName": "タスク名",
+    "estimatedTime": "推定時間",
+    "actualTime": "実際の時間",
+    "notes": "メモ",
+    "noEntries": "ジャーナルエントリがまだありません。",
+    "timeDifference": "時間差"
+  },
+  "settings": {
+    "title": "設定",
+    "appearance": "外観",
+    "light": "ライト",
+    "dark": "ダーク",
+    "system": "システム",
+    "darkMode": "ダークモード",
+    "sound": "サウンド",
+    "notifications": "通知",
+    "dailyNudge": "毎日のリマインダー",
+    "nudgeTime": "リマインダー時間",
+    "reducedMotion": "動きを減らす",
+    "language": "言語",
+    "crashReporting": "クラッシュレポート",
+    "helpFixBugs": "バグ修正を支援",
+    "analytics": "分析",
+    "helpImprove": "TimeKindの改善を支援",
+    "dataManagement": "データ管理",
+    "exportBackup": "バックアップをエクスポート",
+    "importBackup": "バックアップをインポート",
+    "exportTasks": "タスクをエクスポート（CSV）",
+    "legal": "法的情報",
+    "privacyPolicy": "プライバシーポリシー",
+    "termsOfService": "利用規約",
+    "about": "について",
+    "version": "バージョン"
+  },
+  "categories": {
+    "work": "仕事",
+    "personal": "個人",
+    "health": "健康",
+    "learning": "学習",
+    "exercise": "運動",
+    "reading": "読書",
+    "shopping": "買い物",
+    "cooking": "料理",
+    "cleaning": "掃除",
+    "other": "その他"
+  },
+  "templates_default": {
+    "morningRoutine": "朝のルーティン",
+    "codeReview": "コードレビュー",
+    "exercise": "運動",
+    "teamMeeting": "チームミーティング",
+    "reading": "読書",
+    "weeklyPlanning": "週間計画",
+    "emailTriage": "メール仕分け",
+    "meditation": "瞑想",
+    "deepWork": "深い仕事",
+    "lunch": "昼食"
+  },
+  "messages": {
+    "taskCreated": "タスクが正常に作成されました",
+    "taskUpdated": "タスクが正常に更新されました",
+    "taskDeleted": "タスクが正常に削除されました",
+    "backupExported": "バックアップが正常にエクスポートされました",
+    "backupImported": "バックアップが正常にインポートされました",
+    "dataCleared": "データが正常にクリアされました",
+    "languageChanged": "言語が正常に変更されました",
+    "settingsSaved": "設定が正常に保存されました",
+    "confirmDelete": "これを削除してもよろしいですか？",
+    "confirmClear": "このアクションは取り消せません。よろしいですか？"
+  },
+  "onboarding": {
+    "welcome": "TimeKindへようこそ",
+    "subtitle": "タスクが実際にどのくらい時間がかかるかを追跡して、より良い習慣を構築します",
+    "feature1": "シンプルなタイマー",
+    "feature1Description": "タスクを追跡するための使いやすいタイマー",
+    "feature2": "パターンを追跡",
+    "feature2Description": "インサイトと分析で時間を理解する",
+    "feature3": "習慣を構築",
+    "feature3Description": "時間経過とともに時間認識を改善する",
+    "getStarted": "始める",
+    "skip": "スキップ"
+  },
+  "consent": {
+    "analytics": {
+      "title": "改善を支援してください",
+      "subtitle": "TimeKindをより良くするためのオプションの使用分析",
+      "whatWeTrack": "追跡する内容:",
+      "whatWeTrackList": [
+        "機能の使用状況（訪問するスクリーン）",
+        "タスク完了パターン",
+        "アプリクラッシュとエラー",
+        "設定の環境設定"
+      ],
+      "whatWeDontTrack": "追跡しない内容:",
+      "whatWeDontTrackList": [
+        "タスクの内容または名前",
+        "個人情報",
+        "位置情報またはデバイス識別子",
+        "外部サーバーに送信されるデータなし"
+      ],
+      "privacy": "プライバシー:",
+      "privacyDescription": "すべての分析データはデバイスにローカルに保存されます。設定でいつでも分析を無効にできます。いつでも分析データを表示または削除するようにリクエストできます。",
+      "enableButton": "はい、TimeKindの改善を支援",
+      "disableButton": "いいえ、結構です",
+      "changeAnytime": "設定でいつでも変更できます"
+    },
+    "crashReporting": {
+      "title": "バグ修正を支援してください",
+      "subtitle": "TimeKindをより信頼性の高いものにするためのオプションのクラッシュレポート",
+      "whatWeCollect": "収集する内容:",
+      "whatWeCollectList": [
+        "エラーメッセージとスタックトレース",
+        "デバイスタイプとOSバージョン",
+        "アプリバージョンとビルド番号",
+        "クラッシュタイムスタンプ"
+      ],
+      "whatWeDontCollect": "収集しない内容:",
+      "whatWeDontCollectList": [
+        "タスクデータまたは個人情報",
+        "位置情報またはデバイス識別子",
+        "識別情報なし"
+      ],
+      "privacy": "プライバシー:",
+      "privacyDescription": "クラッシュレポートは完全に匿名です。バグを特定して修正するためにのみ使用します。設定でいつでもクラッシュレポートを無効にできます。",
+      "enableButton": "はい、バグ修正を支援",
+      "disableButton": "いいえ、結構です",
+      "changeAnytime": "設定でいつでも変更できます"
+    }
+  }
+}

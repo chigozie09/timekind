@@ -1,0 +1,189 @@
+{
+  "common": {
+    "routineBuddy": "Routine-Assistent",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "add": "Hinzufügen",
+    "close": "Schließen",
+    "back": "Zurück",
+    "next": "Weiter",
+    "skip": "Überspringen",
+    "done": "Fertig",
+    "loading": "Wird geladen...",
+    "error": "Fehler",
+    "success": "Erfolg",
+    "warning": "Warnung",
+    "confirm": "Bestätigen"
+  },
+  "home": {
+    "title": "Heute",
+    "filterByCategory": "Nach Kategorie Filtern",
+    "whatAreYouWorkingOn": "Woran arbeitest du?",
+    "startTimer": "Timer Starten",
+    "stopTimer": "Timer Stoppen",
+    "pauseTimer": "Timer Pausieren",
+    "resumeTimer": "Timer Fortsetzen",
+    "recentTasks": "Aktuelle Aufgaben",
+    "noTasks": "Noch keine Aufgaben. Erstelle eine, um zu beginnen!",
+    "totalFocus": "Gesamtfokus",
+    "taskCompleted": "Aufgabe abgeschlossen!"
+  },
+  "insights": {
+    "title": "Einblicke",
+    "lastWeek": "Letzte Woche",
+    "lastMonth": "Letzter Monat",
+    "last4Weeks": "Letzte 4 Wochen",
+    "taskCompletionHeatmap": "Aufgaben-Heatmap",
+    "topCategories": "Top-Kategorien",
+    "averageTaskDuration": "Durchschnittliche Aufgabendauer",
+    "totalTasksCompleted": "Gesamtzahl abgeschlossener Aufgaben",
+    "longestStreak": "Längste Serie",
+    "currentStreak": "Aktuelle Serie"
+  },
+  "templates": {
+    "title": "Vorlagen",
+    "addTemplate": "Vorlage Hinzufügen",
+    "editTemplate": "Vorlage Bearbeiten",
+    "deleteTemplate": "Vorlage Löschen",
+    "templateName": "Vorlagenname",
+    "estimatedDuration": "Geschätzte Dauer",
+    "noTemplates": "Noch keine Vorlagen. Erstelle eine, um zu beginnen!",
+    "createFromTask": "Aus Aufgabe Erstellen"
+  },
+  "journal": {
+    "title": "Tagebuch",
+    "addEntry": "Eintrag Hinzufügen",
+    "editEntry": "Eintrag Bearbeiten",
+    "deleteEntry": "Eintrag Löschen",
+    "taskName": "Aufgabenname",
+    "estimatedTime": "Geschätzte Zeit",
+    "actualTime": "Tatsächliche Zeit",
+    "notes": "Notizen",
+    "noEntries": "Noch keine Tagebucheinträge.",
+    "timeDifference": "Zeitdifferenz"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "appearance": "Erscheinungsbild",
+    "light": "Hell",
+    "dark": "Dunkel",
+    "system": "System",
+    "darkMode": "Dunkler Modus",
+    "sound": "Ton",
+    "notifications": "Benachrichtigungen",
+    "dailyNudge": "Tägliche Erinnerung",
+    "nudgeTime": "Erinnerungszeit",
+    "reducedMotion": "Reduzierte Bewegung",
+    "language": "Sprache",
+    "crashReporting": "Absturzbericht",
+    "helpFixBugs": "Hilf Fehler zu Beheben",
+    "analytics": "Analytik",
+    "helpImprove": "Hilf TimeKind zu Verbessern",
+    "dataManagement": "Datenverwaltung",
+    "exportBackup": "Sicherung Exportieren",
+    "importBackup": "Sicherung Importieren",
+    "exportTasks": "Aufgaben Exportieren (CSV)",
+    "legal": "Rechtliches",
+    "privacyPolicy": "Datenschutzrichtlinie",
+    "termsOfService": "Nutzungsbedingungen",
+    "about": "Über",
+    "version": "Version"
+  },
+  "categories": {
+    "work": "Arbeit",
+    "personal": "Persönlich",
+    "health": "Gesundheit",
+    "learning": "Lernen",
+    "exercise": "Bewegung",
+    "reading": "Lesen",
+    "shopping": "Einkaufen",
+    "cooking": "Kochen",
+    "cleaning": "Reinigung",
+    "other": "Sonstiges"
+  },
+  "templates_default": {
+    "morningRoutine": "Morgenroutine",
+    "codeReview": "Code-Review",
+    "exercise": "Bewegung",
+    "teamMeeting": "Teammeeting",
+    "reading": "Lesen",
+    "weeklyPlanning": "Wochenplanung",
+    "emailTriage": "E-Mail-Sortierung",
+    "meditation": "Meditation",
+    "deepWork": "Tiefe Arbeit",
+    "lunch": "Mittagessen"
+  },
+  "messages": {
+    "taskCreated": "Aufgabe erfolgreich erstellt",
+    "taskUpdated": "Aufgabe erfolgreich aktualisiert",
+    "taskDeleted": "Aufgabe erfolgreich gelöscht",
+    "backupExported": "Sicherung erfolgreich exportiert",
+    "backupImported": "Sicherung erfolgreich importiert",
+    "dataCleared": "Daten erfolgreich gelöscht",
+    "languageChanged": "Sprache erfolgreich geändert",
+    "settingsSaved": "Einstellungen erfolgreich gespeichert",
+    "confirmDelete": "Bist du sicher, dass du das löschen möchtest?",
+    "confirmClear": "Diese Aktion kann nicht rückgängig gemacht werden. Bist du sicher?"
+  },
+  "onboarding": {
+    "welcome": "Willkommen bei TimeKind",
+    "subtitle": "Baue bessere Gewohnheiten auf, indem du verfolgst, wie lange Aufgaben wirklich dauern",
+    "feature1": "Einfacher Timer",
+    "feature1Description": "Einfach zu bedienender Timer zum Verfolgen von Aufgaben",
+    "feature2": "Muster Verfolgen",
+    "feature2Description": "Verstehe deine Zeit mit Einblicken und Analysen",
+    "feature3": "Gewohnheiten Aufbauen",
+    "feature3Description": "Verbessere deine Zeitwahrnehmung im Laufe der Zeit",
+    "getStarted": "Loslegen",
+    "skip": "Überspringen"
+  },
+  "consent": {
+    "analytics": {
+      "title": "Hilf uns zu Verbessern",
+      "subtitle": "Optionale Nutzungsanalyse, um TimeKind besser zu machen",
+      "whatWeTrack": "Was wir verfolgen:",
+      "whatWeTrackList": [
+        "Funktionsnutzung (welche Bildschirme du besuchst)",
+        "Aufgabenvollendungsmuster",
+        "App-Abstürze und Fehler",
+        "Einstellungseinstellungen"
+      ],
+      "whatWeDontTrack": "Was wir nicht verfolgen:",
+      "whatWeDontTrackList": [
+        "Deine Aufgabeninhalte oder Namen",
+        "Persönliche Informationen",
+        "Standort oder Gerätekennung",
+        "Keine Daten an externe Server"
+      ],
+      "privacy": "Datenschutz:",
+      "privacyDescription": "Alle Analysedaten werden lokal auf deinem Gerät gespeichert. Du kannst die Analytik jederzeit in den Einstellungen deaktivieren. Du kannst deine Analysedaten jederzeit anfordern, um sie anzusehen oder zu löschen.",
+      "enableButton": "Ja, Hilf TimeKind zu Verbessern",
+      "disableButton": "Nein, Danke",
+      "changeAnytime": "Du kannst das jederzeit in den Einstellungen ändern"
+    },
+    "crashReporting": {
+      "title": "Hilf uns Fehler zu Beheben",
+      "subtitle": "Optionaler Absturzbericht, um TimeKind zuverlässiger zu machen",
+      "whatWeCollect": "Was wir sammeln:",
+      "whatWeCollectList": [
+        "Fehlermeldungen und Stack-Traces",
+        "Gerätetyp und Betriebssystemversion",
+        "App-Version und Build-Nummer",
+        "Absturzzeitstempel"
+      ],
+      "whatWeDontCollect": "Was wir NICHT sammeln:",
+      "whatWeDontCollectList": [
+        "Deine Aufgabendaten oder persönliche Informationen",
+        "Standort oder Gerätekennung",
+        "Keine identifizierenden Informationen"
+      ],
+      "privacy": "Datenschutz:",
+      "privacyDescription": "Absturzberichte sind vollständig anonym. Wir verwenden sie nur, um Fehler zu identifizieren und zu beheben. Du kannst das Absturzberichte jederzeit in den Einstellungen deaktivieren.",
+      "enableButton": "Ja, Hilf Fehler zu Beheben",
+      "disableButton": "Nein, Danke",
+      "changeAnytime": "Du kannst das jederzeit in den Einstellungen ändern"
+    }
+  }
+}

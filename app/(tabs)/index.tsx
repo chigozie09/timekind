@@ -22,8 +22,10 @@ import {
 import { calculateWeeklyStreak, getBestStreak } from "@/lib/streak-calculator";
 import { getMoodRecommendations } from "@/lib/mood-recommendations";
 import { HelpOverlay } from "@/components/help-overlay";
+import { useTranslation } from "react-i18next";
 
 export default function HomeScreen() {
+  const { t } = useTranslation();
   const { settings, tasks, isLoading, refreshTasks } = useApp();
   const { scaleAnim: ctaScale, handlePressIn: ctaPressIn, handlePressOut: ctaPressOut } = useAnimatedPress();
   const { scaleAnim: storyScale, handlePressIn: storyPressIn, handlePressOut: storyPressOut } = useAnimatedPress();
@@ -107,7 +109,7 @@ export default function HomeScreen() {
               TimeKind
             </Text>
             <Text className="text-lg text-muted">
-              Routine Buddy
+              {t("common.routineBuddy")}
             </Text>
           </View>
           <TouchableOpacity
@@ -122,7 +124,7 @@ export default function HomeScreen() {
         {categories.length > 0 && (
           <View className="mb-6">
             <Text className="text-xs font-semibold text-muted uppercase tracking-widest mb-3">
-              Filter by Category
+              {t("home.filterByCategory")}
             </Text>
             <ScrollView
               horizontal

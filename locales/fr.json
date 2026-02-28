@@ -1,0 +1,189 @@
+{
+  "common": {
+    "routineBuddy": "Compagnon de Routine",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "add": "Ajouter",
+    "close": "Fermer",
+    "back": "Retour",
+    "next": "Suivant",
+    "skip": "Ignorer",
+    "done": "Terminé",
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès",
+    "warning": "Avertissement",
+    "confirm": "Confirmer"
+  },
+  "home": {
+    "title": "Aujourd'hui",
+    "filterByCategory": "Filtrer par Catégorie",
+    "whatAreYouWorkingOn": "Sur quoi travaillez-vous?",
+    "startTimer": "Démarrer le Chronomètre",
+    "stopTimer": "Arrêter le Chronomètre",
+    "pauseTimer": "Mettre en Pause",
+    "resumeTimer": "Reprendre",
+    "recentTasks": "Tâches Récentes",
+    "noTasks": "Aucune tâche pour le moment. Commencez par en créer une!",
+    "totalFocus": "Concentration Totale",
+    "taskCompleted": "Tâche complétée!"
+  },
+  "insights": {
+    "title": "Informations",
+    "lastWeek": "Dernière Semaine",
+    "lastMonth": "Dernier Mois",
+    "last4Weeks": "4 Dernières Semaines",
+    "taskCompletionHeatmap": "Carte de Chaleur des Tâches",
+    "topCategories": "Catégories Principales",
+    "averageTaskDuration": "Durée Moyenne des Tâches",
+    "totalTasksCompleted": "Nombre Total de Tâches Complétées",
+    "longestStreak": "Plus Longue Série",
+    "currentStreak": "Série Actuelle"
+  },
+  "templates": {
+    "title": "Modèles",
+    "addTemplate": "Ajouter un Modèle",
+    "editTemplate": "Modifier le Modèle",
+    "deleteTemplate": "Supprimer le Modèle",
+    "templateName": "Nom du Modèle",
+    "estimatedDuration": "Durée Estimée",
+    "noTemplates": "Aucun modèle pour le moment. Créez-en un pour commencer!",
+    "createFromTask": "Créer à partir d'une Tâche"
+  },
+  "journal": {
+    "title": "Journal",
+    "addEntry": "Ajouter une Entrée",
+    "editEntry": "Modifier l'Entrée",
+    "deleteEntry": "Supprimer l'Entrée",
+    "taskName": "Nom de la Tâche",
+    "estimatedTime": "Temps Estimé",
+    "actualTime": "Temps Réel",
+    "notes": "Notes",
+    "noEntries": "Aucune entrée de journal pour le moment.",
+    "timeDifference": "Différence de Temps"
+  },
+  "settings": {
+    "title": "Paramètres",
+    "appearance": "Apparence",
+    "light": "Clair",
+    "dark": "Sombre",
+    "system": "Système",
+    "darkMode": "Mode Sombre",
+    "sound": "Son",
+    "notifications": "Notifications",
+    "dailyNudge": "Rappel Quotidien",
+    "nudgeTime": "Heure du Rappel",
+    "reducedMotion": "Mouvement Réduit",
+    "language": "Langue",
+    "crashReporting": "Rapport de Crash",
+    "helpFixBugs": "Aider à Corriger les Bugs",
+    "analytics": "Analyse",
+    "helpImprove": "Aider à Améliorer TimeKind",
+    "dataManagement": "Gestion des Données",
+    "exportBackup": "Exporter la Sauvegarde",
+    "importBackup": "Importer la Sauvegarde",
+    "exportTasks": "Exporter les Tâches (CSV)",
+    "legal": "Légal",
+    "privacyPolicy": "Politique de Confidentialité",
+    "termsOfService": "Conditions d'Utilisation",
+    "about": "À Propos",
+    "version": "Version"
+  },
+  "categories": {
+    "work": "Travail",
+    "personal": "Personnel",
+    "health": "Santé",
+    "learning": "Apprentissage",
+    "exercise": "Exercice",
+    "reading": "Lecture",
+    "shopping": "Shopping",
+    "cooking": "Cuisine",
+    "cleaning": "Nettoyage",
+    "other": "Autre"
+  },
+  "templates_default": {
+    "morningRoutine": "Routine Matinale",
+    "codeReview": "Révision de Code",
+    "exercise": "Exercice",
+    "teamMeeting": "Réunion d'Équipe",
+    "reading": "Lecture",
+    "weeklyPlanning": "Planification Hebdomadaire",
+    "emailTriage": "Tri des E-mails",
+    "meditation": "Méditation",
+    "deepWork": "Travail Profond",
+    "lunch": "Déjeuner"
+  },
+  "messages": {
+    "taskCreated": "Tâche créée avec succès",
+    "taskUpdated": "Tâche mise à jour avec succès",
+    "taskDeleted": "Tâche supprimée avec succès",
+    "backupExported": "Sauvegarde exportée avec succès",
+    "backupImported": "Sauvegarde importée avec succès",
+    "dataCleared": "Données effacées avec succès",
+    "languageChanged": "Langue changée avec succès",
+    "settingsSaved": "Paramètres enregistrés avec succès",
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer ceci?",
+    "confirmClear": "Cette action ne peut pas être annulée. Êtes-vous sûr?"
+  },
+  "onboarding": {
+    "welcome": "Bienvenue sur TimeKind",
+    "subtitle": "Construisez de meilleures habitudes en suivant le temps réel que prennent les tâches",
+    "feature1": "Chronomètre Simple",
+    "feature1Description": "Chronomètre facile à utiliser pour suivre les tâches",
+    "feature2": "Suivre les Modèles",
+    "feature2Description": "Comprenez votre temps avec des informations et des analyses",
+    "feature3": "Construire des Habitudes",
+    "feature3Description": "Améliorez votre perception du temps au fil du temps",
+    "getStarted": "Commencer",
+    "skip": "Ignorer"
+  },
+  "consent": {
+    "analytics": {
+      "title": "Aidez-nous à Améliorer",
+      "subtitle": "Analyse d'utilisation facultative pour aider TimeKind à s'améliorer",
+      "whatWeTrack": "Ce que nous suivons:",
+      "whatWeTrackList": [
+        "Utilisation des fonctionnalités (quels écrans vous visitez)",
+        "Modèles d'achèvement des tâches",
+        "Plantages et erreurs de l'application",
+        "Préférences des paramètres"
+      ],
+      "whatWeDontTrack": "Ce que nous ne suivons pas:",
+      "whatWeDontTrackList": [
+        "Le contenu ou les noms de vos tâches",
+        "Informations personnelles",
+        "Localisation ou identifiants d'appareil",
+        "Aucune donnée envoyée à des serveurs externes"
+      ],
+      "privacy": "Confidentialité:",
+      "privacyDescription": "Toutes les données d'analyse sont stockées localement sur votre appareil. Vous pouvez désactiver l'analyse à tout moment dans les paramètres. Vous pouvez demander à voir ou supprimer vos données d'analyse à tout moment.",
+      "enableButton": "Oui, Aider à Améliorer TimeKind",
+      "disableButton": "Non, Merci",
+      "changeAnytime": "Vous pouvez changer cela à tout moment dans les paramètres"
+    },
+    "crashReporting": {
+      "title": "Aidez-nous à Corriger les Bugs",
+      "subtitle": "Rapport de crash facultatif pour rendre TimeKind plus fiable",
+      "whatWeCollect": "Ce que nous collectons:",
+      "whatWeCollectList": [
+        "Messages d'erreur et traces de pile",
+        "Type d'appareil et version du système d'exploitation",
+        "Version et numéro de build de l'application",
+        "Horodatage du crash"
+      ],
+      "whatWeDontCollect": "Ce que nous NE collectons PAS:",
+      "whatWeDontCollectList": [
+        "Vos données de tâches ou informations personnelles",
+        "Localisation ou identifiants d'appareil",
+        "Aucune information d'identification"
+      ],
+      "privacy": "Confidentialité:",
+      "privacyDescription": "Les rapports de crash sont complètement anonymes. Nous les utilisons uniquement pour identifier et corriger les bugs. Vous pouvez désactiver le rapport de crash à tout moment dans les paramètres.",
+      "enableButton": "Oui, Aider à Corriger les Bugs",
+      "disableButton": "Non, Merci",
+      "changeAnytime": "Vous pouvez changer cela à tout moment dans les paramètres"
+    }
+  }
+}

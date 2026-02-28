@@ -40,14 +40,19 @@ import {
   enableCrashReporting,
   disableCrashReporting,
 } from "@/lib/crash-reporting";
+import { useTranslation } from "react-i18next";
+import { AVAILABLE_LANGUAGES, changeLanguage, getCurrentLanguage } from "@/lib/i18n";
 
 export default function SettingsScreen() {
   const router = useRouter();
   const { settings, updateSettings, tasks, refreshTasks } = useApp();
   const { setColorScheme } = useThemeContext();
+  const { t } = useTranslation();
   const [nudgeTime, setNudgeTime] = useState(settings.dailyNudgeTime);
   const [analyticsEnabled, setAnalyticsEnabled] = useState(false);
   const [crashReportingEnabled, setCrashReportingEnabled] = useState(false);
+  const [currentLanguage, setCurrentLanguage] = useState(getCurrentLanguage());
+  const [showLanguagePicker, setShowLanguagePicker] = useState(false);
   const { scaleAnim: exportScale, handlePressIn: exportPressIn, handlePressOut: exportPressOut } = useAnimatedPress();
   const { scaleAnim: importScale, handlePressIn: importPressIn, handlePressOut: importPressOut } = useAnimatedPress();
 
@@ -225,13 +230,13 @@ export default function SettingsScreen() {
         showsVerticalScrollIndicator={false}
       >
         <Text className="text-4xl font-bold text-foreground mt-4 mb-8">
-          Settings
+          {t("settings.title")}
         </Text>
 
         {/* Theme */}
         <View className="bg-surface rounded-2xl p-5 border border-border mb-4">
           <Text className="text-xs font-semibold text-muted uppercase tracking-widest mb-4">
-            Appearance
+            {t("settings.appearance")}
           </Text>
           <View className="flex-row gap-2 mb-4">
             {(["system", "light", "dark"] as ThemeMode[]).map((mode) => (
@@ -270,6 +275,51 @@ export default function SettingsScreen() {
               />
             </View>
           </View>
+        </View>
+
+        {/* Language */}
+        <View className="bg-surface rounded-2xl p-5 border border-border mb-4">
+          <Text className="text-xs font-semibold text-muted uppercase tracking-widest mb-4">
+            {t("settings.language")}
+          </Text>
+          <TouchableOpacity
+            onPress={() => setShowLanguagePicker(!showLanguagePicker)}
+            className="bg-background border border-border rounded-xl px-4 py-3 flex-row justify-between items-center"
+            activeOpacity={0.7}
+          >
+            <Text className="text-lg font-semibold text-foreground">
+              {AVAILABLE_LANGUAGES.find((l) => l.code === currentLanguage)?.nativeName || "English"}
+            </Text>
+            <Text className="text-muted text-lg">›</Text>
+          </TouchableOpacity>
+          {showLanguagePicker && (
+            <View className="mt-3 gap-2">
+              {AVAILABLE_LANGUAGES.map((lang) => (
+                <TouchableOpacity
+                  key={lang.code}
+                  onPress={async () => {
+                    await changeLanguage(lang.code);
+                    setCurrentLanguage(lang.code);
+                    setShowLanguagePicker(false);
+                  }}
+                  className={`px-4 py-3 rounded-lg border ${
+                    currentLanguage === lang.code
+                      ? "bg-primary border-primary"
+                      : "bg-background border-border"
+                  }`}
+                  activeOpacity={0.7}
+                >
+                  <Text
+                    className={`text-base font-semibold ${
+                      currentLanguage === lang.code ? "text-white" : "text-foreground"
+                    }`}
+                  >
+                    {lang.nativeName} ({lang.name})
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          )}
         </View>
 
         {/* Sound */}
