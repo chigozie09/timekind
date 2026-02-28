@@ -1,0 +1,101 @@
+name: Build & Deploy to App Stores
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      platforms:
+        description: 'Platforms to build for'
+        required: true
+        default: 'ios,android'
+        type: choice
+        options:
+          - ios
+          - android
+          - ios,android
+
+env:
+  NODE_VERSION: '22.13.0'
+  EXPO_VERSION: '54'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Setup EAS CLI
+        run: npm install -g eas-cli
+
+      - name: Authenticate with EAS
+        run: eas login --non-interactive
+        env:
+          EAS_TOKEN: ${{ secrets.EAS_TOKEN }}
+
+      - name: Build for iOS
+        if: contains(github.event.inputs.platforms || 'ios,android', 'ios')
+        run: |
+          eas build \
+            --platform ios \
+            --non-interactive \
+            --wait \
+            --auto-submit
+
+      - name: Build for Android
+        if: contains(github.event.inputs.platforms || 'ios,android', 'android')
+        run: |
+          eas build \
+            --platform android \
+            --non-interactive \
+            --wait \
+            --auto-submit
+
+      - name: Upload localized app store content
+        if: success()
+        run: |
+          npm run upload:app-store-content
+        env:
+          APP_STORE_CONNECT_KEY: ${{ secrets.APP_STORE_CONNECT_KEY }}
+          GOOGLE_PLAY_KEY: ${{ secrets.GOOGLE_PLAY_KEY }}
+
+      - name: Notify deployment success
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '✅ TimeKind successfully deployed to App Stores!\n\n- iOS App Store\n- Google Play Store\n\nLocalized content uploaded for all 5 languages.'
+            })
+
+      - name: Notify deployment failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '❌ TimeKind deployment failed. Check workflow logs for details.'
+            })

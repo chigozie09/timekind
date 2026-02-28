@@ -16,7 +16,11 @@
     "db:push": "drizzle-kit generate && drizzle-kit migrate",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "qr": "node scripts/generate_qr.mjs"
+    "qr": "node scripts/generate_qr.mjs",
+    "upload:app-store-content": "node scripts/upload-app-store-content.js",
+    "build:eas:ios": "eas build --platform ios --non-interactive --wait --auto-submit",
+    "build:eas:android": "eas build --platform android --non-interactive --wait --auto-submit",
+    "build:eas:all": "eas build --platform all --non-interactive --wait --auto-submit"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",

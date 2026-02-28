@@ -50,6 +50,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const [showAnalyticsConsent, setShowAnalyticsConsent] = useState(false);
   const [showCrashReportingConsent, setShowCrashReportingConsent] = useState(false);
+  const [showLanguageOnboarding, setShowLanguageOnboarding] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -81,6 +82,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
         // Track app session start
         await trackAppSessionStarted(t.length > 0);
+
+        // Show language onboarding if this is first launch
+        if (!s.hasCompletedOnboarding) {
+          setShowLanguageOnboarding(true);
+        }
       } catch (error) {
         console.error("Failed to load app data:", error);
       } finally {

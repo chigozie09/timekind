@@ -42,6 +42,7 @@ import {
 } from "@/lib/crash-reporting";
 import { useTranslation } from "react-i18next";
 import { AVAILABLE_LANGUAGES, changeLanguage, getCurrentLanguage } from "@/lib/i18n";
+import { formatDate, formatTime, formatCurrency } from "@/lib/regionalization";
 
 export default function SettingsScreen() {
   const router = useRouter();
@@ -320,6 +321,33 @@ export default function SettingsScreen() {
               ))}
             </View>
           )}
+        </View>
+
+        {/* Regionalization Preview */}
+        <View className="bg-surface rounded-2xl p-5 border border-border mb-4">
+          <Text className="text-xs font-semibold text-muted uppercase tracking-widest mb-4">
+            {t("settings.region")}
+          </Text>
+          <View className="gap-3">
+            <View className="bg-background rounded-lg p-3 border border-border">
+              <Text className="text-xs text-muted mb-1">{t("settings.dateFormat")}</Text>
+              <Text className="text-base font-semibold text-foreground">
+                {formatDate(new Date())}
+              </Text>
+            </View>
+            <View className="bg-background rounded-lg p-3 border border-border">
+              <Text className="text-xs text-muted mb-1">{t("settings.timeFormat")}</Text>
+              <Text className="text-base font-semibold text-foreground">
+                {formatTime(new Date())}
+              </Text>
+            </View>
+            <View className="bg-background rounded-lg p-3 border border-border">
+              <Text className="text-xs text-muted mb-1">Currency Sample</Text>
+              <Text className="text-base font-semibold text-foreground">
+                {formatCurrency(99.99)}
+              </Text>
+            </View>
+          </View>
         </View>
 
         {/* Sound */}

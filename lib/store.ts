@@ -21,6 +21,7 @@ export interface Subtask {
 
 export interface AppSettings {
   hasOnboarded: boolean;
+  hasCompletedOnboarding: boolean;
   themeMode: ThemeMode;
   soundEnabled: boolean;
   notificationsEnabled: boolean;
@@ -64,6 +65,7 @@ export interface Task {
 
 export const DEFAULT_SETTINGS: AppSettings = {
   hasOnboarded: false,
+  hasCompletedOnboarding: false,
   themeMode: "system",
   soundEnabled: true,
   notificationsEnabled: false,
