@@ -119,3 +119,8 @@
 - [x] Add consistent screen titles to all headers
 - [x] Perform final publishing checklist (110 tests passing, zero TS errors)
 - [x] Save final checkpoint
+
+## Phase 20: App Store Readiness
+- [x] Create onboarding video walkthrough
+- [x] Implement app ratings prompt
+- [x] Add privacy policy and terms screens

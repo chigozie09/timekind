@@ -26,9 +26,11 @@ import * as FileSystem from "expo-file-system/legacy";
 import * as DocumentPicker from "expo-document-picker";
 import { useAnimatedPress } from "@/hooks/use-animated-press";
 import { Animated } from "react-native";
+import { useRouter } from "expo-router";
 import { exportTasksAsCSV, exportTasksAsJSON, getExportSummary } from "@/lib/export-history";
 
 export default function SettingsScreen() {
+  const router = useRouter();
   const { settings, updateSettings, tasks, refreshTasks } = useApp();
   const { setColorScheme } = useThemeContext();
   const [nudgeTime, setNudgeTime] = useState(settings.dailyNudgeTime);
@@ -343,6 +345,27 @@ export default function SettingsScreen() {
             activeOpacity={0.7}
           >
             <Text className="text-primary font-bold text-lg">📊 Export Tasks (CSV)</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Legal */}
+        <View className="bg-surface rounded-2xl p-5 border border-border mb-4">
+          <Text className="text-xs font-semibold text-muted uppercase tracking-widest mb-4">
+            Legal
+          </Text>
+          <TouchableOpacity
+            onPress={() => router.push('/privacy-policy')}
+            className="py-3 mb-3"
+            activeOpacity={0.7}
+          >
+            <Text className="text-lg font-semibold text-primary">Privacy Policy</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => router.push('/terms-of-service')}
+            className="py-3"
+            activeOpacity={0.7}
+          >
+            <Text className="text-lg font-semibold text-primary">Terms of Service</Text>
           </TouchableOpacity>
         </View>
 
