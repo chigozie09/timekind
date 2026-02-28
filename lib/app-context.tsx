@@ -23,7 +23,14 @@ import {
   requestAnalyticsConsent,
   trackAppSessionStarted,
 } from "./analytics";
+import {
+  initializeCrashReporting,
+  getCrashReportingSettings,
+  enableCrashReporting,
+  setupGlobalErrorHandlers,
+} from "./crash-reporting";
 import { AnalyticsConsentModal } from "@/components/analytics-consent-modal";
+import { CrashReportingModal } from "@/components/crash-reporting-modal";
 
 interface AppContextValue {
   settings: AppSettings;
@@ -42,6 +49,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showAnalyticsConsent, setShowAnalyticsConsent] = useState(false);
+  const [showCrashReportingConsent, setShowCrashReportingConsent] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -57,6 +65,18 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         // Show consent modal if user hasn't decided yet
         if (!analyticsSettings.consentGiven) {
           setShowAnalyticsConsent(true);
+        }
+
+        // Initialize crash reporting
+        await initializeCrashReporting();
+        const crashReportingSettings = await getCrashReportingSettings();
+        
+        // Show crash reporting consent if user hasn't decided yet
+        if (!crashReportingSettings.consentGiven) {
+          setShowCrashReportingConsent(true);
+        } else if (crashReportingSettings.enabled) {
+          // Setup global error handlers if crash reporting is enabled
+          setupGlobalErrorHandlers();
         }
 
         // Track app session start
@@ -125,6 +145,16 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setShowAnalyticsConsent(false);
   }, []);
 
+  const handleCrashReportingEnable = useCallback(async () => {
+    await enableCrashReporting();
+    setupGlobalErrorHandlers();
+    setShowCrashReportingConsent(false);
+  }, []);
+
+  const handleCrashReportingDisable = useCallback(() => {
+    setShowCrashReportingConsent(false);
+  }, []);
+
   return (
     <>
       <AppContext.Provider value={value}>{children}</AppContext.Provider>
@@ -132,6 +162,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         visible={showAnalyticsConsent}
         onConsent={handleAnalyticsConsent}
         onDecline={handleAnalyticsDecline}
+      />
+      <CrashReportingModal
+        visible={showCrashReportingConsent}
+        onEnable={handleCrashReportingEnable}
+        onDisable={handleCrashReportingDisable}
       />
     </>
   );

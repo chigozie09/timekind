@@ -35,6 +35,11 @@ import {
   exportAnalyticsData,
   clearTrackedEvents,
 } from "@/lib/analytics";
+import {
+  getCrashReportingSettings,
+  enableCrashReporting,
+  disableCrashReporting,
+} from "@/lib/crash-reporting";
 
 export default function SettingsScreen() {
   const router = useRouter();
@@ -42,13 +47,16 @@ export default function SettingsScreen() {
   const { setColorScheme } = useThemeContext();
   const [nudgeTime, setNudgeTime] = useState(settings.dailyNudgeTime);
   const [analyticsEnabled, setAnalyticsEnabled] = useState(false);
+  const [crashReportingEnabled, setCrashReportingEnabled] = useState(false);
   const { scaleAnim: exportScale, handlePressIn: exportPressIn, handlePressOut: exportPressOut } = useAnimatedPress();
   const { scaleAnim: importScale, handlePressIn: importPressIn, handlePressOut: importPressOut } = useAnimatedPress();
 
   useEffect(() => {
     (async () => {
-      const settings = await getAnalyticsSettings();
-      setAnalyticsEnabled(settings.trackingEnabled);
+      const analyticsSettings = await getAnalyticsSettings();
+      setAnalyticsEnabled(analyticsSettings.trackingEnabled);
+      const crashSettings = await getCrashReportingSettings();
+      setCrashReportingEnabled(crashSettings.enabled);
     })();
   }, []);
 
@@ -315,6 +323,34 @@ export default function SettingsScreen() {
               trackColor={{ false: "#E6E1DA", true: "#6B6B6B" }}
             />
           </View>
+        </View>
+
+        {/* Crash Reporting */}
+        <View className="bg-surface rounded-2xl p-5 border border-border mb-4">
+          <Text className="text-xs font-semibold text-muted uppercase tracking-widest mb-4">
+            Crash Reporting
+          </Text>
+          <View className="flex-row justify-between items-center mb-4">
+            <View className="flex-1 pr-4">
+              <Text className="text-lg font-semibold text-foreground">Help Fix Bugs</Text>
+              <Text className="text-sm text-muted mt-1">Optional crash reporting</Text>
+            </View>
+            <Switch
+              value={crashReportingEnabled}
+              onValueChange={async (val) => {
+                if (val) {
+                  await enableCrashReporting();
+                } else {
+                  await disableCrashReporting();
+                }
+                setCrashReportingEnabled(val);
+              }}
+              trackColor={{ false: "#E6E1DA", true: "#6B6B6B" }}
+            />
+          </View>
+          <Text className="text-xs text-muted leading-relaxed">
+            Crash reports are completely anonymous and help us fix bugs. No personal data is collected.
+          </Text>
         </View>
 
         {/* Analytics */}
