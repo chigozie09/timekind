@@ -144,3 +144,13 @@
 - [x] Add language selector to Settings screen
 - [x] Translate all core UI screens and components
 - [x] Test language switching and save final checkpoint
+
+## Phase 24: Global Localization & App Store Expansion
+- [x] Expand translations to Insights, Templates, Journal screens
+- [x] Translate all task categories and templates for all languages
+- [x] Add regional date/time formatting (DD/MM/YYYY, HH:mm, etc.)
+- [x] Add currency/time unit localization
+- [x] Create culturally-relevant task templates for each language
+- [x] Create localized app store descriptions for 5 languages
+- [x] Generate localized app store screenshots with translated UI
+- [x] Test all localizations and verify language switching works

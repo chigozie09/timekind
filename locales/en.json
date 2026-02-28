@@ -40,7 +40,14 @@
     "averageTaskDuration": "Average Task Duration",
     "totalTasksCompleted": "Total Tasks Completed",
     "longestStreak": "Longest Streak",
-    "currentStreak": "Current Streak"
+    "currentStreak": "Current Streak",
+    "accuracyScore": "Accuracy Score",
+    "bestTimeOfDay": "Best Time of Day",
+    "mostUnderestimated": "Most Underestimated Category",
+    "weeklyAverage": "Weekly Average",
+    "noData": "No data available yet. Complete some tasks to see insights.",
+    "viewDetails": "View Details",
+    "exportData": "Export Data"
   },
   "templates": {
     "title": "Templates",
@@ -50,7 +57,13 @@
     "templateName": "Template Name",
     "estimatedDuration": "Estimated Duration",
     "noTemplates": "No templates yet. Create one to get started!",
-    "createFromTask": "Create from Task"
+    "createFromTask": "Create from Task",
+    "duplicateTemplate": "Duplicate Template",
+    "useTemplate": "Use Template",
+    "templateDescription": "Description",
+    "defaultTemplates": "Default Templates",
+    "customTemplates": "Custom Templates",
+    "selectCategory": "Select Category"
   },
   "journal": {
     "title": "Journal",
@@ -62,7 +75,16 @@
     "actualTime": "Actual Time",
     "notes": "Notes",
     "noEntries": "No journal entries yet.",
-    "timeDifference": "Time Difference"
+    "timeDifference": "Time Difference",
+    "dateCompleted": "Date Completed",
+    "category": "Category",
+    "accuracy": "Accuracy",
+    "earlyCompletion": "Completed early",
+    "lateCompletion": "Completed late",
+    "onTimeCompletion": "Completed on time",
+    "searchEntries": "Search entries",
+    "filterByDate": "Filter by Date",
+    "filterByCategory": "Filter by Category"
   },
   "settings": {
     "title": "Settings",
@@ -77,6 +99,13 @@
     "nudgeTime": "Nudge Time",
     "reducedMotion": "Reduced Motion",
     "language": "Language",
+    "dateFormat": "Date Format",
+    "timeFormat": "Time Format",
+    "region": "Region",
+    "currency": "Currency",
+    "weekStartsOn": "Week Starts On",
+    "monday": "Monday",
+    "sunday": "Sunday",
     "crashReporting": "Crash Reporting",
     "helpFixBugs": "Help Fix Bugs",
     "analytics": "Analytics",
@@ -103,6 +132,29 @@
     "cleaning": "Cleaning",
     "other": "Other"
   },
+  "regionalization": {
+    "dateFormats": {
+      "en": "MM/DD/YYYY",
+      "es": "DD/MM/YYYY",
+      "fr": "DD/MM/YYYY",
+      "de": "DD.MM.YYYY",
+      "ja": "YYYY年MM月DD日"
+    },
+    "timeFormats": {
+      "en": "12-hour",
+      "es": "24-hour",
+      "fr": "24-hour",
+      "de": "24-hour",
+      "ja": "24-hour"
+    },
+    "currencies": {
+      "en": "USD",
+      "es": "EUR",
+      "fr": "EUR",
+      "de": "EUR",
+      "ja": "JPY"
+    }
+  },
   "templates_default": {
     "morningRoutine": "Morning Routine",
     "codeReview": "Code Review",
@@ -113,7 +165,16 @@
     "emailTriage": "Email Triage",
     "meditation": "Meditation",
     "deepWork": "Deep Work",
-    "lunch": "Lunch"
+    "lunch": "Lunch",
+    "breakfastPrep": "Breakfast Prep",
+    "eveningWalk": "Evening Walk",
+    "journaling": "Journaling",
+    "familyTime": "Family Time",
+    "projectWork": "Project Work",
+    "clientCall": "Client Call",
+    "documentation": "Documentation",
+    "testing": "Testing",
+    "deployment": "Deployment"
   },
   "messages": {
     "taskCreated": "Task created successfully",

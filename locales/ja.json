@@ -40,7 +40,14 @@
     "averageTaskDuration": "平均タスク時間",
     "totalTasksCompleted": "完了したタスク総数",
     "longestStreak": "最長ストリーク",
-    "currentStreak": "現在のストリーク"
+    "currentStreak": "現在のストリーク",
+    "accuracyScore": "精度スコア",
+    "bestTimeOfDay": "最適な時間帯",
+    "mostUnderestimated": "最も過小評価されたカテゴリ",
+    "weeklyAverage": "週間平均",
+    "noData": "まだデータがありません。タスクを完了してインサイトを確認してください。",
+    "viewDetails": "詳細を表示",
+    "exportData": "データをエクスポート"
   },
   "templates": {
     "title": "テンプレート",
@@ -50,7 +57,13 @@
     "templateName": "テンプレート名",
     "estimatedDuration": "推定時間",
     "noTemplates": "テンプレートがまだありません。作成して始めましょう！",
-    "createFromTask": "タスクから作成"
+    "createFromTask": "タスクから作成",
+    "duplicateTemplate": "テンプレートを複製",
+    "useTemplate": "テンプレートを使用",
+    "templateDescription": "説明",
+    "defaultTemplates": "デフォルトテンプレート",
+    "customTemplates": "カスタムテンプレート",
+    "selectCategory": "カテゴリを選択"
   },
   "journal": {
     "title": "ジャーナル",
@@ -62,7 +75,15 @@
     "actualTime": "実際の時間",
     "notes": "メモ",
     "noEntries": "ジャーナルエントリがまだありません。",
-    "timeDifference": "時間差"
+    "timeDifference": "時間差",
+    "dateCompleted": "完了日",
+    "accuracy": "精度",
+    "earlyCompletion": "早期完了",
+    "lateCompletion": "遅延完了",
+    "onTimeCompletion": "時間通り完了",
+    "searchEntries": "エントリを検索",
+    "filterByDate": "日付でフィルタリング",
+    "filterByCategory": "カテゴリでフィルタリング"
   },
   "settings": {
     "title": "設定",
@@ -113,7 +134,16 @@
     "emailTriage": "メール仕分け",
     "meditation": "瞑想",
     "deepWork": "深い仕事",
-    "lunch": "昼食"
+    "lunch": "昼食",
+    "breakfastPrep": "朝食準備",
+    "eveningWalk": "夜の散歩",
+    "journaling": "ジャーナリング",
+    "familyTime": "家族時間",
+    "projectWork": "プロジェクト作業",
+    "clientCall": "クライアント通話",
+    "documentation": "ドキュメンテーション",
+    "testing": "テスト",
+    "deployment": "デプロイメント"
   },
   "messages": {
     "taskCreated": "タスクが正常に作成されました",

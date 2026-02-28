@@ -40,7 +40,14 @@
     "averageTaskDuration": "Durée Moyenne des Tâches",
     "totalTasksCompleted": "Nombre Total de Tâches Complétées",
     "longestStreak": "Plus Longue Série",
-    "currentStreak": "Série Actuelle"
+    "currentStreak": "Série Actuelle",
+    "accuracyScore": "Score de Précision",
+    "bestTimeOfDay": "Meilleure Heure de la Journée",
+    "mostUnderestimated": "Catégorie la Plus Sous-estimée",
+    "weeklyAverage": "Moyenne Hebdomadaire",
+    "noData": "Aucune donnée disponible pour le moment. Complétez des tâches pour voir les informations.",
+    "viewDetails": "Voir les Détails",
+    "exportData": "Exporter les Données"
   },
   "templates": {
     "title": "Modèles",
@@ -50,7 +57,13 @@
     "templateName": "Nom du Modèle",
     "estimatedDuration": "Durée Estimée",
     "noTemplates": "Aucun modèle pour le moment. Créez-en un pour commencer!",
-    "createFromTask": "Créer à partir d'une Tâche"
+    "createFromTask": "Créer à partir d'une Tâche",
+    "duplicateTemplate": "Dupliquer le Modèle",
+    "useTemplate": "Utiliser le Modèle",
+    "templateDescription": "Description",
+    "defaultTemplates": "Modèles par Défaut",
+    "customTemplates": "Modèles Personnalisés",
+    "selectCategory": "Sélectionner une Catégorie"
   },
   "journal": {
     "title": "Journal",
@@ -62,7 +75,15 @@
     "actualTime": "Temps Réel",
     "notes": "Notes",
     "noEntries": "Aucune entrée de journal pour le moment.",
-    "timeDifference": "Différence de Temps"
+    "timeDifference": "Différence de Temps",
+    "dateCompleted": "Date d'Achèvement",
+    "accuracy": "Précision",
+    "earlyCompletion": "Achevé tôt",
+    "lateCompletion": "Achevé tard",
+    "onTimeCompletion": "Achevé à l'heure",
+    "searchEntries": "Rechercher des entrées",
+    "filterByDate": "Filtrer par Date",
+    "filterByCategory": "Filtrer par Catégorie"
   },
   "settings": {
     "title": "Paramètres",
@@ -113,7 +134,16 @@
     "emailTriage": "Tri des E-mails",
     "meditation": "Méditation",
     "deepWork": "Travail Profond",
-    "lunch": "Déjeuner"
+    "lunch": "Déjeuner",
+    "breakfastPrep": "Préparation du Petit-déjeuner",
+    "eveningWalk": "Promenade Nocturne",
+    "journaling": "Journalisation",
+    "familyTime": "Temps en Famille",
+    "projectWork": "Travail de Projet",
+    "clientCall": "Appel Client",
+    "documentation": "Documentation",
+    "testing": "Tests",
+    "deployment": "Déploiement"
   },
   "messages": {
     "taskCreated": "Tâche créée avec succès",

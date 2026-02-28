@@ -40,7 +40,14 @@
     "averageTaskDuration": "Durchschnittliche Aufgabendauer",
     "totalTasksCompleted": "Gesamtzahl abgeschlossener Aufgaben",
     "longestStreak": "Längste Serie",
-    "currentStreak": "Aktuelle Serie"
+    "currentStreak": "Aktuelle Serie",
+    "accuracyScore": "Genauigkeitswert",
+    "bestTimeOfDay": "Beste Tageszeit",
+    "mostUnderestimated": "Am Meisten Unterschätzte Kategorie",
+    "weeklyAverage": "Wöchentlicher Durchschnitt",
+    "noData": "Noch keine Daten verfügbar. Führen Sie einige Aufgaben aus, um Einblicke zu sehen.",
+    "viewDetails": "Details Anzeigen",
+    "exportData": "Daten Exportieren"
   },
   "templates": {
     "title": "Vorlagen",
@@ -50,7 +57,13 @@
     "templateName": "Vorlagenname",
     "estimatedDuration": "Geschätzte Dauer",
     "noTemplates": "Noch keine Vorlagen. Erstelle eine, um zu beginnen!",
-    "createFromTask": "Aus Aufgabe Erstellen"
+    "createFromTask": "Aus Aufgabe Erstellen",
+    "duplicateTemplate": "Vorlage Duplizieren",
+    "useTemplate": "Vorlage Verwenden",
+    "templateDescription": "Beschreibung",
+    "defaultTemplates": "Standardvorlagen",
+    "customTemplates": "Benutzerdefinierte Vorlagen",
+    "selectCategory": "Kategorie Auswählen"
   },
   "journal": {
     "title": "Tagebuch",
@@ -62,7 +75,15 @@
     "actualTime": "Tatsächliche Zeit",
     "notes": "Notizen",
     "noEntries": "Noch keine Tagebucheinträge.",
-    "timeDifference": "Zeitdifferenz"
+    "timeDifference": "Zeitdifferenz",
+    "dateCompleted": "Abschlußdatum",
+    "accuracy": "Genauigkeit",
+    "earlyCompletion": "Früh Abgeschlossen",
+    "lateCompletion": "Spät Abgeschlossen",
+    "onTimeCompletion": "Pünktlich Abgeschlossen",
+    "searchEntries": "Einträge Durchsuchen",
+    "filterByDate": "Nach Datum Filtern",
+    "filterByCategory": "Nach Kategorie Filtern"
   },
   "settings": {
     "title": "Einstellungen",
@@ -113,7 +134,16 @@
     "emailTriage": "E-Mail-Sortierung",
     "meditation": "Meditation",
     "deepWork": "Tiefe Arbeit",
-    "lunch": "Mittagessen"
+    "lunch": "Mittagessen",
+    "breakfastPrep": "Frühstücksvorbereitung",
+    "eveningWalk": "Abendspaziergang",
+    "journaling": "Tagebuchschreiben",
+    "familyTime": "Familienzeit",
+    "projectWork": "Projektarbeit",
+    "clientCall": "Kundenanruf",
+    "documentation": "Dokumentation",
+    "testing": "Testen",
+    "deployment": "Bereitstellung"
   },
   "messages": {
     "taskCreated": "Aufgabe erfolgreich erstellt",

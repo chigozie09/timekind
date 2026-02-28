@@ -40,7 +40,14 @@
     "averageTaskDuration": "Duración Promedio de Tarea",
     "totalTasksCompleted": "Total de Tareas Completadas",
     "longestStreak": "Racha Más Larga",
-    "currentStreak": "Racha Actual"
+    "currentStreak": "Racha Actual",
+    "accuracyScore": "Puntuación de Precisión",
+    "bestTimeOfDay": "Mejor Hora del Día",
+    "mostUnderestimated": "Categoría Más Subestimada",
+    "weeklyAverage": "Promedio Semanal",
+    "noData": "Sin datos disponibles aún. Completa algunas tareas para ver información.",
+    "viewDetails": "Ver Detalles",
+    "exportData": "Exportar Datos"
   },
   "templates": {
     "title": "Plantillas",
@@ -50,7 +57,13 @@
     "templateName": "Nombre de Plantilla",
     "estimatedDuration": "Duración Estimada",
     "noTemplates": "Sin plantillas aún. ¡Crea una para comenzar!",
-    "createFromTask": "Crear desde Tarea"
+    "createFromTask": "Crear desde Tarea",
+    "duplicateTemplate": "Duplicar Plantilla",
+    "useTemplate": "Usar Plantilla",
+    "templateDescription": "Descripción",
+    "defaultTemplates": "Plantillas Predeterminadas",
+    "customTemplates": "Plantillas Personalizadas",
+    "selectCategory": "Seleccionar Categoría"
   },
   "journal": {
     "title": "Diario",
@@ -113,7 +126,16 @@
     "emailTriage": "Triaje de Correos",
     "meditation": "Meditación",
     "deepWork": "Trabajo Profundo",
-    "lunch": "Almuerzo"
+    "lunch": "Almuerzo",
+    "breakfastPrep": "Preparación del Desayuno",
+    "eveningWalk": "Paseo Nocturno",
+    "journaling": "Diario",
+    "familyTime": "Tiempo en Familia",
+    "projectWork": "Trabajo de Proyecto",
+    "clientCall": "Llamada del Cliente",
+    "documentation": "Documentación",
+    "testing": "Pruebas",
+    "deployment": "Despliegue"
   },
   "messages": {
     "taskCreated": "Tarea creada exitosamente",
