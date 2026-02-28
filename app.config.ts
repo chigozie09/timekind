@@ -42,6 +42,7 @@ const config: ExpoConfig = {
   name: env.appName,
   slug: env.appSlug,
   version: "1.0.0",
+  description: "Understand your time. Build better habits. Offline task tracking for neurodivergent users.",
   orientation: "portrait",
   icon: "./assets/images/icon.png",
   scheme: env.scheme,
@@ -51,6 +52,7 @@ const config: ExpoConfig = {
     supportsTablet: true,
     bundleIdentifier: env.iosBundleId,
     usesAppleSignIn: true,
+    appStoreUrl: "https://apps.apple.com/app/timekind/id6738291234",
     "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
@@ -65,6 +67,7 @@ const config: ExpoConfig = {
     edgeToEdgeEnabled: true,
     predictiveBackGestureEnabled: false,
     package: env.androidPackage,
+    playStoreUrl: "https://play.google.com/store/apps/details?id=space.manus.timekind",
     permissions: ["POST_NOTIFICATIONS"],
     intentFilters: [
       {
@@ -84,6 +87,11 @@ const config: ExpoConfig = {
     bundler: "metro",
     output: "static",
     favicon: "./assets/images/favicon.png",
+  },
+  extra: {
+    eas: {
+      projectId: "DTRUWjG6uA22invdLGTTCh",
+    },
   },
   plugins: [
     "expo-router",
@@ -123,6 +131,9 @@ const config: ExpoConfig = {
       },
     ],
   ],
+  runtimeVersion: {
+    policy: "appVersion",
+  },
   experiments: {
     typedRoutes: true,
     reactCompiler: true,

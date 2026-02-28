@@ -17,6 +17,13 @@ import {
   addTask as addTaskToStorage,
   updateTask as updateTaskInStorage,
 } from "./store";
+import {
+  initializeAnalytics,
+  getAnalyticsSettings,
+  requestAnalyticsConsent,
+  trackAppSessionStarted,
+} from "./analytics";
+import { AnalyticsConsentModal } from "@/components/analytics-consent-modal";
 
 interface AppContextValue {
   settings: AppSettings;
@@ -34,6 +41,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [settings, setSettings] = useState<AppSettings>(DEFAULT_SETTINGS);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [showAnalyticsConsent, setShowAnalyticsConsent] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -41,6 +49,18 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         const [s, t] = await Promise.all([loadSettings(), loadTasks()]);
         setSettings(s);
         setTasks(t);
+
+        // Initialize analytics
+        await initializeAnalytics();
+        const analyticsSettings = await getAnalyticsSettings();
+        
+        // Show consent modal if user hasn't decided yet
+        if (!analyticsSettings.consentGiven) {
+          setShowAnalyticsConsent(true);
+        }
+
+        // Track app session start
+        await trackAppSessionStarted(t.length > 0);
       } catch (error) {
         console.error("Failed to load app data:", error);
       } finally {
@@ -96,7 +116,25 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     [settings, tasks, isLoading, handleUpdateSettings, handleAddTask, handleUpdateTask, refreshTasks]
   );
 
-  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
+  const handleAnalyticsConsent = useCallback(async () => {
+    await requestAnalyticsConsent();
+    setShowAnalyticsConsent(false);
+  }, []);
+
+  const handleAnalyticsDecline = useCallback(() => {
+    setShowAnalyticsConsent(false);
+  }, []);
+
+  return (
+    <>
+      <AppContext.Provider value={value}>{children}</AppContext.Provider>
+      <AnalyticsConsentModal
+        visible={showAnalyticsConsent}
+        onConsent={handleAnalyticsConsent}
+        onDecline={handleAnalyticsDecline}
+      />
+    </>
+  );
 }
 
 export function useApp(): AppContextValue {

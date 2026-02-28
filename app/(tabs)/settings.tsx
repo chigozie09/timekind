@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   ScrollView,
   Text,
@@ -28,14 +28,29 @@ import { useAnimatedPress } from "@/hooks/use-animated-press";
 import { Animated } from "react-native";
 import { useRouter } from "expo-router";
 import { exportTasksAsCSV, exportTasksAsJSON, getExportSummary } from "@/lib/export-history";
+import {
+  getAnalyticsSettings,
+  requestAnalyticsConsent,
+  revokeAnalyticsConsent,
+  exportAnalyticsData,
+  clearTrackedEvents,
+} from "@/lib/analytics";
 
 export default function SettingsScreen() {
   const router = useRouter();
   const { settings, updateSettings, tasks, refreshTasks } = useApp();
   const { setColorScheme } = useThemeContext();
   const [nudgeTime, setNudgeTime] = useState(settings.dailyNudgeTime);
+  const [analyticsEnabled, setAnalyticsEnabled] = useState(false);
   const { scaleAnim: exportScale, handlePressIn: exportPressIn, handlePressOut: exportPressOut } = useAnimatedPress();
   const { scaleAnim: importScale, handlePressIn: importPressIn, handlePressOut: importPressOut } = useAnimatedPress();
+
+  useEffect(() => {
+    (async () => {
+      const settings = await getAnalyticsSettings();
+      setAnalyticsEnabled(settings.trackingEnabled);
+    })();
+  }, []);
 
   const handleThemeChange = (mode: ThemeMode) => {
     updateSettings({ themeMode: mode });
@@ -300,6 +315,75 @@ export default function SettingsScreen() {
               trackColor={{ false: "#E6E1DA", true: "#6B6B6B" }}
             />
           </View>
+        </View>
+
+        {/* Analytics */}
+        <View className="bg-surface rounded-2xl p-5 border border-border mb-4">
+          <Text className="text-xs font-semibold text-muted uppercase tracking-widest mb-4">
+            Analytics
+          </Text>
+          <View className="flex-row justify-between items-center mb-4">
+            <View className="flex-1 pr-4">
+              <Text className="text-lg font-semibold text-foreground">Help Improve TimeKind</Text>
+              <Text className="text-sm text-muted mt-1">Optional usage analytics</Text>
+            </View>
+            <Switch
+              value={analyticsEnabled}
+              onValueChange={async (val) => {
+                if (val) {
+                  await requestAnalyticsConsent();
+                } else {
+                  await revokeAnalyticsConsent();
+                }
+                setAnalyticsEnabled(val);
+              }}
+              trackColor={{ false: "#E6E1DA", true: "#6B6B6B" }}
+            />
+          </View>
+          {analyticsEnabled && (
+            <TouchableOpacity
+              onPress={async () => {
+                try {
+                  const data = await exportAnalyticsData();
+                  const filename = `timekind-analytics-${new Date().toISOString().split("T")[0]}.json`;
+                  await Sharing.shareAsync(`data:application/json;base64,${btoa(JSON.stringify(data, null, 2))}`, {
+                    mimeType: "application/json",
+                  });
+                } catch (error) {
+                  Alert.alert("Export failed", "Could not export analytics data");
+                }
+              }}
+              className="bg-background border border-muted rounded-xl py-3 items-center w-full mt-3"
+              activeOpacity={0.7}
+            >
+              <Text className="text-muted font-semibold text-base">View Analytics Data</Text>
+            </TouchableOpacity>
+          )}
+          {analyticsEnabled && (
+            <TouchableOpacity
+              onPress={async () => {
+                Alert.alert(
+                  "Clear Analytics",
+                  "Delete all tracked analytics data?",
+                  [
+                    { text: "Cancel", style: "cancel" },
+                    {
+                      text: "Clear",
+                      style: "destructive",
+                      onPress: async () => {
+                        await clearTrackedEvents();
+                        Alert.alert("Success", "Analytics data cleared.");
+                      },
+                    },
+                  ]
+                );
+              }}
+              className="bg-background border border-error rounded-xl py-3 items-center w-full mt-2"
+              activeOpacity={0.7}
+            >
+              <Text className="text-error font-semibold text-base">Clear Analytics Data</Text>
+            </TouchableOpacity>
+          )}
         </View>
 
         {/* Data Management */}
