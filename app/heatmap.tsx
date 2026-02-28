@@ -19,16 +19,15 @@ export default function HeatmapScreen() {
 
   return (
     <ScreenContainer className="flex-1 px-5 pt-4">
-      <View className="flex-row items-center justify-between mb-6">
-        <Text className="text-3xl font-bold text-foreground">
-          Productivity Heatmap
-        </Text>
-        <TouchableOpacity
-          onPress={() => router.back()}
-          className="px-4 py-2 rounded-lg bg-surface"
-          activeOpacity={0.7}
-        >
-          <Text className="text-foreground font-semibold">Close</Text>
+      <View className="flex-row justify-between items-start mb-6">
+        <View className="flex-1">
+          <Text className="text-4xl font-bold text-foreground mb-2">
+            Productivity Heatmap
+          </Text>
+          <Text className="text-lg text-muted">Your best days and times</Text>
+        </View>
+        <TouchableOpacity onPress={() => router.back()} className="ml-4">
+          <Text className="text-2xl text-muted">✕</Text>
         </TouchableOpacity>
       </View>
 

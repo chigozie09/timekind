@@ -95,9 +95,14 @@ export default function BulkTasksScreen() {
     <ScreenContainer className="px-5 pt-4">
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 32 }}>
         {/* Header */}
-        <View className="mb-6">
-          <Text className="text-4xl font-bold text-foreground mb-2">Plan Your Day</Text>
-          <Text className="text-lg text-muted">Add all tasks with start times</Text>
+        <View className="flex-row justify-between items-start mb-6">
+          <View className="flex-1">
+            <Text className="text-4xl font-bold text-foreground mb-2">Plan Your Day</Text>
+            <Text className="text-lg text-muted">Add all tasks with start times</Text>
+          </View>
+          <TouchableOpacity onPress={() => router.back()} className="ml-4">
+            <Text className="text-2xl text-muted">✕</Text>
+          </TouchableOpacity>
         </View>
 
         {/* Tasks List */}
