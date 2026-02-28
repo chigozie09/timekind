@@ -97,13 +97,18 @@ export default function TemplatesScreen() {
 
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Header */}
-        <View className="mb-8">
-          <Text className="text-4xl font-bold text-foreground mb-2">
-            Task Templates
-          </Text>
-          <Text className="text-lg text-muted">
-            Quick-start routines for common activities
-          </Text>
+        <View className="flex-row justify-between items-start mb-8">
+          <View className="flex-1">
+            <Text className="text-4xl font-bold text-foreground mb-2">
+              Task Templates
+            </Text>
+            <Text className="text-lg text-muted">
+              Quick-start routines for common activities
+            </Text>
+          </View>
+          <TouchableOpacity onPress={() => router.back()} className="ml-4">
+            <Text className="text-2xl text-muted">✕</Text>
+          </TouchableOpacity>
         </View>
 
         {/* Templates Grid */}

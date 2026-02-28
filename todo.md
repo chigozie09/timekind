@@ -110,3 +110,6 @@
 - [x] Add missing start time field to start-task screen
 - [x] Fix bulk-tasks screen and make it accessible from home
 - [x] Ensure multiple task scheduling works with individual start times
+
+## Phase 18: UI Improvements
+- [x] Add back button to Task Templates screen
