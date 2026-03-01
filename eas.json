@@ -8,25 +8,6 @@
       "android": {
         "buildType": "app-bundle"
       }
-    },
-    "preview": {
-      "distribution": "internal",
-      "android": {
-        "buildType": "apk"
-      }
-    },
-    "development": {
-      "distribution": "internal",
-      "android": {
-        "buildType": "apk"
-      }
-    }
-  },
-  "submit": {
-    "production": {
-      "android": {
-        "serviceAccountKeyPath": "./google-play-key.json"
-      }
     }
   }
 }
