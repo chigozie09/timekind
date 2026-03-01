@@ -6,11 +6,7 @@
     "production": {
       "distribution": "store",
       "android": {
-        "buildType": "aab",
-        "gradleCommand": ":app:bundleRelease"
-      },
-      "ios": {
-        "buildType": "archive"
+        "buildType": "app-bundle"
       }
     },
     "preview": {
