@@ -20,7 +20,10 @@
     "upload:app-store-content": "node scripts/upload-app-store-content.js",
     "build:eas:ios": "eas build --platform ios --non-interactive --wait --auto-submit",
     "build:eas:android": "eas build --platform android --non-interactive --wait --auto-submit",
-    "build:eas:all": "eas build --platform all --non-interactive --wait --auto-submit"
+    "build:eas:all": "eas build --platform all --non-interactive --wait --auto-submit",
+    "build:production": "node scripts/build-production.js",
+    "build:production:submit": "node scripts/build-production.js --submit",
+    "build:production:dry-run": "node scripts/build-production.js --dry-run"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
