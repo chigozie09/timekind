@@ -1,0 +1,46 @@
+TimeKind 1.0.0 - Initial Release
+
+Welcome to TimeKind, a neurodivergent-friendly task tracking and routine building app!
+
+✨ Key Features:
+• Task management with time tracking and estimation
+• Productivity insights and heatmap visualization
+• Task templates for quick setup
+• Smart time blocking based on your patterns
+• Journal entries with task history
+• Multi-language support (English, Spanish, French, German, Japanese)
+• Offline-first design with no cloud sync
+• Optional analytics and crash reporting with explicit consent
+
+🧠 Designed for Neurodivergent Users:
+• Clear, uncluttered interface
+• Dark mode for reduced eye strain
+• Gentle, non-judgmental feedback
+• Flexible task management
+• Respects your unique time perception
+
+🔒 Privacy & Security:
+• Completely offline - your data stays on your device
+• No personal data collection
+• No cloud sync required
+• Optional analytics and crash reporting
+• Full control over your data
+
+🌍 Languages:
+English, Spanish, French, German, Japanese
+
+📊 Quality Assurance:
+• 110+ passing tests
+• Zero TypeScript errors
+• Comprehensive accessibility features
+• WCAG 2.1 AA compliant
+
+🚀 Get Started:
+1. Create your first task
+2. Start tracking time
+3. Review your productivity insights
+4. Build better routines
+
+This is the initial release of TimeKind. We've built this with care for neurodivergent individuals who struggle with time perception and task management. We hope it helps you understand your time better and build routines that work for you.
+
+Enjoy! 🎉

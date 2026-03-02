@@ -168,3 +168,15 @@
 - [x] Create production build generation scripts
 - [x] Build post-launch monitoring dashboard
 - [x] Final integration and checkpoint
+
+## Phase 27: Google Play Store Submission Assets
+- [x] Generate 8 screenshots for 7-inch tablets (1440×2560 px, 9:16)
+- [x] Generate 8 screenshots for 10-inch tablets (2560×1440 px, 16:9)
+- [x] Generate 8 screenshots for Chromebook (1920×1080 px, 16:9)
+- [x] Generate 8 screenshots for Android XR (2560×1440 px, 16:9)
+- [ ] Upload screenshots to Google Play Console
+- [ ] Verify feature graphic upload (1024×500 px)
+- [ ] Host privacy policy on GitHub Pages
+- [ ] Upload .aab file from EAS Build
+- [ ] Complete all required Google Play forms
+- [ ] Submit app for review
