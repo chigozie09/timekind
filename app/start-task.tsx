@@ -12,7 +12,7 @@ import {
 import { router } from "expo-router";
 import { ScreenContainer } from "@/components/screen-container";
 import { useApp } from "@/lib/app-context";
-
+import { DatePickerModal } from "@/components/date-picker-modal";
 import { EnergyLevel, TaskPriority, generateUUID, Task } from "@/lib/store";
 import { useAnimatedPress } from "@/hooks/use-animated-press";
 import { REMINDER_OPTIONS, updateTaskReminder } from "@/lib/task-reminders";
@@ -33,7 +33,9 @@ export default function StartTaskScreen() {
   const [newCategoryName, setNewCategoryName] = useState("");
   const [reminderMinutes, setReminderMinutes] = useState<number | null>(null);
   const [priority, setPriority] = useState<TaskPriority>("Medium");
+  const [startDate, setStartDate] = useState<Date>(new Date());
   const [startTime, setStartTime] = useState<string>("");
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
   const categories = settings.categories || [];
 
@@ -49,15 +51,20 @@ export default function StartTaskScreen() {
     const taskId = generateUUID();
     const now = new Date().toISOString();
     
-    // Parse start time if provided
+    // Parse start time and date if provided
     let taskStartTime = now;
+    const taskDate = new Date(startDate);
+    
     if (startTime.trim()) {
       const [hours, minutes] = startTime.split(':').map(Number);
       if (!isNaN(hours) && !isNaN(minutes)) {
-        const today = new Date();
-        today.setHours(hours, minutes, 0, 0);
-        taskStartTime = today.toISOString();
+        taskDate.setHours(hours, minutes, 0, 0);
+        taskStartTime = taskDate.toISOString();
       }
+    } else {
+      // If no time specified but date is selected, use start of day
+      taskDate.setHours(0, 0, 0, 0);
+      taskStartTime = taskDate.toISOString();
     }
     
     const task: Task = {
@@ -297,6 +304,23 @@ export default function StartTaskScreen() {
             ))}
           </View>
 
+          {/* Start Date */}
+          <Text className="text-base font-semibold text-muted mb-3">Start date (optional)</Text>
+          <TouchableOpacity
+            onPress={() => setShowDatePicker(true)}
+            className="bg-surface border border-border rounded-xl px-4 py-4 mb-5 flex-row justify-between items-center"
+          >
+            <Text className="text-lg text-foreground font-semibold">
+              {startDate.toLocaleDateString('en-US', { 
+                weekday: 'short', 
+                month: 'short', 
+                day: 'numeric',
+                year: 'numeric'
+              })}
+            </Text>
+            <Text className="text-2xl">📅</Text>
+          </TouchableOpacity>
+
           {/* Start Time */}
           <Text className="text-base font-semibold text-muted mb-3">Start time (optional)</Text>
           <TextInput
@@ -398,6 +422,12 @@ export default function StartTaskScreen() {
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
+      <DatePickerModal
+        visible={showDatePicker}
+        onClose={() => setShowDatePicker(false)}
+        onSelectDate={setStartDate}
+        initialDate={startDate}
+      />
     </ScreenContainer>
   );
 }

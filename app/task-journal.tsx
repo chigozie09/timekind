@@ -104,23 +104,41 @@ export default function TaskJournalScreen() {
   return (
     <ScreenContainer className="p-6">
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        {/* Header */}
-        <View className="mb-6">
-          <Text className="text-4xl font-bold text-foreground">Journal</Text>
-          <Text className="text-base text-muted mt-2">
-            {reflectionCount} reflection{reflectionCount !== 1 ? "s" : ""} recorded
-          </Text>
+        {/* Header with Back Button */}
+        <View className="flex-row justify-between items-start mb-6">
+          <View className="flex-1">
+            <Text className="text-4xl font-bold text-foreground">Journal</Text>
+            <Text className="text-base text-muted mt-2">
+              {reflectionCount} reflection{reflectionCount !== 1 ? "s" : ""} recorded
+            </Text>
+          </View>
+          <TouchableOpacity onPress={() => router.back()} className="ml-4">
+            <Text className="text-2xl text-muted">✕</Text>
+          </TouchableOpacity>
         </View>
 
-        {/* Search Input */}
-        <View className="mb-6">
+        {/* Search Input with Button */}
+        <View className="mb-6 flex-row gap-2">
           <TextInput
             value={searchQuery}
             onChangeText={setSearchQuery}
             placeholder="Search reflections..."
             placeholderTextColor="#999"
-            className="bg-surface border border-border rounded-lg px-4 py-3 text-base text-foreground"
+            className="flex-1 bg-surface border border-border rounded-lg px-4 py-3 text-base text-foreground"
+            returnKeyType="search"
           />
+          <TouchableOpacity
+            onPress={() => {
+              // Search is already live-filtered, this button confirms the search
+              if (searchQuery.trim()) {
+                // Trigger any haptic feedback if needed
+              }
+            }}
+            className="bg-primary rounded-lg px-4 justify-center items-center"
+            activeOpacity={0.7}
+          >
+            <Text className="text-white font-bold text-lg">🔍</Text>
+          </TouchableOpacity>
         </View>
 
         {/* Period Filter */}
