@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Text, View, TouchableOpacity, StyleSheet, Switch } from "react-native";
+import { Text, View, TouchableOpacity, StyleSheet, Switch, ScrollView } from "react-native";
 import { router } from "expo-router";
 import { ScreenContainer } from "@/components/screen-container";
 import { useApp } from "@/lib/app-context";
@@ -69,12 +69,26 @@ export default function OnboardingScreen() {
   const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
 
   const regions = [
+    // English-speaking
     { code: "en-GB", label: "United Kingdom", flag: "🇬🇧" },
     { code: "en-US", label: "United States", flag: "🇺🇸" },
     { code: "en-AU", label: "Australia", flag: "🇦🇺" },
     { code: "en-CA", label: "Canada", flag: "🇨🇦" },
     { code: "en-NZ", label: "New Zealand", flag: "🇳🇿" },
     { code: "en-IE", label: "Ireland", flag: "🇮🇪" },
+    { code: "en-SG", label: "Singapore", flag: "🇸🇬" },
+    { code: "en-IN", label: "India", flag: "🇮🇳" },
+    { code: "en-ZA", label: "South Africa", flag: "🇿🇦" },
+    // European
+    { code: "fr-FR", label: "France", flag: "🇫🇷" },
+    { code: "de-DE", label: "Germany", flag: "🇩🇪" },
+    { code: "es-ES", label: "Spain", flag: "🇪🇸" },
+    { code: "it-IT", label: "Italy", flag: "🇮🇹" },
+    { code: "nl-NL", label: "Netherlands", flag: "🇳🇱" },
+    // Asian
+    { code: "ja-JP", label: "Japan", flag: "🇯🇵" },
+    { code: "zh-CN", label: "China", flag: "🇨🇳" },
+    { code: "ko-KR", label: "South Korea", flag: "🇰🇷" },
   ];
 
   const handleGetStarted = async () => {
@@ -112,7 +126,7 @@ export default function OnboardingScreen() {
               <Text className="text-lg text-muted text-center font-medium">
                 {currentSlide.subtitle}
               </Text>
-              <View className="gap-3 mt-4 px-2">
+              <ScrollView className="gap-3 mt-4 px-2 max-h-96">
                 {regions.map((region) => (
                   <TouchableOpacity
                     key={region.code}
@@ -136,7 +150,7 @@ export default function OnboardingScreen() {
                     </Text>
                   </TouchableOpacity>
                 ))}
-              </View>
+              </ScrollView>
             </View>
           ) : isAccessibilitySlide ? (
             <View className="w-full gap-6">

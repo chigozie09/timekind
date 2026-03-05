@@ -1,7 +1,11 @@
 import { getCurrentLanguage } from './i18n';
 
 export type LanguageCode = 'en' | 'es' | 'fr' | 'de' | 'ja';
-export type RegionCode = 'en-GB' | 'en-US' | 'en-AU' | 'en-CA' | 'en-NZ' | 'en-IE';
+export type RegionCode = 
+  | 'en-GB' | 'en-US' | 'en-AU' | 'en-CA' | 'en-NZ' | 'en-IE'
+  | 'en-SG' | 'en-IN' | 'en-ZA'
+  | 'fr-FR' | 'de-DE' | 'es-ES' | 'it-IT' | 'nl-NL'
+  | 'ja-JP' | 'zh-CN' | 'ko-KR';
 
 interface RegionalSettings {
   dateFormat: string;
@@ -23,6 +27,7 @@ export function getUserRegion(): RegionCode | null {
 }
 
 const REGION_SETTINGS: Record<RegionCode, RegionalSettings> = {
+  // English-speaking regions
   'en-GB': {
     dateFormat: 'DD/MMM/YYYY',
     timeFormat: '24-hour',
@@ -68,6 +73,96 @@ const REGION_SETTINGS: Record<RegionCode, RegionalSettings> = {
     timeFormat: '24-hour',
     currency: 'EUR',
     weekStartsOn: 'monday',
+    decimalSeparator: '.',
+    thousandsSeparator: ',',
+  },
+  'en-SG': {
+    dateFormat: 'DD/MM/YYYY',
+    timeFormat: '24-hour',
+    currency: 'SGD',
+    weekStartsOn: 'monday',
+    decimalSeparator: '.',
+    thousandsSeparator: ',',
+  },
+  'en-IN': {
+    dateFormat: 'DD/MM/YYYY',
+    timeFormat: '24-hour',
+    currency: 'INR',
+    weekStartsOn: 'sunday',
+    decimalSeparator: '.',
+    thousandsSeparator: ',',
+  },
+  'en-ZA': {
+    dateFormat: 'YYYY/MM/DD',
+    timeFormat: '24-hour',
+    currency: 'ZAR',
+    weekStartsOn: 'sunday',
+    decimalSeparator: ',',
+    thousandsSeparator: ' ',
+  },
+  // European regions
+  'fr-FR': {
+    dateFormat: 'DD/MM/YYYY',
+    timeFormat: '24-hour',
+    currency: 'EUR',
+    weekStartsOn: 'monday',
+    decimalSeparator: ',',
+    thousandsSeparator: ' ',
+  },
+  'de-DE': {
+    dateFormat: 'DD.MM.YYYY',
+    timeFormat: '24-hour',
+    currency: 'EUR',
+    weekStartsOn: 'monday',
+    decimalSeparator: ',',
+    thousandsSeparator: '.',
+  },
+  'es-ES': {
+    dateFormat: 'DD/MM/YYYY',
+    timeFormat: '24-hour',
+    currency: 'EUR',
+    weekStartsOn: 'monday',
+    decimalSeparator: ',',
+    thousandsSeparator: '.',
+  },
+  'it-IT': {
+    dateFormat: 'DD/MM/YYYY',
+    timeFormat: '24-hour',
+    currency: 'EUR',
+    weekStartsOn: 'monday',
+    decimalSeparator: ',',
+    thousandsSeparator: '.',
+  },
+  'nl-NL': {
+    dateFormat: 'DD-MM-YYYY',
+    timeFormat: '24-hour',
+    currency: 'EUR',
+    weekStartsOn: 'monday',
+    decimalSeparator: ',',
+    thousandsSeparator: '.',
+  },
+  // Asian regions
+  'ja-JP': {
+    dateFormat: 'YYYY年MM月DD日',
+    timeFormat: '24-hour',
+    currency: 'JPY',
+    weekStartsOn: 'sunday',
+    decimalSeparator: '.',
+    thousandsSeparator: ',',
+  },
+  'zh-CN': {
+    dateFormat: 'YYYY年MM月DD日',
+    timeFormat: '24-hour',
+    currency: 'CNY',
+    weekStartsOn: 'sunday',
+    decimalSeparator: '.',
+    thousandsSeparator: ',',
+  },
+  'ko-KR': {
+    dateFormat: 'YYYY년MM월DD일',
+    timeFormat: '24-hour',
+    currency: 'KRW',
+    weekStartsOn: 'sunday',
     decimalSeparator: '.',
     thousandsSeparator: ',',
   },
@@ -150,10 +245,16 @@ export function formatDate(date: Date | string): string {
       return `${day}/${monthName}/${year}`;
     case 'DD.MM.YYYY':
       return `${day}.${month}.${year}`;
+    case 'DD-MM-YYYY':
+      return `${day}-${month}-${year}`;
     case 'YYYY-MM-DD':
       return `${year}-${month}-${day}`;
+    case 'YYYY/MM/DD':
+      return `${year}/${month}/${day}`;
     case 'YYYY年MM月DD日':
       return `${year}年${month}月${day}日`;
+    case 'YYYY년MM월DD일':
+      return `${year}년${month}월${day}일`;
     default:
       return `${month}/${day}/${year}`;
   }
