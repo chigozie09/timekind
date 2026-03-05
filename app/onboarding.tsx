@@ -7,6 +7,12 @@ import { useColors } from "@/hooks/use-colors";
 
 const slides = [
   {
+    id: "0",
+    title: "Where are you based?",
+    subtitle: "We'll customise date and time formats for your region.",
+    isRegion: true,
+  },
+  {
     id: "1",
     title: "Time feels different\nfor everyone.",
     subtitle: "And that's perfectly okay.",
@@ -60,6 +66,16 @@ export default function OnboardingScreen() {
   const [disableAnimations, setDisableAnimations] = useState(false);
   const [disableSounds, setDisableSounds] = useState(false);
   const [disableNotifications, setDisableNotifications] = useState(true);
+  const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
+
+  const regions = [
+    { code: "en-GB", label: "United Kingdom", flag: "🇬🇧" },
+    { code: "en-US", label: "United States", flag: "🇺🇸" },
+    { code: "en-AU", label: "Australia", flag: "🇦🇺" },
+    { code: "en-CA", label: "Canada", flag: "🇨🇦" },
+    { code: "en-NZ", label: "New Zealand", flag: "🇳🇿" },
+    { code: "en-IE", label: "Ireland", flag: "🇮🇪" },
+  ];
 
   const handleGetStarted = async () => {
     await updateSettings({
@@ -67,6 +83,7 @@ export default function OnboardingScreen() {
       disableAnimations,
       soundEnabled: !disableSounds,
       notificationsEnabled: !disableNotifications,
+      region: selectedRegion || "en-GB",
     });
     router.replace("/(tabs)");
   };
@@ -80,13 +97,48 @@ export default function OnboardingScreen() {
   const currentSlide = slides[currentIndex];
   const isLast = currentIndex === slides.length - 1;
   const isAccessibilitySlide = currentSlide.isAccessibility;
+  const isRegionSlide = currentSlide.isRegion;
 
   return (
     <ScreenContainer edges={["top", "bottom", "left", "right"]}>
       <View style={styles.container}>
         {/* Slide Content */}
         <View style={styles.slideArea}>
-          {isAccessibilitySlide ? (
+          {isRegionSlide ? (
+            <View className="w-full gap-6">
+              <Text className="text-4xl font-bold text-foreground text-center leading-[50px]">
+                {currentSlide.title}
+              </Text>
+              <Text className="text-lg text-muted text-center font-medium">
+                {currentSlide.subtitle}
+              </Text>
+              <View className="gap-3 mt-4 px-2">
+                {regions.map((region) => (
+                  <TouchableOpacity
+                    key={region.code}
+                    onPress={() => setSelectedRegion(region.code)}
+                    className={`p-4 rounded-xl border flex-row items-center ${
+                      selectedRegion === region.code
+                        ? "bg-primary border-primary"
+                        : "bg-surface border-border"
+                    }`}
+                    activeOpacity={0.7}
+                  >
+                    <Text className="text-2xl mr-3">{region.flag}</Text>
+                    <Text
+                      className={`text-base font-semibold ${
+                        selectedRegion === region.code
+                          ? "text-white"
+                          : "text-foreground"
+                      }`}
+                    >
+                      {region.label}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </View>
+          ) : isAccessibilitySlide ? (
             <View className="w-full gap-6">
               <Text className="text-4xl font-bold text-foreground text-center leading-[50px]">
                 {currentSlide.title}
@@ -149,11 +201,16 @@ export default function OnboardingScreen() {
           {isLast ? (
             <TouchableOpacity
               onPress={handleGetStarted}
+              disabled={isRegionSlide && !selectedRegion}
               style={styles.button}
-              className="bg-primary"
+              className={isRegionSlide && !selectedRegion ? "bg-border" : "bg-primary"}
               activeOpacity={0.8}
             >
-              <Text className="text-white text-lg font-bold">Get started</Text>
+              <Text className={`text-lg font-bold ${
+                isRegionSlide && !selectedRegion ? "text-muted" : "text-white"
+              }`}>
+                Get started
+              </Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity

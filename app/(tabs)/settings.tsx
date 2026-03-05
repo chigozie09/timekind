@@ -341,12 +341,7 @@ export default function SettingsScreen() {
                 {formatTime(new Date())}
               </Text>
             </View>
-            <View className="bg-background rounded-lg p-3 border border-border">
-              <Text className="text-xs text-muted mb-1">Currency Sample</Text>
-              <Text className="text-base font-semibold text-foreground">
-                {formatCurrency(99.99)}
-              </Text>
-            </View>
+
           </View>
         </View>
 

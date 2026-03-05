@@ -165,8 +165,8 @@ export default function TaskJournalScreen() {
           ))}
         </View>
 
-        {/* AI Summary Button */}
-        {selectedPeriod === "week" && filteredTasks.length > 0 && (
+        {/* Summary Button */}
+        {filteredTasks.length > 0 && (
           <TouchableOpacity
             onPress={async () => {
               setSummaryLoading(true);
@@ -182,6 +182,7 @@ export default function TaskJournalScreen() {
                       mood: t.mood,
                       accuracy: t.accuracyPercent,
                     })),
+                    period: selectedPeriod,
                   }),
                 });
                 if (response.ok) {
@@ -199,7 +200,7 @@ export default function TaskJournalScreen() {
             activeOpacity={0.7}
           >
             <Text className="text-white font-bold text-base">
-              {summaryLoading ? "Generating summary..." : "✨ Weekly AI Summary"}
+              {summaryLoading ? "Generating summary..." : `Summary for ${selectedPeriod === "week" ? "This Week" : selectedPeriod === "month" ? "This Month" : "All Time"}`}
             </Text>
           </TouchableOpacity>
         )}
@@ -210,7 +211,9 @@ export default function TaskJournalScreen() {
             <TouchableOpacity onPress={() => setShowingSummary(false)} className="mb-3">
               <Text className="text-primary font-bold">Close</Text>
             </TouchableOpacity>
-            <Text className="text-lg font-bold text-foreground mb-3">This Week's Insights</Text>
+            <Text className="text-lg font-bold text-foreground mb-3">
+              {selectedPeriod === "week" ? "This Week's" : selectedPeriod === "month" ? "This Month's" : "All Time"} Insights
+            </Text>
             {summary.insights && summary.insights.map((insight: string, i: number) => (
               <Text key={i} className="text-sm text-foreground mb-2 leading-relaxed">
                 • {insight}

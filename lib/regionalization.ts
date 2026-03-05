@@ -1,6 +1,7 @@
 import { getCurrentLanguage } from './i18n';
 
 export type LanguageCode = 'en' | 'es' | 'fr' | 'de' | 'ja';
+export type RegionCode = 'en-GB' | 'en-US' | 'en-AU' | 'en-CA' | 'en-NZ' | 'en-IE';
 
 interface RegionalSettings {
   dateFormat: string;
@@ -10,6 +11,67 @@ interface RegionalSettings {
   decimalSeparator: string;
   thousandsSeparator: string;
 }
+
+let userRegion: RegionCode | null = null;
+
+export function setUserRegion(region: RegionCode) {
+  userRegion = region;
+}
+
+export function getUserRegion(): RegionCode | null {
+  return userRegion;
+}
+
+const REGION_SETTINGS: Record<RegionCode, RegionalSettings> = {
+  'en-GB': {
+    dateFormat: 'DD/MMM/YYYY',
+    timeFormat: '24-hour',
+    currency: 'GBP',
+    weekStartsOn: 'monday',
+    decimalSeparator: '.',
+    thousandsSeparator: ',',
+  },
+  'en-US': {
+    dateFormat: 'MM/DD/YYYY',
+    timeFormat: '12-hour',
+    currency: 'USD',
+    weekStartsOn: 'sunday',
+    decimalSeparator: '.',
+    thousandsSeparator: ',',
+  },
+  'en-AU': {
+    dateFormat: 'DD/MM/YYYY',
+    timeFormat: '24-hour',
+    currency: 'AUD',
+    weekStartsOn: 'monday',
+    decimalSeparator: '.',
+    thousandsSeparator: ',',
+  },
+  'en-CA': {
+    dateFormat: 'YYYY-MM-DD',
+    timeFormat: '24-hour',
+    currency: 'CAD',
+    weekStartsOn: 'sunday',
+    decimalSeparator: '.',
+    thousandsSeparator: ',',
+  },
+  'en-NZ': {
+    dateFormat: 'DD/MM/YYYY',
+    timeFormat: '24-hour',
+    currency: 'NZD',
+    weekStartsOn: 'monday',
+    decimalSeparator: '.',
+    thousandsSeparator: ',',
+  },
+  'en-IE': {
+    dateFormat: 'DD/MM/YYYY',
+    timeFormat: '24-hour',
+    currency: 'EUR',
+    weekStartsOn: 'monday',
+    decimalSeparator: '.',
+    thousandsSeparator: ',',
+  },
+};
 
 const REGIONAL_SETTINGS: Record<LanguageCode, RegionalSettings> = {
   en: {
@@ -55,9 +117,12 @@ const REGIONAL_SETTINGS: Record<LanguageCode, RegionalSettings> = {
 };
 
 /**
- * Get regional settings for current language
+ * Get regional settings for current region or language
  */
 export function getRegionalSettings(): RegionalSettings {
+  if (userRegion && REGION_SETTINGS[userRegion]) {
+    return REGION_SETTINGS[userRegion];
+  }
   const language = (getCurrentLanguage() as LanguageCode) || 'en';
   return REGIONAL_SETTINGS[language] || REGIONAL_SETTINGS.en;
 }
@@ -73,13 +138,20 @@ export function formatDate(date: Date | string): string {
   const month = String(d.getMonth() + 1).padStart(2, '0');
   const day = String(d.getDate()).padStart(2, '0');
 
+  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const monthName = monthNames[d.getMonth()];
+
   switch (settings.dateFormat) {
     case 'MM/DD/YYYY':
       return `${month}/${day}/${year}`;
     case 'DD/MM/YYYY':
       return `${day}/${month}/${year}`;
+    case 'DD/MMM/YYYY':
+      return `${day}/${monthName}/${year}`;
     case 'DD.MM.YYYY':
       return `${day}.${month}.${year}`;
+    case 'YYYY-MM-DD':
+      return `${year}-${month}-${day}`;
     case 'YYYY年MM月DD日':
       return `${year}年${month}月${day}日`;
     default:
