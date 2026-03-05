@@ -17,9 +17,10 @@ interface BulkTask {
 }
 
 export default function BulkTasksScreen() {
-  const { addTask } = useApp();
-  const { scaleAnim: addScale, handlePressIn: addPressIn, handlePressOut: addPressOut } = useAnimatedPress();
-  const { scaleAnim: submitScale, handlePressIn: submitPressIn, handlePressOut: submitPressOut } = useAnimatedPress();
+  try {
+    const { addTask } = useApp();
+    const { scaleAnim: addScale, handlePressIn: addPressIn, handlePressOut: addPressOut } = useAnimatedPress();
+    const { scaleAnim: submitScale, handlePressIn: submitPressIn, handlePressOut: submitPressOut } = useAnimatedPress();
 
   const [tasks, setTasks] = useState<BulkTask[]>([
     { id: uuidv4(), name: "", estimatedMinutes: 30, startTime: "09:00", category: "Work" },
@@ -59,40 +60,72 @@ export default function BulkTasksScreen() {
 
     try {
       const today = new Date();
+      const tasksToAdd = [];
+      
       for (const task of tasks) {
-        const [hours, minutes] = task.startTime.split(":").map(Number);
-        const startDate = new Date(today);
-        startDate.setHours(hours, minutes, 0, 0);
+        try {
+          const [hours, minutes] = task.startTime.split(":").map(Number);
+          
+          // Validate time format
+          if (isNaN(hours) || isNaN(minutes) || hours < 0 || hours > 23 || minutes < 0 || minutes > 59) {
+            Alert.alert("Invalid time", `Task "${task.name}" has invalid start time. Please use HH:MM format.`);
+            return;
+          }
+          
+          const startDate = new Date(today);
+          startDate.setHours(hours, minutes, 0, 0);
 
-        await addTask({
-          id: uuidv4() as any,
-          taskName: task.name,
-          estimatedMinutes: task.estimatedMinutes,
-          actualMinutes: 0,
-          category: task.category,
-          energyLevel: "Medium",
-          accuracyPercent: 0,
-          startTime: startDate.toISOString(),
-          endTime: null,
-          reflection: "",
-          mood: null,
-          cloudId: null,
-          timeOfDayTag: "Morning",
-          updatedAt: new Date().toISOString(),
-          deletedAt: null,
-        } as any);
+          tasksToAdd.push({
+            id: uuidv4() as any,
+            taskName: task.name,
+            estimatedMinutes: Math.max(1, task.estimatedMinutes || 30),
+            actualMinutes: 0,
+            category: task.category || "Work",
+            energyLevel: "Medium" as const,
+            accuracyPercent: 0,
+            startTime: startDate.toISOString(),
+            endTime: null,
+            reflection: null,
+            mood: null,
+            cloudId: null,
+            priority: "Medium" as const,
+            blockedByTaskId: null,
+            isBlocking: false,
+            subtasks: [],
+            timeOfDayTag: "Morning" as const,
+            updatedAt: new Date().toISOString(),
+            deletedAt: null,
+          });
+        } catch (taskError) {
+          console.error(`Error processing task "${task.name}":`, taskError);
+          Alert.alert("Error", `Failed to process task "${task.name}". Please check the values and try again.`);
+          return;
+        }
+      }
+      
+      // Add all tasks
+      for (const taskToAdd of tasksToAdd) {
+        await addTask(taskToAdd);
       }
 
-      Alert.alert("Success", `Added ${tasks.length} tasks for today`);
-      router.replace("/(tabs)");
+      Alert.alert("Success", `Added ${tasks.length} task${tasks.length !== 1 ? 's' : ''} for today`);
+      
+      // Use try-catch for navigation in case route doesn't exist
+      try {
+        router.replace("/(tabs)");
+      } catch (navError) {
+        console.error("Navigation error:", navError);
+        // Fallback: try to go back
+        router.back();
+      }
     } catch (error) {
-      Alert.alert("Error", "Failed to add tasks");
-      console.error(error);
+      console.error("Error adding tasks:", error);
+      Alert.alert("Error", `Failed to add tasks: ${error instanceof Error ? error.message : 'Unknown error'}`)
     }
   };
 
-  return (
-    <ScreenContainer className="px-5 pt-4">
+    return (
+      <ScreenContainer className="px-5 pt-4">
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 32 }}>
         {/* Header */}
         <View className="flex-row justify-between items-start mb-6">
@@ -202,6 +235,22 @@ export default function BulkTasksScreen() {
           </TouchableOpacity>
         </Animated.View>
       </ScrollView>
-    </ScreenContainer>
-  );
+      </ScreenContainer>
+    );
+  } catch (contextError) {
+    // If useApp() fails, show error screen
+    console.error("AppContext error:", contextError);
+    return (
+      <ScreenContainer className="px-5 pt-4 justify-center items-center">
+        <Text className="text-lg text-error font-bold mb-4">Error Loading Plan Your Day</Text>
+        <Text className="text-base text-muted mb-6 text-center">The app encountered an error. Please try again.</Text>
+        <TouchableOpacity 
+          onPress={() => router.back()}
+          className="bg-primary rounded-lg px-6 py-3"
+        >
+          <Text className="text-white font-semibold">Go Back</Text>
+        </TouchableOpacity>
+      </ScreenContainer>
+    );
+  }
 }

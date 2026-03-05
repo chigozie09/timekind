@@ -7,6 +7,7 @@ import {
   Modal,
   ActivityIndicator,
   Animated,
+  Alert,
 } from "react-native";
 import { router } from "expo-router";
 import { ScreenContainer } from "@/components/screen-container";
@@ -44,33 +45,50 @@ export default function TemplatesScreen() {
     setLoading(true);
     try {
       const tasks = createTasksFromTemplate(template);
+      let successCount = 0;
+      
       for (const taskData of tasks) {
-        const task = {
-          id: `${Date.now()}-${Math.random()}`,
-          cloudId: null,
-          taskName: taskData.taskName || "",
-          category: taskData.category || null,
-          energyLevel: taskData.energyLevel || "Medium",
-          estimatedMinutes: taskData.estimatedMinutes || 30,
-          actualMinutes: 0,
-          accuracyPercent: 0,
-          startTime: new Date().toISOString(),
-          endTime: null,
-          timeOfDayTag: null,
-          reflection: null,
-          mood: null,
-          priority: "Medium" as const,
-          blockedByTaskId: null,
-          isBlocking: false,
-          subtasks: [],
-          updatedAt: new Date().toISOString(),
-          deletedAt: null,
-        };
-        await addTask(task);
+        try {
+          const task = {
+            id: `${Date.now()}-${Math.random()}-${successCount}`,
+            cloudId: null,
+            taskName: taskData.taskName || "",
+            category: taskData.category || null,
+            energyLevel: taskData.energyLevel || "Medium",
+            estimatedMinutes: taskData.estimatedMinutes || 30,
+            actualMinutes: 0,
+            accuracyPercent: 0,
+            startTime: new Date().toISOString(),
+            endTime: null,
+            timeOfDayTag: null,
+            reflection: null,
+            mood: null,
+            priority: "Medium" as const,
+            blockedByTaskId: null,
+            isBlocking: false,
+            subtasks: [],
+            updatedAt: new Date().toISOString(),
+            deletedAt: null,
+          };
+          await addTask(task);
+          successCount++;
+        } catch (taskError) {
+          console.error(`Failed to add task "${taskData.taskName}":`, taskError);
+        }
       }
-      router.replace("/(tabs)");
+      
+      if (successCount > 0) {
+        Alert.alert(
+          "Success",
+          `Added ${successCount} task${successCount !== 1 ? 's' : ''} from "${template.name}" template`
+        );
+        router.replace("/(tabs)");
+      } else {
+        Alert.alert("Error", "Failed to add tasks from template. Please try again.");
+      }
     } catch (error) {
       console.error("Failed to create tasks from template:", error);
+      Alert.alert("Error", `Failed to load template: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       setLoading(false);
       setSelectedTemplate(null);

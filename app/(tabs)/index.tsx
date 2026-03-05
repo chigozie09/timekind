@@ -233,15 +233,15 @@ export default function HomeScreen() {
 
         {/* CTA Buttons */}
         <View className="gap-3 mb-7">
-          <Animated.View style={{ transform: [{ scale: ctaScale }] }}>
+          <Animated.View style={{ transform: [{ scale: ctaScale }] }} className="w-full">
             <TouchableOpacity
               onPress={() => router.push("/start-task")}
               onPressIn={ctaPressIn}
               onPressOut={ctaPressOut}
-              className="bg-primary py-5 rounded-2xl items-center"
+              className="bg-primary py-5 rounded-2xl items-center w-full"
               activeOpacity={1}
             >
-              <Text className="text-white text-lg font-bold">
+              <Text className="text-white text-lg font-bold text-center" numberOfLines={2}>
                 Start a task
               </Text>
             </TouchableOpacity>
