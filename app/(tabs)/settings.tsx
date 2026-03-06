@@ -43,6 +43,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { AVAILABLE_LANGUAGES, changeLanguage, getCurrentLanguage } from "@/lib/i18n";
 import { formatDate, formatTime, formatCurrency } from "@/lib/regionalization";
+import { useFontSize, FontSizeScale, LineHeightScale } from "@/lib/font-size-context";
 
 export default function SettingsScreen() {
   const router = useRouter();
@@ -51,9 +52,9 @@ export default function SettingsScreen() {
   const { t } = useTranslation();
   const [nudgeTime, setNudgeTime] = useState(settings.dailyNudgeTime);
   const [analyticsEnabled, setAnalyticsEnabled] = useState(false);
-  const [crashReportingEnabled, setCrashReportingEnabled] = useState(false);
-  const [currentLanguage, setCurrentLanguage] = useState(getCurrentLanguage());
   const [showLanguagePicker, setShowLanguagePicker] = useState(false);
+  const [currentLanguage, setCurrentLanguage] = useState(getCurrentLanguage());
+  const { fontSizeScale, lineHeightScale, setFontSizeScale, setLineHeightScale } = useFontSize();
   const { scaleAnim: exportScale, handlePressIn: exportPressIn, handlePressOut: exportPressOut } = useAnimatedPress();
   const { scaleAnim: importScale, handlePressIn: importPressIn, handlePressOut: importPressOut } = useAnimatedPress();
 
@@ -321,6 +322,68 @@ export default function SettingsScreen() {
               ))}
             </View>
           )}
+        </View>
+
+        {/* Accessibility - Font Size */}
+        <View className="bg-surface rounded-2xl p-5 border border-border mb-4">
+          <Text className="text-xs font-semibold text-muted uppercase tracking-widest mb-4">
+            {t("settings.accessibility") || "Accessibility"}
+          </Text>
+          <View className="gap-4">
+            <View>
+              <Text className="text-lg font-semibold text-foreground mb-3">Text Size</Text>
+              <View className="gap-2">
+                {(["normal", "large", "extra-large"] as FontSizeScale[]).map((size) => (
+                  <TouchableOpacity
+                    key={size}
+                    onPress={() => setFontSizeScale(size)}
+                    className={`p-3 rounded-lg border flex-row items-center justify-between ${
+                      fontSizeScale === size
+                        ? "bg-primary border-primary"
+                        : "bg-background border-border"
+                    }`}
+                    activeOpacity={0.7}
+                  >
+                    <Text
+                      className={`text-base font-semibold capitalize ${
+                        fontSizeScale === size ? "text-white" : "text-foreground"
+                      }`}
+                    >
+                      {size === "extra-large" ? "Extra Large" : size.charAt(0).toUpperCase() + size.slice(1)}
+                    </Text>
+                    {fontSizeScale === size && <Text className="text-white text-lg">✓</Text>}
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </View>
+
+            <View>
+              <Text className="text-lg font-semibold text-foreground mb-3">Line Spacing</Text>
+              <View className="gap-2">
+                {(["normal", "comfortable", "spacious"] as LineHeightScale[]).map((spacing) => (
+                  <TouchableOpacity
+                    key={spacing}
+                    onPress={() => setLineHeightScale(spacing)}
+                    className={`p-3 rounded-lg border flex-row items-center justify-between ${
+                      lineHeightScale === spacing
+                        ? "bg-primary border-primary"
+                        : "bg-background border-border"
+                    }`}
+                    activeOpacity={0.7}
+                  >
+                    <Text
+                      className={`text-base font-semibold capitalize ${
+                        lineHeightScale === spacing ? "text-white" : "text-foreground"
+                      }`}
+                    >
+                      {spacing.charAt(0).toUpperCase() + spacing.slice(1)}
+                    </Text>
+                    {lineHeightScale === spacing && <Text className="text-white text-lg">✓</Text>}
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </View>
+          </View>
         </View>
 
         {/* Regionalization Preview */}

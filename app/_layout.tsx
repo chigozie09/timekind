@@ -19,6 +19,7 @@ import type { EdgeInsets, Metrics, Rect } from "react-native-safe-area-context";
 import { trpc, createTRPCClient } from "@/lib/trpc";
 import { initManusRuntime, subscribeSafeAreaInsets } from "@/lib/_core/manus-runtime";
 import { AppProvider } from "@/lib/app-context";
+import { FontSizeProvider } from "@/lib/font-size-context";
 import { OnboardingModalWrapper } from "@/components/onboarding-modal-wrapper";
 
 
@@ -80,24 +81,26 @@ export default function RootLayout() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <trpc.Provider client={trpcClient} queryClient={queryClient}>
         <QueryClientProvider client={queryClient}>
-          <AppProvider>
-            <OnboardingModalWrapper />
-            <Stack screenOptions={{ headerShown: false }}>
-              <Stack.Screen name="(tabs)" />
-              <Stack.Screen name="onboarding" options={{ gestureEnabled: false }} />
-              <Stack.Screen name="start-task" options={{ presentation: "card" }} />
-              <Stack.Screen name="active-timer" options={{ gestureEnabled: false }} />
-              <Stack.Screen name="complete-task" options={{ gestureEnabled: false }} />
-              <Stack.Screen name="breathing" options={{ presentation: "card" }} />
-              <Stack.Screen name="weekly-story" options={{ presentation: "card" }} />
-              <Stack.Screen name="bulk-tasks" options={{ presentation: "card" }} />
-              <Stack.Screen name="calendar-view" options={{ presentation: "card" }} />
-              <Stack.Screen name="heatmap" options={{ presentation: "card" }} />
-              <Stack.Screen name="privacy-policy" options={{ presentation: "card" }} />
-              <Stack.Screen name="terms-of-service" options={{ presentation: "card" }} />
-            </Stack>
-            <StatusBar style="auto" />
-          </AppProvider>
+          <FontSizeProvider>
+            <AppProvider>
+              <OnboardingModalWrapper />
+              <Stack screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="(tabs)" />
+                <Stack.Screen name="onboarding" options={{ gestureEnabled: false }} />
+                <Stack.Screen name="start-task" options={{ presentation: "card" }} />
+                <Stack.Screen name="active-timer" options={{ gestureEnabled: false }} />
+                <Stack.Screen name="complete-task" options={{ gestureEnabled: false }} />
+                <Stack.Screen name="breathing" options={{ presentation: "card" }} />
+                <Stack.Screen name="weekly-story" options={{ presentation: "card" }} />
+                <Stack.Screen name="bulk-tasks" options={{ presentation: "card" }} />
+                <Stack.Screen name="calendar-view" options={{ presentation: "card" }} />
+                <Stack.Screen name="heatmap" options={{ presentation: "card" }} />
+                <Stack.Screen name="privacy-policy" options={{ presentation: "card" }} />
+                <Stack.Screen name="terms-of-service" options={{ presentation: "card" }} />
+              </Stack>
+              <StatusBar style="auto" />
+            </AppProvider>
+          </FontSizeProvider>
         </QueryClientProvider>
       </trpc.Provider>
     </GestureHandlerRootView>
