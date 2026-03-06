@@ -134,7 +134,7 @@ export default function CompleteTaskScreen() {
 
               <View className="border-t border-border pt-4 mt-2">
                 <View className="flex-row justify-between items-center">
-                  <Text className="text-base text-muted font-medium">Accuracy</Text>
+                  <Text className="text-base text-muted font-medium">Time Insight</Text>
                   <Text className="text-2xl font-bold text-foreground">
                     {task.accuracyPercent}%
                   </Text>

@@ -79,7 +79,7 @@ export default function HomeScreen() {
   const todayTasks = getTasksInRange(tasks, 1);
   const todayBestTime = getBestTimeOfDay(todayTasks);
   const todayInsight = todayTasks.length > 0 && todayBestTime
-    ? `Today: your estimates were closest in the ${todayBestTime}.`
+    ? `Today: your time estimates were most accurate in the ${todayBestTime}.`
     : "Start with one small task. That's enough.";
 
   // This week
@@ -303,12 +303,12 @@ export default function HomeScreen() {
             <View className="gap-2">
               {weekAvg !== null && (
                 <Text className="text-base text-foreground font-medium">
-                  Average accuracy: <Text className="font-bold text-primary">{weekAvg}%</Text>
+                  Time insight average: <Text className="font-bold text-primary">{weekAvg}%</Text>
                 </Text>
               )}
               {weekBestTime && (
                 <Text className="text-base text-foreground font-medium">
-                  Most accurate: <Text className="font-bold text-primary">{weekBestTime}</Text>
+                  Best time estimates: <Text className="font-bold text-primary">{weekBestTime}</Text>
                 </Text>
               )}
               {weekWorstCat && (
@@ -372,7 +372,7 @@ export default function HomeScreen() {
                       {task.estimatedMinutes}m → {task.actualMinutes}m
                     </Text>
                     <Text className="text-sm text-muted mt-1">
-                      {task.accuracyPercent}% accuracy
+                      {task.accuracyPercent}% time insight
                     </Text>
                   </View>
                 </View>

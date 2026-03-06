@@ -180,11 +180,11 @@ export default function InsightsScreen() {
           </TouchableOpacity>
         </View>
 
-        {/* Average Accuracy */}
+        {/* Average Time Insight */}
         {avg !== null && (
           <View className="bg-surface rounded-2xl p-5 border border-border mb-4">
             <Text className="text-xs font-semibold text-muted uppercase tracking-widest mb-2">
-              Average Accuracy
+              Average Time Insight
             </Text>
             <Text className="text-4xl font-bold text-foreground">
               {avg}%
@@ -192,10 +192,10 @@ export default function InsightsScreen() {
           </View>
         )}
 
-        {/* Accuracy Trend Chart */}
+        {/* Time Insight Trend Chart */}
         <View className="bg-surface rounded-2xl p-5 border border-border mb-4">
           <Text className="text-xs font-semibold text-muted uppercase tracking-widest mb-4">
-            Accuracy Trend
+            Time Insight Trend
           </Text>
           {dailyData.length === 0 ? (
             <Text className="text-base text-muted py-4 text-center">
