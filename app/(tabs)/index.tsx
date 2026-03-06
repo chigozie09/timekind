@@ -259,7 +259,7 @@ export default function HomeScreen() {
             className="bg-surface border border-border py-4 rounded-2xl items-center"
           >
             <Text className="text-foreground text-lg font-bold">
-              View journal
+              View activity log
             </Text>
           </TouchableOpacity>
           <TouchableOpacity

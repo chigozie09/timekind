@@ -176,7 +176,7 @@ export default function CompleteTaskScreen() {
             {/* Reflection Prompts */}
             <View className="w-full mb-4">
               <Text className="text-lg font-bold text-foreground mb-3">Reflection</Text>
-              <Text className="text-sm text-muted mb-3">Optional: Share thoughts to build your journal</Text>
+              <Text className="text-sm text-muted mb-3">Optional: Share thoughts to build your activity log</Text>
               
               {/* Quick Prompts */}
               <View className="flex-row flex-wrap gap-2 mb-4">

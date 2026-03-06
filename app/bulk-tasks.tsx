@@ -89,6 +89,7 @@ export default function BulkTasksScreen() {
             mood: null,
             cloudId: null,
             priority: "Medium" as const,
+            taskType: null,
             blockedByTaskId: null,
             isBlocking: false,
             subtasks: [],

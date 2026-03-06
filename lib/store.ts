@@ -52,6 +52,7 @@ export interface Task {
   reflection: string | null;
   mood: number | null; // 1-5 rating
   priority: TaskPriority; // High, Medium, Low
+  taskType: string | null; // Optional: Work, Health, Creative, Chores, Study, etc.
   blockedByTaskId: string | null; // Task ID that must complete first
   isBlocking: boolean; // Whether this task blocks others
   subtasks: Subtask[]; // Breakdown of task into smaller steps
@@ -184,12 +185,12 @@ export function computeAccuracy(estimated: number, actual: number): number {
 
 export function getGentleMessage(accuracyPercent: number): string {
   if (accuracyPercent >= 90 && accuracyPercent <= 110) {
-    return "You were close today.";
+    return "Your time estimate was spot on today.";
   }
   if (accuracyPercent < 90) {
-    return "This task expanded more than expected. That happens.";
+    return "This task took longer than expected. You're learning your patterns.";
   }
-  return "You finished sooner than expected. Useful to know.";
+  return "You finished ahead of schedule. That's valuable insight.";
 }
 
 export function generateUUID(): string {

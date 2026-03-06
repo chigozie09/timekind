@@ -107,7 +107,7 @@ export default function TaskJournalScreen() {
         {/* Header with Back Button */}
         <View className="flex-row justify-between items-start mb-6">
           <View className="flex-1">
-            <Text className="text-4xl font-bold text-foreground">Journal</Text>
+            <Text className="text-4xl font-bold text-foreground">Activity Log</Text>
             <Text className="text-base text-muted mt-2">
               {reflectionCount} reflection{reflectionCount !== 1 ? "s" : ""} recorded
             </Text>
@@ -180,7 +180,7 @@ export default function TaskJournalScreen() {
                       category: t.category,
                       reflection: t.reflection,
                       mood: t.mood,
-                      accuracy: t.accuracyPercent,
+                      timeInsight: t.accuracyPercent,
                     })),
                     period: selectedPeriod,
                   }),

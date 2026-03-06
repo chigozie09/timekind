@@ -64,6 +64,7 @@ export default function TemplatesScreen() {
             reflection: null,
             mood: null,
             priority: "Medium" as const,
+            taskType: null,
             blockedByTaskId: null,
             isBlocking: false,
             subtasks: [],

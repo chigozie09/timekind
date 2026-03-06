@@ -33,6 +33,7 @@ export default function StartTaskScreen() {
   const [newCategoryName, setNewCategoryName] = useState("");
   const [reminderMinutes, setReminderMinutes] = useState<number | null>(null);
   const [priority, setPriority] = useState<TaskPriority>("Medium");
+  const [taskType, setTaskType] = useState<string | null>(null);
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [startTime, setStartTime] = useState<string>("");
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -82,6 +83,7 @@ export default function StartTaskScreen() {
       reflection: null,
       mood: null,
       priority: priority,
+      taskType: taskType,
       blockedByTaskId: null,
       isBlocking: false,
       subtasks: [],
@@ -299,6 +301,48 @@ export default function StartTaskScreen() {
                   }`}
                 >
                   {p}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          {/* Task Type */}
+          <Text className="text-base font-semibold text-muted mb-3">Task type (optional)</Text>
+          <View className="flex-row flex-wrap gap-2 mb-5">
+            <TouchableOpacity
+              onPress={() => setTaskType(null)}
+              className={`px-4 py-2.5 rounded-xl border ${
+                taskType === null
+                  ? "bg-primary border-primary"
+                  : "bg-surface border-border"
+              }`}
+              activeOpacity={0.7}
+            >
+              <Text
+                className={`text-base font-semibold ${
+                  taskType === null ? "text-white" : "text-foreground"
+                }`}
+              >
+                None
+              </Text>
+            </TouchableOpacity>
+            {["Work", "Health", "Creative", "Chores", "Study"].map((type) => (
+              <TouchableOpacity
+                key={type}
+                onPress={() => setTaskType(type)}
+                className={`px-4 py-2.5 rounded-xl border ${
+                  taskType === type
+                    ? "bg-primary border-primary"
+                    : "bg-surface border-border"
+                }`}
+                activeOpacity={0.7}
+              >
+                <Text
+                  className={`text-base font-semibold ${
+                    taskType === type ? "text-white" : "text-foreground"
+                  }`}
+                >
+                  {type}
                 </Text>
               </TouchableOpacity>
             ))}

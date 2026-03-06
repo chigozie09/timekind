@@ -79,22 +79,22 @@ describe("getTimeOfDayTag", () => {
 // ============================================================
 describe("getGentleMessage", () => {
   it("returns close message for 100%", () => {
-    expect(getGentleMessage(100)).toBe("You were close today.");
+    expect(getGentleMessage(100)).toBe("Your time estimate was spot on today.");
   });
 
   it("returns close message for 95%", () => {
-    expect(getGentleMessage(95)).toBe("You were close today.");
+    expect(getGentleMessage(95)).toBe("Your time estimate was spot on today.");
   });
 
   it("returns expanded message for 50%", () => {
     expect(getGentleMessage(50)).toBe(
-      "This task expanded more than expected. That happens."
+      "This task took longer than expected. You're learning your patterns."
     );
   });
 
   it("returns sooner message for 150%", () => {
     expect(getGentleMessage(150)).toBe(
-      "You finished sooner than expected. Useful to know."
+      "You finished ahead of schedule. That's valuable insight."
     );
   });
 });

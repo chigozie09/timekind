@@ -160,7 +160,7 @@ export default function HeatmapScreen() {
                       {cell.day} - {cell.timeOfDay}
                     </Text>
                     <Text className="text-xs text-muted mt-1">
-                      {cell.completedCount} tasks • {cell.accuracy}% accurate
+                      {cell.completedCount} tasks • {cell.accuracy}% time insight
                     </Text>
                   </View>
                   <View className="items-end">

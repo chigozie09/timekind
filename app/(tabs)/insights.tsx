@@ -131,7 +131,7 @@ export default function InsightsScreen() {
         scrollEnabled={false}
       >
         <Text className="text-4xl font-bold text-foreground mt-4 mb-6">
-          Insights
+          Reflect
         </Text>
 
         {/* Range Toggle & Export */}
