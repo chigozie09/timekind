@@ -237,3 +237,10 @@
 - [x] Integrate stats cards into Reflect tab
 - [x] Add search functionality to Activity Log (already implemented)
 - [x] Test both features end-to-end
+
+## Phase 36: Daily Reflection Prompts & Celebration Messages
+- [x] Add daily reflection prompt state and storage
+- [x] Create reflection prompt modal component
+- [x] Integrate reflection prompt into home screen
+- [x] Add task completion celebration messages
+- [x] Test both features end-to-end

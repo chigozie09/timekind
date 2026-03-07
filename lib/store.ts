@@ -39,6 +39,8 @@ export interface AppSettings {
   timeFormat: "12h" | "24h"; // Time format preference (12-hour or 24-hour)
   tasksCompletedForRating: number; // Counter for tasks completed since last rating prompt
   hasShownRatingPrompt: boolean; // Whether user has seen the rating prompt
+  lastReflectionPromptDate: string | null; // ISO string - last date reflection prompt was shown
+  reflectionPromptEnabled: boolean; // Whether daily reflection prompts are enabled
 }
 
 export interface RecurrencePattern {
@@ -117,6 +119,8 @@ export const DEFAULT_SETTINGS: AppSettings = {
   timeFormat: "24h",
   tasksCompletedForRating: 0,
   hasShownRatingPrompt: false,
+  lastReflectionPromptDate: null,
+  reflectionPromptEnabled: true,
 };
 
 // ============================================================

@@ -46,6 +46,18 @@ export default function CompleteTaskScreen() {
   const completedCount = getActiveTasks(tasks).filter((t) => t.endTime).length;
   const shouldAskNotification =
     completedCount === 1 && !settings.notificationAsked && !settings.notificationsEnabled;
+  
+  const getCelebrationMessage = (count: number): string | null => {
+    if (count === 1) return "First task complete! Great start!";
+    if (count === 5) return "5 tasks done! You are building momentum!";
+    if (count === 10) return "10 tasks! You are on a roll!";
+    if (count === 25) return "25 tasks! That is impressive dedication!";
+    if (count === 50) return "50 tasks! You are a time management master!";
+    if (count === 100) return "100 tasks! Legendary status unlocked!";
+    return null;
+  };
+  
+  const celebrationMessage = getCelebrationMessage(completedCount + 1);
 
   const handleDone = async () => {
     let updatedTask = task;
@@ -150,6 +162,15 @@ export default function CompleteTaskScreen() {
                 </View>
               </View>
             </View>
+
+            {/* Celebration Message */}
+            {celebrationMessage && (
+              <View className="bg-primary rounded-2xl px-5 py-5 w-full mb-5">
+                <Text className="text-base text-background text-center leading-6 font-bold">
+                  {celebrationMessage}
+                </Text>
+              </View>
+            )}
 
             {/* Gentle Message */}
             <View className="bg-success rounded-2xl px-5 py-5 w-full mb-5">

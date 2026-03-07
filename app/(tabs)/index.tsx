@@ -24,15 +24,17 @@ import { calculateWeeklyStreak, getBestStreak } from "@/lib/streak-calculator";
 import { getMoodRecommendations } from "@/lib/mood-recommendations";
 import { HelpOverlay } from "@/components/help-overlay";
 import { useTranslation } from "react-i18next";
+import { ReflectionPromptModal } from "@/components/reflection-prompt-modal";
 
 export default function HomeScreen() {
   const { t } = useTranslation();
-  const { settings, tasks, isLoading, refreshTasks } = useApp();
+  const { settings, tasks, isLoading, refreshTasks, updateSettings } = useApp();
   const { scaleAnim: ctaScale, handlePressIn: ctaPressIn, handlePressOut: ctaPressOut } = useAnimatedPress();
   const { scaleAnim: storyScale, handlePressIn: storyPressIn, handlePressOut: storyPressOut } = useAnimatedPress();
   const [refreshing, setRefreshing] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [helpVisible, setHelpVisible] = useState(false);
+  const [showReflectionPrompt, setShowReflectionPrompt] = useState(false);
 
   const handleRefresh = async () => {
     setRefreshing(true);
@@ -43,6 +45,30 @@ export default function HomeScreen() {
     } finally {
       setRefreshing(false);
     }
+  };
+
+  useEffect(() => {
+    if (settings.reflectionPromptEnabled && !isLoading) {
+      const today = new Date().toDateString();
+      const lastPromptDate = settings.lastReflectionPromptDate
+        ? new Date(settings.lastReflectionPromptDate).toDateString()
+        : null;
+      
+      if (today !== lastPromptDate) {
+        const timer = setTimeout(() => {
+          setShowReflectionPrompt(true);
+        }, 2000);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [settings.reflectionPromptEnabled, isLoading]);
+
+  const handleReflectionSubmit = async (reflection: string) => {
+    setShowReflectionPrompt(false);
+    await updateSettings({
+      ...settings,
+      lastReflectionPromptDate: new Date().toISOString(),
+    });
   };
 
   useEffect(() => {
@@ -464,6 +490,11 @@ export default function HomeScreen() {
         </View>
       </ScrollView>
     </ScreenContainer>
+    <ReflectionPromptModal
+      visible={showReflectionPrompt}
+      onClose={() => setShowReflectionPrompt(false)}
+      onSubmit={handleReflectionSubmit}
+    />
     </>
   );
 }
