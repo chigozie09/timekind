@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Modal, Platform } from 'react-native';
-import * as StoreReview from 'expo-store-review';
+import { requestReview, isAvailableAsync } from 'expo-store-review';
 import { useColors } from '@/hooks/use-colors';
 
 interface RatingPromptModalProps {
@@ -14,8 +14,8 @@ export function RatingPromptModal({ visible, onDismiss, onRated }: RatingPromptM
 
   const handleRate = async () => {
     try {
-      if (await StoreReview.isAvailableAsync()) {
-        await StoreReview.requestReview();
+      if (await isAvailableAsync()) {
+        await requestReview();
       }
     } catch (error) {
       console.error('Error requesting review:', error);
