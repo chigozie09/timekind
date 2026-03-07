@@ -3,6 +3,7 @@ import { ScrollView, Text, View, TouchableOpacity, StyleSheet, PanResponder, Ani
 import { ScreenContainer } from "@/components/screen-container";
 import { useApp } from "@/lib/app-context";
 import { router } from "expo-router";
+import { StatsCards } from "@/components/stats-cards";
 import {
   getTasksInRange,
   avgAccuracy,
@@ -18,6 +19,7 @@ import { createExportFile } from "@/lib/calendar-export";
 export default function InsightsScreen() {
   const { tasks } = useApp();
   const [range, setRange] = useState<7 | 30>(7);
+  const [showStats, setShowStats] = useState(false);
   const [exportFormat, setExportFormat] = useState<"ical" | "csv" | "json" | null>(null);
   const [exporting, setExporting] = useState(false);
   const panX = useRef(new Animated.Value(0)).current;
@@ -123,6 +125,20 @@ export default function InsightsScreen() {
           </View>
         </View>
       </Modal>
+
+      {/* Stats Toggle Button */}
+      <View className="flex-row justify-between items-center mb-4">
+        <Text className="text-2xl font-bold text-foreground">Reflect & Improve</Text>
+        <TouchableOpacity
+          onPress={() => setShowStats(!showStats)}
+          className="bg-surface border border-border rounded-lg px-4 py-2"
+        >
+          <Text className="text-sm font-semibold text-primary">{showStats ? 'Hide' : 'Show'} Stats</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Stats Cards */}
+      {showStats && <StatsCards tasks={tasks} />}
 
       <Animated.ScrollView
         {...panResponder.panHandlers}

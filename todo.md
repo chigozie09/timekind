@@ -230,3 +230,10 @@
 - [x] Create rating prompt modal component
 - [x] Integrate rating prompt into task completion flow
 - [x] Test rating prompt functionality
+
+## Phase 35: Simple Stats Cards & Activity Log Search
+- [x] Add stats calculation functions for weekly tasks and accuracy
+- [x] Create simple stats cards component
+- [x] Integrate stats cards into Reflect tab
+- [x] Add search functionality to Activity Log (already implemented)
+- [x] Test both features end-to-end
