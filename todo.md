@@ -219,3 +219,8 @@
 - [x] Add date picker state and UI to Plan Your Day screen
 - [x] Update task creation logic to use selected date instead of today
 - [x] Test date picker functionality
+
+## Phase 33: Add Legal Links to Settings
+- [x] Update Legal section in Settings screen with clickable links
+- [x] Create in-app web view screen for legal documents
+- [x] Test legal links and web views

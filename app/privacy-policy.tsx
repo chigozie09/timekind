@@ -1,75 +1,39 @@
-import React from 'react';
-import { View, Text, ScrollView, Pressable } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { WebView } from 'react-native-webview';
 import { useRouter } from 'expo-router';
 import { ScreenContainer } from '@/components/screen-container';
 
 export default function PrivacyPolicy() {
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
 
   return (
-    <ScreenContainer className="p-6">
-      <View className="flex-row items-center justify-between mb-6">
-        <Text className="text-3xl font-bold text-foreground">Privacy Policy</Text>
-        <Pressable onPress={() => router.back()}>
-          <Text className="text-2xl text-muted">✕</Text>
-        </Pressable>
-      </View>
-
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View className="gap-6">
-          <Section title="Data Collection">
-            <Text className="text-base text-muted leading-relaxed">
-              TimeKind collects task data, time estimates, and reflections that you create. This data is stored locally on your device and is never sent to external servers without your explicit consent.
-            </Text>
-          </Section>
-
-          <Section title="Data Storage">
-            <Text className="text-base text-muted leading-relaxed">
-              All your data is stored locally using device storage (AsyncStorage). We do not collect, store, or access your personal information on our servers.
-            </Text>
-          </Section>
-
-          <Section title="Permissions">
-            <Text className="text-base text-muted leading-relaxed">
-              TimeKind may request permissions for:
-              {'\n'}• Notifications: To remind you of upcoming tasks
-              {'\n'}• Calendar: To export task data to your calendar
-              {'\n'}• Audio: To play sound effects and breathing exercises
-            </Text>
-          </Section>
-
-          <Section title="Third-Party Services">
-            <Text className="text-base text-muted leading-relaxed">
-              TimeKind does not share your data with third parties. We do not use analytics, advertising, or tracking services.
-            </Text>
-          </Section>
-
-          <Section title="Changes to This Policy">
-            <Text className="text-base text-muted leading-relaxed">
-              We may update this privacy policy from time to time. Continued use of TimeKind constitutes acceptance of any changes.
-            </Text>
-          </Section>
-
-          <Section title="Contact Us">
-            <Text className="text-base text-muted leading-relaxed">
-              If you have questions about this privacy policy, please contact us through the app's settings.
-            </Text>
-          </Section>
-
-          <Text className="text-xs text-muted text-center mt-4">
-            Last updated: February 2026
-          </Text>
+    <ScreenContainer className="p-0">
+      <View className="flex-1">
+        {/* Header */}
+        <View className="bg-surface border-b border-border px-4 py-3 flex-row items-center justify-between">
+          <TouchableOpacity onPress={() => router.back()}>
+            <Text className="text-primary text-lg font-semibold">← Back</Text>
+          </TouchableOpacity>
+          <Text className="text-lg font-bold text-foreground">Privacy Policy</Text>
+          <View style={{ width: 50 }} />
         </View>
-      </ScrollView>
-    </ScreenContainer>
-  );
-}
 
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <View className="gap-2">
-      <Text className="text-xl font-semibold text-foreground">{title}</Text>
-      {children}
-    </View>
+        {/* Web View */}
+        <WebView
+          source={{ uri: 'https://chigozie09.github.io/timekind-legal/privacy-policy' }}
+          onLoadEnd={() => setLoading(false)}
+          style={{ flex: 1 }}
+          startInLoadingState={true}
+          renderLoading={() => (
+            <View className="flex-1 items-center justify-center bg-background">
+              <ActivityIndicator size="large" color="#0a7ea4" />
+              <Text className="text-muted mt-4">Loading...</Text>
+            </View>
+          )}
+        />
+      </View>
+    </ScreenContainer>
   );
 }
