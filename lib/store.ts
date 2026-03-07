@@ -35,6 +35,8 @@ export interface AppSettings {
   categories: string[];
   disableAnimations: boolean;
   showHelpOverlay: boolean;
+  dateFormat: "DD/MM/YYYY" | "MM/DD/YYYY" | "YYYY-MM-DD"; // Date format preference
+  timeFormat: "12h" | "24h"; // Time format preference (12-hour or 24-hour)
 }
 
 export interface Task {
@@ -81,6 +83,8 @@ export const DEFAULT_SETTINGS: AppSettings = {
   categories: ["Work", "Exercise", "Creative", "Chores", "Study"],
   disableAnimations: false,
   showHelpOverlay: true,
+  dateFormat: "DD/MM/YYYY",
+  timeFormat: "24h",
 };
 
 // ============================================================

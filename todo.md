@@ -189,3 +189,13 @@
 - [x] Implement auto-start logic when scheduled time arrives
 - [x] Update active-timer to handle scheduled task start
 - [x] Test scheduled task flow end-to-end
+
+## Phase 29: Scheduled Task Notifications & UX
+- [x] Add notification when scheduled task reaches start time
+- [x] Implement task rescheduling UI with drag-and-drop
+- [x] Add visual time countdown to upcoming tasks (e.g., "Starts in 2h 15m")
+- [x] Refactor onboarding: remove currency information
+- [x] Add date format picker to onboarding (DD/MM/YYYY, MM/DD/YYYY, YYYY-MM-DD)
+- [x] Add time format picker to onboarding (12h, 24h)
+- [x] Consolidate region settings to avoid duplication across onboarding screens
+- [x] Test all changes end-to-end

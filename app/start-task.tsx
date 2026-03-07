@@ -15,7 +15,7 @@ import { useApp } from "@/lib/app-context";
 import { DatePickerModal } from "@/components/date-picker-modal";
 import { EnergyLevel, TaskPriority, generateUUID, Task } from "@/lib/store";
 import { useAnimatedPress } from "@/hooks/use-animated-press";
-import { REMINDER_OPTIONS, updateTaskReminder } from "@/lib/task-reminders";
+import { REMINDER_OPTIONS, updateTaskReminder, scheduleScheduledTaskNotification } from "@/lib/task-reminders";
 
 const MINUTE_OPTIONS = [5, 10, 15, 20, 25, 30, 45, 60, 90, 120, 180, 240];
 
@@ -98,6 +98,10 @@ export default function StartTaskScreen() {
     await addTask(task);
     if (reminderMinutes) {
       await updateTaskReminder(taskId, reminderMinutes);
+    }
+    // Schedule notification for scheduled tasks
+    if (taskStatusValue === "Scheduled") {
+      await scheduleScheduledTaskNotification(taskId, taskName.trim(), taskStartTime);
     }
     router.replace({ pathname: "/active-timer", params: { taskId: taskId } });
   };

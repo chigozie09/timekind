@@ -8,30 +8,24 @@ import { useColors } from "@/hooks/use-colors";
 const slides = [
   {
     id: "0",
-    title: "Where are you based?",
-    subtitle: "We'll customise date and time formats for your region.",
-    isRegion: true,
-  },
-  {
-    id: "1",
     title: "Time feels different\nfor everyone.",
     subtitle: "And that's perfectly okay.",
   },
   {
-    id: "2",
+    id: "1",
     title: "Estimate → watch\ntime flow → notice\npatterns.",
     subtitle: "A gentle way to understand your rhythm.",
   },
   {
-    id: "3",
+    id: "2",
     title: "No pressure.\nNo streaks.\nJust a kinder view\nof time.",
     subtitle: "Let's begin.",
   },
   {
-    id: "4",
+    id: "3",
     title: "Customize your experience",
     subtitle: "Choose what works best for you.",
-    isAccessibility: true,
+    isSettings: true,
   },
 ];
 
@@ -66,30 +60,10 @@ export default function OnboardingScreen() {
   const [disableAnimations, setDisableAnimations] = useState(false);
   const [disableSounds, setDisableSounds] = useState(false);
   const [disableNotifications, setDisableNotifications] = useState(true);
-  const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
+  const [dateFormat, setDateFormat] = useState<"DD/MM/YYYY" | "MM/DD/YYYY" | "YYYY-MM-DD">("DD/MM/YYYY");
+  const [timeFormat, setTimeFormat] = useState<"12h" | "24h">("24h");
 
-  const regions = [
-    // English-speaking
-    { code: "en-GB", label: "United Kingdom", flag: "🇬🇧" },
-    { code: "en-US", label: "United States", flag: "🇺🇸" },
-    { code: "en-AU", label: "Australia", flag: "🇦🇺" },
-    { code: "en-CA", label: "Canada", flag: "🇨🇦" },
-    { code: "en-NZ", label: "New Zealand", flag: "🇳🇿" },
-    { code: "en-IE", label: "Ireland", flag: "🇮🇪" },
-    { code: "en-SG", label: "Singapore", flag: "🇸🇬" },
-    { code: "en-IN", label: "India", flag: "🇮🇳" },
-    { code: "en-ZA", label: "South Africa", flag: "🇿🇦" },
-    // European
-    { code: "fr-FR", label: "France", flag: "🇫🇷" },
-    { code: "de-DE", label: "Germany", flag: "🇩🇪" },
-    { code: "es-ES", label: "Spain", flag: "🇪🇸" },
-    { code: "it-IT", label: "Italy", flag: "🇮🇹" },
-    { code: "nl-NL", label: "Netherlands", flag: "🇳🇱" },
-    // Asian
-    { code: "ja-JP", label: "Japan", flag: "🇯🇵" },
-    { code: "zh-CN", label: "China", flag: "🇨🇳" },
-    { code: "ko-KR", label: "South Korea", flag: "🇰🇷" },
-  ];
+
 
   const handleGetStarted = async () => {
     await updateSettings({
@@ -97,7 +71,8 @@ export default function OnboardingScreen() {
       disableAnimations,
       soundEnabled: !disableSounds,
       notificationsEnabled: !disableNotifications,
-      region: selectedRegion || "en-GB",
+      dateFormat,
+      timeFormat,
     });
     router.replace("/(tabs)");
   };
@@ -110,15 +85,14 @@ export default function OnboardingScreen() {
 
   const currentSlide = slides[currentIndex];
   const isLast = currentIndex === slides.length - 1;
-  const isAccessibilitySlide = currentSlide.isAccessibility;
-  const isRegionSlide = currentSlide.isRegion;
+  const isSettingsSlide = currentSlide.isSettings;
 
   return (
     <ScreenContainer edges={["top", "bottom", "left", "right"]}>
       <View style={styles.container}>
         {/* Slide Content */}
         <View style={styles.slideArea}>
-          {isRegionSlide ? (
+          {isSettingsSlide ? (
             <View className="w-full gap-6">
               <Text className="text-4xl font-bold text-foreground text-center leading-[50px]">
                 {currentSlide.title}
@@ -126,40 +100,54 @@ export default function OnboardingScreen() {
               <Text className="text-lg text-muted text-center font-medium">
                 {currentSlide.subtitle}
               </Text>
-              <ScrollView className="gap-3 mt-4 px-2 max-h-96">
-                {regions.map((region) => (
-                  <TouchableOpacity
-                    key={region.code}
-                    onPress={() => setSelectedRegion(region.code)}
-                    className={`p-4 rounded-xl border flex-row items-center ${
-                      selectedRegion === region.code
-                        ? "bg-primary border-primary"
-                        : "bg-surface border-border"
-                    }`}
-                    activeOpacity={0.7}
-                  >
-                    <Text className="text-2xl mr-3">{region.flag}</Text>
-                    <Text
-                      className={`text-base font-semibold ${
-                        selectedRegion === region.code
-                          ? "text-white"
-                          : "text-foreground"
+
+              {/* Date Format Selection */}
+              <View className="gap-3 mt-4 px-2">
+                <Text className="text-sm font-semibold text-foreground">Date Format</Text>
+                <View className="flex-row gap-2">
+                  {["DD/MM/YYYY", "MM/DD/YYYY", "YYYY-MM-DD"].map((format) => (
+                    <TouchableOpacity
+                      key={format}
+                      onPress={() => setDateFormat(format as any)}
+                      className={`flex-1 py-3 rounded-lg border ${
+                        dateFormat === format
+                          ? "bg-primary border-primary"
+                          : "bg-surface border-border"
                       }`}
                     >
-                      {region.label}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
-              </ScrollView>
-            </View>
-          ) : isAccessibilitySlide ? (
-            <View className="w-full gap-6">
-              <Text className="text-4xl font-bold text-foreground text-center leading-[50px]">
-                {currentSlide.title}
-              </Text>
-              <Text className="text-lg text-muted text-center font-medium">
-                {currentSlide.subtitle}
-              </Text>
+                      <Text className={`text-xs font-semibold text-center ${
+                        dateFormat === format ? "text-white" : "text-foreground"
+                      }`}>
+                        {format}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </View>
+
+              {/* Time Format Selection */}
+              <View className="gap-3 px-2">
+                <Text className="text-sm font-semibold text-foreground">Time Format</Text>
+                <View className="flex-row gap-2">
+                  {["12h", "24h"].map((format) => (
+                    <TouchableOpacity
+                      key={format}
+                      onPress={() => setTimeFormat(format as any)}
+                      className={`flex-1 py-3 rounded-lg border ${
+                        timeFormat === format
+                          ? "bg-primary border-primary"
+                          : "bg-surface border-border"
+                      }`}
+                    >
+                      <Text className={`text-sm font-semibold text-center ${
+                        timeFormat === format ? "text-white" : "text-foreground"
+                      }`}>
+                        {format}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </View>
 
               {/* Accessibility Toggles */}
               <View className="gap-4 mt-4 px-2">
@@ -215,14 +203,11 @@ export default function OnboardingScreen() {
           {isLast ? (
             <TouchableOpacity
               onPress={handleGetStarted}
-              disabled={isRegionSlide && !selectedRegion}
               style={styles.button}
-              className={isRegionSlide && !selectedRegion ? "bg-border" : "bg-primary"}
+              className="bg-primary"
               activeOpacity={0.8}
             >
-              <Text className={`text-lg font-bold ${
-                isRegionSlide && !selectedRegion ? "text-muted" : "text-white"
-              }`}>
+              <Text className="text-lg font-bold text-white">
                 Get started
               </Text>
             </TouchableOpacity>

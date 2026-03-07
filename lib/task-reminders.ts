@@ -146,3 +146,40 @@ export async function areNotificationsEnabled(): Promise<boolean> {
     return false;
   }
 }
+
+
+/**
+ * Schedule a notification for when a scheduled task reaches its start time
+ */
+export async function scheduleScheduledTaskNotification(
+  taskId: string,
+  taskName: string,
+  startTime: string // ISO string
+): Promise<string | null> {
+  try {
+    const startDate = new Date(startTime);
+    const now = new Date();
+    const secondsUntilStart = Math.floor((startDate.getTime() - now.getTime()) / 1000);
+
+    // Only schedule if start time is in the future
+    if (secondsUntilStart <= 0) {
+      return null;
+    }
+
+    const notificationId = await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Task Ready",
+        body: `${taskName} is ready to start now`,
+        data: { taskId, type: "scheduled-task-ready" },
+        sound: "default",
+      },
+      trigger: {
+        seconds: secondsUntilStart,
+      } as any,
+    });
+    return notificationId;
+  } catch (error) {
+    console.error("Failed to schedule scheduled task notification:", error);
+    return null;
+  }
+}

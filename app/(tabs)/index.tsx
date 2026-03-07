@@ -354,6 +354,21 @@ export default function HomeScreen() {
               <View className="gap-4">
                 {scheduledTasks.sort((a, b) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime()).map((task) => {
                   const startTime = new Date(task.startTime);
+                  const now = new Date();
+                  const diffMs = startTime.getTime() - now.getTime();
+                  const diffMins = Math.floor(diffMs / 60000);
+                  const diffHours = Math.floor(diffMins / 60);
+                  const remainingMins = diffMins % 60;
+                  
+                  let countdownStr = '';
+                  if (diffHours > 0) {
+                    countdownStr = `Starts in ${diffHours}h ${remainingMins}m`;
+                  } else if (diffMins > 0) {
+                    countdownStr = `Starts in ${diffMins}m`;
+                  } else {
+                    countdownStr = 'Starting now';
+                  }
+                  
                   const timeStr = startTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
                   return (
                     <View
@@ -371,18 +386,33 @@ export default function HomeScreen() {
                           {task.category || "No category"} · {task.energyLevel}
                         </Text>
                       </View>
-                      <View className="items-end">
-                        <Text className="text-sm font-semibold text-primary">
-                          {timeStr}
-                        </Text>
-                        <TouchableOpacity
-                          onPress={() => router.push({ pathname: "/active-timer", params: { taskId: task.id } })}
-                          className="mt-2 px-3 py-1 bg-primary rounded-lg"
-                        >
-                          <Text className="text-xs font-semibold text-white">
-                            Start now
+                      <View className="items-end gap-2">
+                        <View>
+                          <Text className="text-sm font-semibold text-primary text-right">
+                            {timeStr}
                           </Text>
-                        </TouchableOpacity>
+                          <Text className="text-xs text-muted text-right mt-1">
+                            {countdownStr}
+                          </Text>
+                        </View>
+                        <View className="flex-row gap-2">
+                          <TouchableOpacity
+                            onPress={() => router.push({ pathname: "/reschedule-task", params: { taskId: task.id } })}
+                            className="px-2 py-1 bg-surface border border-border rounded-lg"
+                          >
+                            <Text className="text-xs font-semibold text-foreground">
+                              Reschedule
+                            </Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity
+                            onPress={() => router.push({ pathname: "/active-timer", params: { taskId: task.id } })}
+                            className="px-3 py-1 bg-primary rounded-lg"
+                          >
+                            <Text className="text-xs font-semibold text-white">
+                              Start
+                            </Text>
+                          </TouchableOpacity>
+                        </View>
                       </View>
                     </View>
                   );
