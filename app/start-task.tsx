@@ -116,8 +116,12 @@ export default function StartTaskScreen() {
     // Schedule notification for scheduled tasks
     if (taskStatusValue === "Scheduled") {
       await scheduleScheduledTaskNotification(taskId, taskName.trim(), taskStartTime);
+      // Don't navigate to active-timer for scheduled tasks - they start at their scheduled time
+      router.replace("/(tabs)");
+    } else {
+      // For immediate tasks, go to active timer
+      router.replace({ pathname: "/active-timer", params: { taskId: taskId } });
     }
-    router.replace({ pathname: "/active-timer", params: { taskId: taskId } });
   };
 
   const handleAddCategory = async () => {

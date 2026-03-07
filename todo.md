@@ -210,3 +210,7 @@
 - [x] Implement smart template scheduling engine with conflict detection
 - [x] Add template application with time slot validation
 - [x] Test recurring tasks and templates end-to-end
+
+## Phase 31: Critical Bug Fixes
+- [x] Remove region settings from all onboarding screens (confirmed not present in code)
+- [x] Fix scheduled task status logic to prevent early start (scheduled tasks now return to home instead of starting immediately)
