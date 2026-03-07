@@ -52,6 +52,7 @@ export default function SettingsScreen() {
   const { t } = useTranslation();
   const [nudgeTime, setNudgeTime] = useState(settings.dailyNudgeTime);
   const [analyticsEnabled, setAnalyticsEnabled] = useState(false);
+  const [crashReportingEnabled, setCrashReportingEnabled] = useState(false);
   const [showLanguagePicker, setShowLanguagePicker] = useState(false);
   const [currentLanguage, setCurrentLanguage] = useState(getCurrentLanguage());
   const { fontSizeScale, lineHeightScale, setFontSizeScale, setLineHeightScale } = useFontSize();
