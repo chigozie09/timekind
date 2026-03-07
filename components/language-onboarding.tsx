@@ -165,70 +165,7 @@ export function LanguageOnboarding({ onComplete }: LanguageOnboardingProps) {
             ))}
           </View>
 
-          {/* Feature Highlights */}
-          <View className="bg-surface rounded-2xl p-6 border border-border mb-8">
-            <Text className="text-xs font-semibold text-muted uppercase tracking-widest mb-4">
-              {currentLanguage === 'en'
-                ? 'Region Settings'
-                : currentLanguage === 'es'
-                  ? 'Configuración Regional'
-                  : currentLanguage === 'fr'
-                    ? 'Paramètres Régionaux'
-                    : currentLanguage === 'de'
-                      ? 'Regionale Einstellungen'
-                      : '地域設定'}
-            </Text>
-            <View className="gap-3">
-              <View>
-                <Text className="text-xs text-muted mb-1">
-                  {currentLanguage === 'en'
-                    ? 'Date Format'
-                    : currentLanguage === 'es'
-                      ? 'Formato de Fecha'
-                      : currentLanguage === 'fr'
-                        ? 'Format de Date'
-                        : currentLanguage === 'de'
-                          ? 'Datumsformat'
-                          : '日付形式'}
-                </Text>
-                <Text className="text-base font-semibold text-foreground">
-                  {settings.dateFormat}
-                </Text>
-              </View>
-              <View>
-                <Text className="text-xs text-muted mb-1">
-                  {currentLanguage === 'en'
-                    ? 'Time Format'
-                    : currentLanguage === 'es'
-                      ? 'Formato de Hora'
-                      : currentLanguage === 'fr'
-                        ? 'Format Horaire'
-                        : currentLanguage === 'de'
-                          ? 'Zeitformat'
-                          : '時間形式'}
-                </Text>
-                <Text className="text-base font-semibold text-foreground">
-                  {settings.timeFormat}
-                </Text>
-              </View>
-              <View>
-                <Text className="text-xs text-muted mb-1">
-                  {currentLanguage === 'en'
-                    ? 'Currency'
-                    : currentLanguage === 'es'
-                      ? 'Moneda'
-                      : currentLanguage === 'fr'
-                        ? 'Devise'
-                        : currentLanguage === 'de'
-                          ? 'Währung'
-                          : '通貨'}
-                </Text>
-                <Text className="text-base font-semibold text-foreground">
-                  {settings.currency}
-                </Text>
-              </View>
-            </View>
-          </View>
+
         </View>
       </ScrollView>
 
