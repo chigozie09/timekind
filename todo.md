@@ -180,3 +180,12 @@
 - [ ] Upload .aab file from EAS Build
 - [ ] Complete all required Google Play forms
 - [ ] Submit app for review
+
+## Phase 28: Scheduled Task Feature
+- [x] Add task status field (Active/Scheduled/Completed) to Task interface
+- [x] Implement task filtering logic to separate upcoming from active tasks
+- [x] Create Upcoming section UI in home screen with scheduled tasks
+- [x] Add early start capability to upcoming tasks with manual start button
+- [x] Implement auto-start logic when scheduled time arrives
+- [x] Update active-timer to handle scheduled task start
+- [x] Test scheduled task flow end-to-end

@@ -68,6 +68,9 @@ export default function StartTaskScreen() {
       taskStartTime = taskDate.toISOString();
     }
     
+    // Determine task status based on start time
+    const taskStatusValue: "Active" | "Scheduled" = new Date(taskStartTime) > new Date(now) ? "Scheduled" : "Active";
+    
     const task: Task = {
       id: taskId,
       cloudId: null,
@@ -79,6 +82,7 @@ export default function StartTaskScreen() {
       accuracyPercent: 0,
       startTime: taskStartTime,
       endTime: null,
+      taskStatus: taskStatusValue,
       timeOfDayTag: null,
       reflection: null,
       mood: null,

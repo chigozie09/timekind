@@ -48,6 +48,7 @@ export interface Task {
   accuracyPercent: number;
   startTime: string; // ISO string
   endTime: string | null; // ISO string
+  taskStatus: "Active" | "Scheduled" | "Completed"; // Task status: Active (running), Scheduled (future), Completed (done)
   timeOfDayTag: TimeOfDayTag | null;
   reflection: string | null;
   mood: number | null; // 1-5 rating
@@ -163,6 +164,24 @@ export async function softDeleteTask(id: string): Promise<void> {
 
 export function getActiveTasks(tasks: Task[]): Task[] {
   return tasks.filter((t) => !t.deletedAt);
+}
+
+export function getRunningTasks(tasks: Task[]): Task[] {
+  const now = new Date();
+  return getActiveTasks(tasks).filter(
+    (t) => t.taskStatus === "Active" && new Date(t.startTime) <= now && !t.endTime
+  );
+}
+
+export function getScheduledTasks(tasks: Task[]): Task[] {
+  const now = new Date();
+  return getActiveTasks(tasks).filter(
+    (t) => t.taskStatus === "Scheduled" && new Date(t.startTime) > now && !t.endTime
+  );
+}
+
+export function getCompletedTasks(tasks: Task[]): Task[] {
+  return getActiveTasks(tasks).filter((t) => t.endTime !== null);
 }
 
 // ============================================================

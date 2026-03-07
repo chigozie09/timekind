@@ -18,6 +18,7 @@ import {
   avgAccuracy,
   getBestTimeOfDay,
   getMostUnderestimatedCategory,
+  getScheduledTasks,
 } from "@/lib/store";
 import { calculateWeeklyStreak, getBestStreak } from "@/lib/streak-calculator";
 import { getMoodRecommendations } from "@/lib/mood-recommendations";
@@ -339,6 +340,57 @@ export default function HomeScreen() {
             </Animated.View>
           )}
         </View>
+
+        {/* Upcoming Tasks */}
+        {(() => {
+          const scheduledTasks = getScheduledTasks(tasks);
+          if (scheduledTasks.length === 0) return null;
+          
+          return (
+            <View className="bg-surface rounded-2xl p-5 border border-border mb-4">
+              <Text className="text-xs font-semibold text-muted uppercase tracking-widest mb-4">
+                Upcoming
+              </Text>
+              <View className="gap-4">
+                {scheduledTasks.sort((a, b) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime()).map((task) => {
+                  const startTime = new Date(task.startTime);
+                  const timeStr = startTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+                  return (
+                    <View
+                      key={task.id}
+                      className="flex-row justify-between items-center py-3 border-b border-border"
+                    >
+                      <View className="flex-1 mr-3">
+                        <Text
+                          className="text-base font-semibold text-foreground"
+                          numberOfLines={1}
+                        >
+                          {task.taskName}
+                        </Text>
+                        <Text className="text-sm text-muted mt-1">
+                          {task.category || "No category"} · {task.energyLevel}
+                        </Text>
+                      </View>
+                      <View className="items-end">
+                        <Text className="text-sm font-semibold text-primary">
+                          {timeStr}
+                        </Text>
+                        <TouchableOpacity
+                          onPress={() => router.push({ pathname: "/active-timer", params: { taskId: task.id } })}
+                          className="mt-2 px-3 py-1 bg-primary rounded-lg"
+                        >
+                          <Text className="text-xs font-semibold text-white">
+                            Start now
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  );
+                })}
+              </View>
+            </View>
+          );
+        })()}
 
         {/* Recent Tasks */}
         <View className="bg-surface rounded-2xl p-5 border border-border">

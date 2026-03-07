@@ -60,6 +60,7 @@ export default function TemplatesScreen() {
             accuracyPercent: 0,
             startTime: new Date().toISOString(),
             endTime: null,
+            taskStatus: "Active" as const,
             timeOfDayTag: null,
             reflection: null,
             mood: null,

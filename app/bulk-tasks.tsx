@@ -75,6 +75,9 @@ export default function BulkTasksScreen() {
           const startDate = new Date(today);
           startDate.setHours(hours, minutes, 0, 0);
 
+          const now = new Date();
+          const taskStatusValue: "Active" | "Scheduled" = startDate > now ? "Scheduled" : "Active";
+          
           tasksToAdd.push({
             id: uuidv4() as any,
             taskName: task.name,
@@ -85,6 +88,7 @@ export default function BulkTasksScreen() {
             accuracyPercent: 0,
             startTime: startDate.toISOString(),
             endTime: null,
+            taskStatus: taskStatusValue,
             reflection: null,
             mood: null,
             cloudId: null,

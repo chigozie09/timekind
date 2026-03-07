@@ -38,6 +38,12 @@ export default function ActiveTimerScreen() {
 
   useEffect(() => {
     if (!task) return;
+    
+    // If task is scheduled but being started early, update its status to Active
+    if (task.taskStatus === "Scheduled") {
+      updateTask(task.id, { taskStatus: "Active" });
+    }
+    
     const startMs = new Date(task.startTime).getTime();
     const nowMs = Date.now();
     const initialElapsed = Math.floor((nowMs - startMs) / 1000);

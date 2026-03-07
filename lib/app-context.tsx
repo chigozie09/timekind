@@ -58,6 +58,14 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         const [s, t] = await Promise.all([loadSettings(), loadTasks()]);
         setSettings(s);
         setTasks(t);
+        
+        // Auto-start scheduled tasks that have reached their start time
+        const now = new Date();
+        for (const task of t) {
+          if (task.taskStatus === "Scheduled" && new Date(task.startTime) <= now && !task.endTime) {
+            await updateTaskInStorage(task.id, { taskStatus: "Active" });
+          }
+        }
 
         // Initialize analytics
         await initializeAnalytics();
@@ -80,8 +88,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
           setupGlobalErrorHandlers();
         }
 
+        // Reload tasks after auto-start updates
+        const updatedTasks = await loadTasks();
+        setTasks(updatedTasks);
+        
         // Track app session start
-        await trackAppSessionStarted(t.length > 0);
+        await trackAppSessionStarted(updatedTasks.length > 0);
 
         // Show language onboarding if this is first launch
         if (!s.hasCompletedOnboarding) {
