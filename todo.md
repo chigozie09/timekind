@@ -224,3 +224,9 @@
 - [x] Update Legal section in Settings screen with clickable links
 - [x] Create in-app web view screen for legal documents
 - [x] Test legal links and web views
+
+## Phase 34: App Rating Prompt
+- [x] Add rating prompt state to app store
+- [x] Create rating prompt modal component
+- [x] Integrate rating prompt into task completion flow
+- [x] Test rating prompt functionality

@@ -37,6 +37,8 @@ export interface AppSettings {
   showHelpOverlay: boolean;
   dateFormat: "DD/MM/YYYY" | "MM/DD/YYYY" | "YYYY-MM-DD"; // Date format preference
   timeFormat: "12h" | "24h"; // Time format preference (12-hour or 24-hour)
+  tasksCompletedForRating: number; // Counter for tasks completed since last rating prompt
+  hasShownRatingPrompt: boolean; // Whether user has seen the rating prompt
 }
 
 export interface RecurrencePattern {
@@ -113,6 +115,8 @@ export const DEFAULT_SETTINGS: AppSettings = {
   showHelpOverlay: true,
   dateFormat: "DD/MM/YYYY",
   timeFormat: "24h",
+  tasksCompletedForRating: 0,
+  hasShownRatingPrompt: false,
 };
 
 // ============================================================

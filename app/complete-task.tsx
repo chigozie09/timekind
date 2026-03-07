@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Text,
   TextInput,
@@ -9,7 +8,8 @@ import {
 import { router, useLocalSearchParams } from "expo-router";
 import { ScreenContainer } from "@/components/screen-container";
 import { useApp } from "@/lib/app-context";
-
+import { RatingPromptModal } from "@/components/rating-prompt-modal";
+import { useState } from "react";
 import { getGentleMessage, getActiveTasks } from "@/lib/store";
 import { useAnimatedPress } from "@/hooks/use-animated-press";
 import { Animated } from "react-native";
@@ -26,6 +26,7 @@ export default function CompleteTaskScreen() {
   const task = tasks.find((t) => t.id === taskId);
   const [reflection, setReflection] = useState("");
   const [mood, setMood] = useState<number | null>(null);
+  const [showRatingPrompt, setShowRatingPrompt] = useState(false);
 
   if (!task) {
     return (
@@ -73,6 +74,12 @@ export default function CompleteTaskScreen() {
       await updateSettings({ notificationAsked: true });
     }
 
+    // Check if we should show rating prompt (after 5 tasks completed)
+    const completedTasks = tasks.filter((t) => t.taskStatus === "Completed").length;
+    if (completedTasks === 5 && !settings.hasShownRatingPrompt) {
+      setShowRatingPrompt(true);
+    }
+
     const currentStreak = calculateWeeklyStreak(tasks);
     const lastTaskDate = tasks.find((t) => t.endTime)?.endTime ? new Date(tasks.find((t) => t.endTime)!.endTime!) : null;
     const notification = getStreakNotification(currentStreak, 0, lastTaskDate, settings.notificationsEnabled);
@@ -80,7 +87,9 @@ export default function CompleteTaskScreen() {
       await scheduleStreakNotification(notification, 3600);
     }
 
-    router.replace("/(tabs)");
+    if (!showRatingPrompt) {
+      router.replace("/(tabs)");
+    }
   };
 
   const handleBreathing = async () => {
@@ -242,6 +251,18 @@ export default function CompleteTaskScreen() {
           </View>
         </View>
       </ScrollView>
+      <RatingPromptModal
+        visible={showRatingPrompt}
+        onDismiss={() => {
+          setShowRatingPrompt(false);
+          router.replace("/(tabs)");
+        }}
+        onRated={async () => {
+          await updateSettings({ hasShownRatingPrompt: true });
+          setShowRatingPrompt(false);
+          router.replace("/(tabs)");
+        }}
+      />
     </ScreenContainer>
   );
 }
