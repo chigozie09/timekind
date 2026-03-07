@@ -214,3 +214,8 @@
 ## Phase 31: Critical Bug Fixes
 - [x] Remove region settings from all onboarding screens (confirmed not present in code)
 - [x] Fix scheduled task status logic to prevent early start (scheduled tasks now return to home instead of starting immediately)
+
+## Phase 32: Add Date Picker to Plan Your Day
+- [x] Add date picker state and UI to Plan Your Day screen
+- [x] Update task creation logic to use selected date instead of today
+- [x] Test date picker functionality

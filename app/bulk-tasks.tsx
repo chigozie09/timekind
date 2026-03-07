@@ -1,9 +1,9 @@
-import { Text, View, TouchableOpacity, ScrollView, TextInput, Alert } from "react-native";
+import { Text, View, TouchableOpacity, ScrollView, TextInput, Alert, Animated } from "react-native";
 import { router } from "expo-router";
 import { ScreenContainer } from "@/components/screen-container";
 import { useApp } from "@/lib/app-context";
 import { useAnimatedPress } from "@/hooks/use-animated-press";
-import { Animated } from "react-native";
+import { DatePickerModal } from "@/components/date-picker-modal";
 import { useState } from "react";
 // @ts-ignore
 import { v4 as uuidv4 } from "uuid";
@@ -25,6 +25,8 @@ export default function BulkTasksScreen() {
   const [tasks, setTasks] = useState<BulkTask[]>([
     { id: uuidv4(), name: "", estimatedMinutes: 30, startTime: "09:00", category: "Work" },
   ]);
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
   const handleAddTask = () => {
     const lastTask = tasks[tasks.length - 1];
@@ -59,7 +61,6 @@ export default function BulkTasksScreen() {
     }
 
     try {
-      const today = new Date();
       const tasksToAdd = [];
       
       for (const task of tasks) {
@@ -72,7 +73,7 @@ export default function BulkTasksScreen() {
             return;
           }
           
-          const startDate = new Date(today);
+          const startDate = new Date(selectedDate);
           startDate.setHours(hours, minutes, 0, 0);
 
           const now = new Date();
@@ -142,6 +143,29 @@ export default function BulkTasksScreen() {
             <Text className="text-2xl text-muted">✕</Text>
           </TouchableOpacity>
         </View>
+
+        {/* Date Picker */}
+        <TouchableOpacity
+          onPress={() => setShowDatePicker(true)}
+          className="bg-surface rounded-2xl p-4 border border-border mb-6 active:opacity-70"
+          activeOpacity={0.7}
+        >
+          <Text className="text-xs text-muted font-semibold mb-2">Planning for</Text>
+          <Text className="text-lg font-semibold text-foreground">
+            {selectedDate.toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}
+          </Text>
+        </TouchableOpacity>
+
+        {/* Date Picker Modal */}
+        <DatePickerModal
+          isVisible={showDatePicker}
+          selectedDate={selectedDate}
+          onDateSelect={(date) => {
+            setSelectedDate(date);
+            setShowDatePicker(false);
+          }}
+          onClose={() => setShowDatePicker(false)}
+        />
 
         {/* Tasks List */}
         <View className="gap-4 mb-6">
