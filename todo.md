@@ -199,3 +199,14 @@
 - [x] Add time format picker to onboarding (12h, 24h)
 - [x] Consolidate region settings to avoid duplication across onboarding screens
 - [x] Test all changes end-to-end
+
+## Phase 30: Recurring Tasks & Task Templates
+- [x] Add recurring task data model (frequency: daily/weekly/monthly, endDate, exceptions)
+- [x] Create recurring task UI in start-task screen with frequency picker
+- [x] Implement smart scheduling logic to generate instances of recurring tasks
+- [x] Create task templates data model with task sequences
+- [x] Build template creation UI to save current task as template
+- [x] Build template management screen to view/edit/delete templates
+- [x] Implement smart template scheduling engine with conflict detection
+- [x] Add template application with time slot validation
+- [x] Test recurring tasks and templates end-to-end

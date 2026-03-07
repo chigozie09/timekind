@@ -39,6 +39,15 @@ export interface AppSettings {
   timeFormat: "12h" | "24h"; // Time format preference (12-hour or 24-hour)
 }
 
+export interface RecurrencePattern {
+  frequency: "daily" | "weekly" | "monthly";
+  interval: number; // Every N days/weeks/months
+  daysOfWeek?: number[]; // 0-6 for weekly (0 = Sunday)
+  dayOfMonth?: number; // 1-31 for monthly
+  endDate?: string; // ISO string - when recurrence stops
+  maxOccurrences?: number; // Max number of instances to create
+}
+
 export interface Task {
   id: string;
   cloudId: string | null;
@@ -59,8 +68,27 @@ export interface Task {
   blockedByTaskId: string | null; // Task ID that must complete first
   isBlocking: boolean; // Whether this task blocks others
   subtasks: Subtask[]; // Breakdown of task into smaller steps
+  recurrence?: RecurrencePattern; // Optional recurring pattern
+  recurringParentId?: string; // ID of parent recurring task if this is an instance
   updatedAt: string; // ISO string
   deletedAt: string | null; // ISO string
+}
+
+export interface TaskTemplate {
+  id: string;
+  templateName: string;
+  description?: string;
+  tasks: Array<{
+    taskName: string;
+    category: string | null;
+    energyLevel: EnergyLevel;
+    estimatedMinutes: number;
+    priority: TaskPriority;
+    taskType: string | null;
+    order: number; // Sequence order in template
+  }>;
+  createdAt: string; // ISO string
+  updatedAt: string; // ISO string
 }
 
 // ============================================================

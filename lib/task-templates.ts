@@ -1,4 +1,5 @@
-import { Task, EnergyLevel } from "@/lib/store";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Task, EnergyLevel, TaskTemplate as StoreTaskTemplate, generateUUID } from "./store";
 
 export interface TaskTemplate {
   id: string;
@@ -205,4 +206,91 @@ export function getTemplate(id: string): TaskTemplate | undefined {
  */
 export function getTemplateTotalTime(template: TaskTemplate): number {
   return template.tasks.reduce((sum, task) => sum + task.estimatedMinutes, 0);
+}
+
+
+// ============================================================
+// Custom Templates Storage
+// ============================================================
+
+const CUSTOM_TEMPLATES_KEY = "@timekind/custom-templates";
+
+/**
+ * Load custom templates from storage
+ */
+export async function loadCustomTemplates(): Promise<StoreTaskTemplate[]> {
+  try {
+    const data = await AsyncStorage.getItem(CUSTOM_TEMPLATES_KEY);
+    return data ? JSON.parse(data) : [];
+  } catch (error) {
+    console.error("Failed to load custom templates:", error);
+    return [];
+  }
+}
+
+/**
+ * Save custom templates to storage
+ */
+export async function saveCustomTemplates(templates: StoreTaskTemplate[]): Promise<void> {
+  try {
+    await AsyncStorage.setItem(CUSTOM_TEMPLATES_KEY, JSON.stringify(templates));
+  } catch (error) {
+    console.error("Failed to save custom templates:", error);
+  }
+}
+
+/**
+ * Create a new custom template
+ */
+export async function createCustomTemplate(
+  templateName: string,
+  description: string | undefined,
+  tasks: Array<{
+    taskName: string;
+    category: string | null;
+    energyLevel: EnergyLevel;
+    estimatedMinutes: number;
+    priority: string;
+    taskType: string | null;
+  }>
+): Promise<StoreTaskTemplate> {
+  const now = new Date().toISOString();
+  const newTemplate: StoreTaskTemplate = {
+    id: generateUUID(),
+    templateName,
+    description,
+    tasks: tasks.map((t, index) => ({
+      ...t,
+      order: index,
+    })),
+    createdAt: now,
+    updatedAt: now,
+  };
+
+  const templates = await loadCustomTemplates();
+  templates.push(newTemplate);
+  await saveCustomTemplates(templates);
+
+  return newTemplate;
+}
+
+/**
+ * Delete a custom template
+ */
+export async function deleteCustomTemplate(id: string): Promise<boolean> {
+  const templates = await loadCustomTemplates();
+  const filtered = templates.filter((t) => t.id !== id);
+
+  if (filtered.length === templates.length) return false; // Not found
+
+  await saveCustomTemplates(filtered);
+  return true;
+}
+
+/**
+ * Get a custom template by ID
+ */
+export async function getCustomTemplate(id: string): Promise<StoreTaskTemplate | null> {
+  const templates = await loadCustomTemplates();
+  return templates.find((t) => t.id === id) || null;
 }

@@ -4,6 +4,7 @@ import {
   createTasksFromTemplate,
   getTemplate,
   getTemplateTotalTime,
+  loadCustomTemplates,
 } from "../lib/task-templates";
 import {
   DEFAULT_FOCUS_MODE,
@@ -17,7 +18,7 @@ import {
   createExportFile,
 } from "../lib/calendar-export";
 
-describe("Task Templates", () => {
+describe("Task Templates", async () => {
   it("should have at least 5 templates", () => {
     expect(TASK_TEMPLATES.length).toBeGreaterThanOrEqual(5);
   });

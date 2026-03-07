@@ -13,7 +13,7 @@ import { router } from "expo-router";
 import { ScreenContainer } from "@/components/screen-container";
 import { useApp } from "@/lib/app-context";
 import { DatePickerModal } from "@/components/date-picker-modal";
-import { EnergyLevel, TaskPriority, generateUUID, Task } from "@/lib/store";
+import { EnergyLevel, TaskPriority, generateUUID, Task, RecurrencePattern } from "@/lib/store";
 import { useAnimatedPress } from "@/hooks/use-animated-press";
 import { REMINDER_OPTIONS, updateTaskReminder, scheduleScheduledTaskNotification } from "@/lib/task-reminders";
 
@@ -37,6 +37,11 @@ export default function StartTaskScreen() {
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [startTime, setStartTime] = useState<string>("");
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [isRecurring, setIsRecurring] = useState(false);
+  const [recurrenceFrequency, setRecurrenceFrequency] = useState<"daily" | "weekly" | "monthly">("daily");
+  const [recurrenceInterval, setRecurrenceInterval] = useState(1);
+  const [recurrenceEndDate, setRecurrenceEndDate] = useState<Date | null>(null);
+  const [showRecurrenceEndPicker, setShowRecurrenceEndPicker] = useState(false);
 
   const categories = settings.categories || [];
 
@@ -94,6 +99,15 @@ export default function StartTaskScreen() {
       updatedAt: now,
       deletedAt: null,
     };
+
+    // Add recurrence pattern if enabled
+    if (isRecurring) {
+      task.recurrence = {
+        frequency: recurrenceFrequency,
+        interval: recurrenceInterval,
+        endDate: recurrenceEndDate?.toISOString(),
+      };
+    }
 
     await addTask(task);
     if (reminderMinutes) {
@@ -446,6 +460,80 @@ export default function StartTaskScreen() {
               >
                 <Text className="text-white text-base font-semibold">Add</Text>
               </TouchableOpacity>
+            </View>
+          )}
+
+          {/* Recurring Task Toggle */}
+          <View className="mb-5">
+            <View className="flex-row justify-between items-center bg-surface rounded-xl p-4 border border-border">
+              <Text className="text-base font-semibold text-foreground">Make this recurring?</Text>
+              <TouchableOpacity
+                onPress={() => setIsRecurring(!isRecurring)}
+                className={`w-12 h-7 rounded-full justify-center ${isRecurring ? "bg-primary" : "bg-border"}`}
+              >
+                <View className={`w-6 h-6 rounded-full bg-white ${isRecurring ? "ml-auto mr-0.5" : "ml-0.5"}`} />
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          {/* Recurrence Options */}
+          {isRecurring && (
+            <View className="bg-surface rounded-xl p-4 border border-border mb-5 gap-4">
+              <View>
+                <Text className="text-sm font-semibold text-muted mb-2">Frequency</Text>
+                <View className="flex-row gap-2">
+                  {["daily", "weekly", "monthly"].map((freq) => (
+                    <TouchableOpacity
+                      key={freq}
+                      onPress={() => setRecurrenceFrequency(freq as any)}
+                      className={`flex-1 py-2 rounded-lg border ${
+                        recurrenceFrequency === freq
+                          ? "bg-primary border-primary"
+                          : "bg-background border-border"
+                      }`}
+                    >
+                      <Text className={`text-xs font-semibold text-center capitalize ${
+                        recurrenceFrequency === freq ? "text-white" : "text-foreground"
+                      }`}>
+                        {freq}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </View>
+
+              <View>
+                <Text className="text-sm font-semibold text-muted mb-2">Every</Text>
+                <View className="flex-row gap-2 items-center">
+                  <TouchableOpacity
+                    onPress={() => setRecurrenceInterval(Math.max(1, recurrenceInterval - 1))}
+                    className="bg-primary rounded-lg px-3 py-2"
+                  >
+                    <Text className="text-white font-bold">−</Text>
+                  </TouchableOpacity>
+                  <Text className="flex-1 text-center text-lg font-semibold text-foreground">{recurrenceInterval}</Text>
+                  <TouchableOpacity
+                    onPress={() => setRecurrenceInterval(recurrenceInterval + 1)}
+                    className="bg-primary rounded-lg px-3 py-2"
+                  >
+                    <Text className="text-white font-bold">+</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+
+              <View>
+                <Text className="text-sm font-semibold text-muted mb-2">End date (optional)</Text>
+                <TouchableOpacity
+                  onPress={() => setShowRecurrenceEndPicker(true)}
+                  className="bg-background border border-border rounded-lg px-4 py-3"
+                >
+                  <Text className="text-foreground font-medium">
+                    {recurrenceEndDate
+                      ? recurrenceEndDate.toLocaleDateString()
+                      : "No end date"}
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
           )}
 
