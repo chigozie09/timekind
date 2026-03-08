@@ -247,3 +247,11 @@
 
 ## Phase 37: Bug Fixes
 - [x] Fix crash/freeze when selecting date in Plan Your Day screen
+
+## Phase 38: Interactive Date & Time Format Selection
+- [x] Add date format selector to Settings Region section (DD/MM/YYYY, MM/DD/YYYY, YYYY-MM-DD)
+- [x] Add time format selector to Settings Region section (12h, 24h)
+- [x] Make format selections interactive with radio buttons or segmented controls
+- [x] Display live preview of selected formats
+- [x] Persist format preferences to AppSettings
+- [x] Test format changes across all screens

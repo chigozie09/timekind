@@ -387,25 +387,79 @@ export default function SettingsScreen() {
           </View>
         </View>
 
-        {/* Regionalization Preview */}
+        {/* Regionalization - Date & Time Format Selection */}
         <View className="bg-surface rounded-2xl p-5 border border-border mb-4">
           <Text className="text-xs font-semibold text-muted uppercase tracking-widest mb-4">
             {t("settings.region")}
           </Text>
-          <View className="gap-3">
-            <View className="bg-background rounded-lg p-3 border border-border">
-              <Text className="text-xs text-muted mb-1">{t("settings.dateFormat")}</Text>
-              <Text className="text-base font-semibold text-foreground">
-                {formatDate(new Date())}
-              </Text>
-            </View>
-            <View className="bg-background rounded-lg p-3 border border-border">
-              <Text className="text-xs text-muted mb-1">{t("settings.timeFormat")}</Text>
-              <Text className="text-base font-semibold text-foreground">
-                {formatTime(new Date())}
-              </Text>
+          <View className="gap-4">
+            {/* Date Format Selection */}
+            <View>
+              <Text className="text-lg font-semibold text-foreground mb-3">Date Format</Text>
+              <View className="gap-2">
+                {(["DD/MM/YYYY", "MM/DD/YYYY", "YYYY-MM-DD"] as const).map((format) => (
+                  <TouchableOpacity
+                    key={format}
+                    onPress={() => updateSettings({ dateFormat: format })}
+                    className={`p-3 rounded-lg border flex-row items-center justify-between ${
+                      settings.dateFormat === format
+                        ? "bg-primary border-primary"
+                        : "bg-background border-border"
+                    }`}
+                    activeOpacity={0.7}
+                  >
+                    <Text
+                      className={`text-base font-semibold ${
+                        settings.dateFormat === format ? "text-white" : "text-foreground"
+                      }`}
+                    >
+                      {format}
+                    </Text>
+                    {settings.dateFormat === format && <Text className="text-white text-lg">✓</Text>}
+                  </TouchableOpacity>
+                ))}
+              </View>
+              <View className="bg-background rounded-lg p-3 border border-border mt-2">
+                <Text className="text-xs text-muted mb-1">Preview</Text>
+                <Text className="text-base font-semibold text-foreground">
+                  {formatDate(new Date())}
+                </Text>
+              </View>
             </View>
 
+            {/* Time Format Selection */}
+            <View>
+              <Text className="text-lg font-semibold text-foreground mb-3">Time Format</Text>
+              <View className="gap-2">
+                {(["12h", "24h"] as const).map((format) => (
+                  <TouchableOpacity
+                    key={format}
+                    onPress={() => updateSettings({ timeFormat: format })}
+                    className={`p-3 rounded-lg border flex-row items-center justify-between ${
+                      settings.timeFormat === format
+                        ? "bg-primary border-primary"
+                        : "bg-background border-border"
+                    }`}
+                    activeOpacity={0.7}
+                  >
+                    <Text
+                      className={`text-base font-semibold ${
+                        settings.timeFormat === format ? "text-white" : "text-foreground"
+                      }`}
+                    >
+                      {format === "12h" ? "12-hour (11:21 AM)" : "24-hour (23:21)"}
+                    </Text>
+                    {settings.timeFormat === format && <Text className="text-white text-lg">✓</Text>}
+                  </TouchableOpacity>
+                ))}
+              </View>
+              <View className="bg-background rounded-lg p-3 border border-border mt-2">
+                <Text className="text-xs text-muted mb-1">Preview</Text>
+                <Text className="text-base font-semibold text-foreground">
+                  {formatTime(new Date())}
+                </Text>
+              </View>
+            </View>
           </View>
         </View>
 
