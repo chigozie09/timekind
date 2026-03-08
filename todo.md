@@ -244,3 +244,6 @@
 - [x] Integrate reflection prompt into home screen
 - [x] Add task completion celebration messages
 - [x] Test both features end-to-end
+
+## Phase 37: Bug Fixes
+- [x] Fix crash/freeze when selecting date in Plan Your Day screen

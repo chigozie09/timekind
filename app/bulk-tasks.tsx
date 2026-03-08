@@ -158,9 +158,9 @@ export default function BulkTasksScreen() {
 
         {/* Date Picker Modal */}
         <DatePickerModal
-          isVisible={showDatePicker}
+          visible={showDatePicker}
           selectedDate={selectedDate}
-          onDateSelect={(date) => {
+          onSelectDate={(date) => {
             setSelectedDate(date);
             setShowDatePicker(false);
           }}
