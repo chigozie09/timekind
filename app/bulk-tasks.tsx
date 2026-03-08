@@ -32,6 +32,15 @@ interface TimeConflict {
   message: string;
 }
 
+interface ResolutionSuggestion {
+  type: "extend" | "move";
+  taskIndex: number;
+  conflictWith: number;
+  label: string;
+  description: string;
+  apply: () => void;
+}
+
 export default function BulkTasksScreen() {
   try {
     const { addTask } = useApp();
@@ -48,14 +57,13 @@ export default function BulkTasksScreen() {
     const [showToast, setShowToast] = useState(false);
     const [toastMessage, setToastMessage] = useState("");
     const [conflicts, setConflicts] = useState<TimeConflict[]>([]);
+    const [suggestions, setSuggestions] = useState<ResolutionSuggestion[]>([]);
+    const [showSuggestions, setShowSuggestions] = useState(false);
 
     const handleAddTask = () => {
       const lastTask = tasks[tasks.length - 1];
       const nextHour = new Date();
-      nextHour.setHours(
-        parseInt(lastTask.startTime.split(":")[0]) + 1,
-        0
-      );
+      nextHour.setHours(parseInt(lastTask.startTime.split(":")[0]) + 1, 0);
       const timeStr = `${String(nextHour.getHours()).padStart(2, "0")}:00`;
 
       setTasks([
@@ -72,6 +80,71 @@ export default function BulkTasksScreen() {
       if (tasks.length > 1) {
         setTasks(tasks.filter((t) => t.id !== id));
       }
+    };
+
+    const generateResolutionSuggestions = (detectedConflicts: TimeConflict[]): ResolutionSuggestion[] => {
+      const newSuggestions: ResolutionSuggestion[] = [];
+
+      for (const conflict of detectedConflicts) {
+        const task1 = tasks[conflict.taskIndex];
+        const task2 = tasks[conflict.conflictWith];
+
+        const [h1, m1] = task1.startTime.split(":").map(Number);
+        const [h2, m2] = task2.startTime.split(":").map(Number);
+
+        const start1 = h1 * 60 + m1;
+        const end1 = start1 + task1.estimatedMinutes;
+        const start2 = h2 * 60 + m2;
+
+        // Suggestion 1: Extend task1 to end after task2 starts
+        const newEnd1 = start2 + 15; // Add 15 min buffer
+        const newDuration1 = newEnd1 - start1;
+        const extendHours = Math.floor(newDuration1 / 60);
+        const extendMins = newDuration1 % 60;
+
+        newSuggestions.push({
+          type: "extend",
+          taskIndex: conflict.taskIndex,
+          conflictWith: conflict.conflictWith,
+          label: `Extend "${task1.name}" to ${extendHours}h ${extendMins}m`,
+          description: `Extends task 1 to finish before task 2 starts`,
+          apply: () => {
+            const updatedTasks = [...tasks];
+            updatedTasks[conflict.taskIndex] = {
+              ...updatedTasks[conflict.taskIndex],
+              estimatedMinutes: Math.max(1, newDuration1),
+            };
+            setTasks(updatedTasks);
+            setShowSuggestions(false);
+          },
+        });
+
+        // Suggestion 2: Move task2 to start after task1 ends
+        const newStart2 = end1 + 15; // Add 15 min buffer
+        const newHours = Math.floor(newStart2 / 60);
+        const newMins = newStart2 % 60;
+        const newTimeStr = `${String(newHours).padStart(2, "0")}:${String(newMins).padStart(2, "0")}`;
+
+        newSuggestions.push({
+          type: "move",
+          taskIndex: conflict.conflictWith,
+          conflictWith: conflict.taskIndex,
+          label: `Move "${task2.name}" to ${newTimeStr}`,
+          description: `Reschedules task 2 to start after task 1 finishes`,
+          apply: () => {
+            const updatedTasks = [...tasks];
+            updatedTasks[conflict.conflictWith] = {
+              ...updatedTasks[conflict.conflictWith],
+              startTime: newTimeStr,
+            };
+            setTasks(updatedTasks);
+            setShowSuggestions(false);
+          },
+        });
+      }
+
+      setSuggestions(newSuggestions);
+      return newSuggestions;
     };
 
     const detectTimeConflicts = (): TimeConflict[] => {
@@ -121,12 +194,8 @@ export default function BulkTasksScreen() {
       // Check for time conflicts
       const detectedConflicts = detectTimeConflicts();
       if (detectedConflicts.length > 0) {
-        const conflictMessages = detectedConflicts.map((c) => c.message).join("\n\n");
-        Alert.alert(
-          "Time Conflicts Detected",
-          `The following tasks overlap:\n\n${conflictMessages}\n\nPlease adjust the times and try again.`,
-          [{ text: "OK", onPress: () => {} }]
-        );
+        generateResolutionSuggestions(detectedConflicts);
+        setShowSuggestions(true);
         return;
       }
 
@@ -345,6 +414,61 @@ export default function BulkTasksScreen() {
             <View className="bg-success rounded-2xl px-6 py-4 items-center gap-3">
               <Text className="text-lg font-bold text-white">{toastMessage}</Text>
               <Text className="text-sm text-white/80">Redirecting to home...</Text>
+            </View>
+          </View>
+        </Modal>
+
+        {/* Conflict Resolution Suggestions Modal */}
+        <Modal visible={showSuggestions} transparent animationType="slide">
+          <View className="flex-1 bg-black/50 justify-end">
+            <View className="bg-surface rounded-t-3xl p-6 gap-4 max-h-3/4">
+              {/* Header */}
+              <View className="gap-2 mb-2">
+                <Text className="text-2xl font-bold text-foreground">Time Conflicts Detected</Text>
+                <Text className="text-base text-muted">
+                  {conflicts.length} conflict{conflicts.length !== 1 ? "s" : ""} found. Choose a solution below:
+                </Text>
+              </View>
+
+              {/* Conflict Details */}
+              <ScrollView className="gap-3 mb-4">
+                {conflicts.map((conflict, idx) => (
+                  <View key={idx} className="bg-background rounded-lg p-3 border border-error/30">
+                    <Text className="text-sm font-semibold text-error mb-1">Conflict {idx + 1}</Text>
+                    <Text className="text-sm text-foreground">{conflict.message}</Text>
+                  </View>
+                ))}
+              </ScrollView>
+
+              {/* Suggestions */}
+              <View className="gap-3 mb-4">
+                <Text className="text-lg font-semibold text-foreground">Quick Fixes</Text>
+                {suggestions.map((suggestion, idx) => (
+                  <TouchableOpacity
+                    key={idx}
+                    onPress={suggestion.apply}
+                    className="bg-primary/10 border border-primary rounded-xl p-4 flex-row items-start justify-between"
+                    activeOpacity={0.7}
+                  >
+                    <View className="flex-1">
+                      <Text className="text-base font-semibold text-primary mb-1">{suggestion.label}</Text>
+                      <Text className="text-xs text-muted">{suggestion.description}</Text>
+                    </View>
+                    <Text className="text-primary text-lg ml-2">→</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+
+              {/* Action Buttons */}
+              <View className="flex-row gap-3">
+                <TouchableOpacity
+                  onPress={() => setShowSuggestions(false)}
+                  className="flex-1 py-3 rounded-lg bg-surface border border-border items-center"
+                  activeOpacity={0.7}
+                >
+                  <Text className="text-lg font-semibold text-foreground">Manual Edit</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </Modal>

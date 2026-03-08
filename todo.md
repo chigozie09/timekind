@@ -262,3 +262,10 @@
 - [x] Create conflict warning UI with clear messaging
 - [x] Add toast confirmation after successful task creation
 - [x] Test both features end-to-end
+
+## Phase 40: Conflict Resolution Suggestions
+- [x] Design conflict resolution suggestion logic (extend task, move task)
+- [x] Create quick-fix suggestion UI with one-tap buttons
+- [x] Implement apply functionality for each suggestion type
+- [x] Integrate suggestions into conflict alert modal
+- [x] Test suggestions end-to-end
