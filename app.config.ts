@@ -21,8 +21,8 @@ const bundleId =
       return /^[a-zA-Z]/.test(segment) ? segment : "x" + segment;
     })
     .join(".") || "com.timekind";
-// Extract timestamp from bundle ID and prefix with "manus" for deep link scheme
-// e.g., "space.manus.my.app.t20240115103045" -> "manus20240115103045"
+// Extract timestamp from bundle ID for deep link scheme
+// e.g., "com.timekind.t20260223191501" -> "timekind20260223191501"
 const timestamp = bundleId.split(".").pop()?.replace(/^t/, "") ?? "";
 const schemeFromBundleId = `timekind${timestamp}`;
 
@@ -67,7 +67,7 @@ const config: ExpoConfig = {
     edgeToEdgeEnabled: true,
     predictiveBackGestureEnabled: false,
     package: env.androidPackage,
-    playStoreUrl: "https://play.google.com/store/apps/details?id=space.manus.timekind",
+    playStoreUrl: "https://play.google.com/store/apps/details?id=com.timekind.t20260223191501",
     permissions: ["POST_NOTIFICATIONS"],
     intentFilters: [
       {
