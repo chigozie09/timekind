@@ -41,7 +41,7 @@ const env = {
 const config: ExpoConfig = {
   name: env.appName,
   slug: env.appSlug,
-  version: "1.0.0",
+  version: "1.0.1",
   description: "Understand your time. Build better habits. Offline task tracking for neurodivergent users.",
   orientation: "portrait",
   icon: "./assets/images/icon.png",
@@ -58,6 +58,7 @@ const config: ExpoConfig = {
       }
   },
   android: {
+    versionCode: 2,
     adaptiveIcon: {
       backgroundColor: "#F7F5F2",
       foregroundImage: "./assets/images/android-icon-foreground.png",
