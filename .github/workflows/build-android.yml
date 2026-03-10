@@ -32,17 +32,14 @@ jobs:
       - name: Setup EAS CLI
         run: npm install -g eas-cli
 
-      - name: Authenticate with EAS
-        run: eas login --non-interactive
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-
       - name: Build Android
         run: |
           eas build \
             --platform android \
             --non-interactive \
             --wait
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
       - name: Build complete
         run: echo "✅ Android AAB build complete! Download from Expo Dashboard or GitHub Artifacts."
